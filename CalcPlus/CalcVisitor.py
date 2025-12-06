@@ -8,20 +8,25 @@ class CalcVisitor(CalcPlusVisitor):
         return self.visit(ctx.expr())
 
     # expr ('*'|'/') expr
-    def visitMulDiv(self, ctx:CalcPlusParser.MulDivContext):
+    # def visitMulDiv(self, ctx:CalcPlusParser.MulDivContext):
+    #     left = self.visit(ctx.expr(0))
+    #     right = self.visit(ctx.expr(1))
+    #     if ctx.op.type == CalcPlusParser.MUL:
+    #         return left * right
+    #     return left / right
+    def visitMulDiv(self, ctx):
         left = self.visit(ctx.expr(0))
         right = self.visit(ctx.expr(1))
-        if ctx.op.type == CalcPlusParser.MUL:
-            return left * right
-        return left / right
+        op = ctx.getChild(1).getText()
+        return left * right if op == '*' else left / right
+
 
     # expr ('+'|'-') expr
     def visitAddSub(self, ctx:CalcPlusParser.AddSubContext):
         left = self.visit(ctx.expr(0))
         right = self.visit(ctx.expr(1))
-        if ctx.op.type == CalcPlusParser.ADD:
-            return left + right
-        return left - right
+        op = ctx.getChild(1).getText()
+        return left + right if op == '+' else left - right
 
     # INT
     def visitInt(self, ctx:CalcPlusParser.IntContext):
