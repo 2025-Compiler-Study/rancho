@@ -13,16 +13,25 @@ class Calc2Visitor:
     def visit(self, ctx):
         if ctx is None:
             return None
-        method_name = f"visit{type(ctx).__name__}"
+        if not hasattr(ctx, "getChildCount") and not hasattr(ctx, "getChildren"):
+            return None
+        type_name = type(ctx).__name__
+        method_name = f"visit{type_name}"
         method = getattr(self, method_name, None)
+        if method is None and type_name.endswith("Context"):
+            method = getattr(self, f"visit{type_name[:-7]}", None)
         if method is None:
             return self.visitChildren(ctx)
         return method(ctx)
 
     def visitChildren(self, ctx):
         result = None
-        for child in ctx.getChildren():
-            result = self.visit(child)
+        if hasattr(ctx, "getChildren"):
+            for child in ctx.getChildren():
+                result = self.visit(child)
+        else:
+            for i in range(ctx.getChildCount()):
+                result = self.visit(ctx.getChild(i))
         return result
 
     def visitCalc2(self, ctx: CalcPlusParser.Calc2Context):
