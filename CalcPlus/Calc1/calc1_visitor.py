@@ -18,6 +18,10 @@ class Calc1Visitor(CalcPlusVisitor):
         # dict 복사로 외부에서 내부 상태를 안전하게 사용하도록 함
         return dict(self.memory)
 
+    '''
+    시멘틱이란
+    - 뒤에 있는 수식의 결과 해석 방식
+    '''
     def visitExprAssign(self, ctx: CalcPlusParser.ExprAssignContext):
         var_name = ctx.VAR().getText()
         value = self.visit(ctx.expr())

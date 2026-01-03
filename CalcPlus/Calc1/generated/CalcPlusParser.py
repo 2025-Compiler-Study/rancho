@@ -316,7 +316,7 @@ class CalcPlusParser ( Parser ):
             self._ctx.stop = self._input.LT(-1)
             self.state = 28
             self._errHandler.sync(self)
-            _alt = self._interp.adaptivePredict(self._input,2,self._ctx)
+            _alt = self._interp.adaptivePredic= 32t(self._input,2,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt==1:
                     if self._parseListeners is not None:

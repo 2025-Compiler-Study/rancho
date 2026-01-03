@@ -7,6 +7,7 @@ from calc2_visitor import Calc2Visitor
 
 
 def parse_program(program: str):
+    # Lex + parse into a Calc2 parse tree for evaluation.
     input_stream = InputStream(program)
     lexer = CalcPlusLexer(input_stream)
     stream = CommonTokenStream(lexer)
@@ -32,6 +33,7 @@ class Calc2VisitorTest(unittest.TestCase):
         )
         tree = parse_program(program)
         visitor = Calc2Visitor()
+        # Evaluates the program and returns the final variable memory.
         result = visitor.visit(tree)
 
         self.assertEqual(
@@ -59,6 +61,7 @@ class Calc2VisitorTest(unittest.TestCase):
         )
         tree = parse_program(program)
         visitor = Calc2Visitor()
+        # Visitor should execute the else branch only.
         result = visitor.visit(tree)
 
         self.assertEqual(
@@ -82,6 +85,7 @@ class Calc2VisitorTest(unittest.TestCase):
         )
         tree = parse_program(program)
         visitor = Calc2Visitor()
+        # No else branch: condition false means no assignment.
         result = visitor.visit(tree)
 
         self.assertEqual(
@@ -106,6 +110,7 @@ class Calc2VisitorTest(unittest.TestCase):
         )
         tree = parse_program(program)
         visitor = Calc2Visitor()
+        # Accumulates results from each comparison if condition is true.
         result = visitor.visit(tree)
 
         self.assertEqual(
@@ -126,6 +131,7 @@ class Calc2VisitorTest(unittest.TestCase):
         )
         tree = parse_program(program)
         visitor = Calc2Visitor()
+        # Undefined variables in expressions are treated as 0.
         result = visitor.visit(tree)
 
         self.assertEqual(
@@ -138,4 +144,5 @@ class Calc2VisitorTest(unittest.TestCase):
 
 
 if __name__ == "__main__":
+    # Allows running this test file directly.
     unittest.main()

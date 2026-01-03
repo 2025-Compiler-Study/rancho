@@ -17,8 +17,9 @@ def parse_program(program: str):
 
 class Calc1VisitorTest(unittest.TestCase):
     def test_variable_memory(self):
-        program = "a=1;\
-        b=a+2;c=b*3;a=a+1;d=(5-e)*2;"
+        program = "A=1;\
+            b=A+2;\
+            c=b*3;A=A+1;d=(5-e)*2;"
         tree = parse_program(program)
         visitor = Calc1Visitor()
         result = visitor.visit(tree)
@@ -26,7 +27,7 @@ class Calc1VisitorTest(unittest.TestCase):
         self.assertEqual(
             result,
             {
-                "a": 3,
+                "A": 42,
                 "b": 3,
                 "c": 9,
                 "d": 10,
