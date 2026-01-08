@@ -1,6 +1,6 @@
-# Generated from CalcPlus.g4 by ANTLR 4.13.1
+# Generated from CalcPlus.g4 by ANTLR 4.9.2
 from antlr4 import *
-if "." in __name__:
+if __name__ is not None and "." in __name__:
     from .CalcPlusParser import CalcPlusParser
 else:
     from CalcPlusParser import CalcPlusParser
@@ -16,6 +16,7 @@ class CalcPlusListener(ParseTreeListener):
     def exitCalc0(self, ctx:CalcPlusParser.Calc0Context):
         pass
 
+
     # Enter a parse tree produced by CalcPlusParser#MulDiv.
     def enterMulDiv(self, ctx:CalcPlusParser.MulDivContext):
         pass
@@ -23,6 +24,7 @@ class CalcPlusListener(ParseTreeListener):
     # Exit a parse tree produced by CalcPlusParser#MulDiv.
     def exitMulDiv(self, ctx:CalcPlusParser.MulDivContext):
         pass
+
 
     # Enter a parse tree produced by CalcPlusParser#AddSub.
     def enterAddSub(self, ctx:CalcPlusParser.AddSubContext):

@@ -1,4 +1,4 @@
-# Generated from CalcPlus.g4 by ANTLR 4.13.1
+# Generated from CalcPlus.g4 by ANTLR 4.9.2
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -9,17 +9,20 @@ else:
 	from typing.io import TextIO
 
 def serializedATN():
-    return [
-        4,1,8,27,2,0,7,0,2,1,7,1,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,3,1,
-        14,8,1,1,1,1,1,1,1,1,1,1,1,1,1,5,1,22,8,1,10,1,12,1,25,9,1,1,1,0,
-        1,2,2,0,2,0,2,1,0,1,2,1,0,3,4,27,0,4,1,0,0,0,2,13,1,0,0,0,4,5,3,
-        2,1,0,5,6,5,0,0,1,6,1,1,0,0,0,7,8,6,1,-1,0,8,14,5,8,0,0,9,10,5,5,
-        0,0,10,11,3,2,1,0,11,12,5,6,0,0,12,14,1,0,0,0,13,7,1,0,0,0,13,9,
-        1,0,0,0,14,23,1,0,0,0,15,16,10,4,0,0,16,17,7,0,0,0,17,22,3,2,1,5,
-        18,19,10,3,0,0,19,20,7,1,0,0,20,22,3,2,1,4,21,15,1,0,0,0,21,18,1,
-        0,0,0,22,25,1,0,0,0,23,21,1,0,0,0,23,24,1,0,0,0,24,3,1,0,0,0,25,
-        23,1,0,0,0,3,13,21,23
-    ]
+    with StringIO() as buf:
+        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\n")
+        buf.write("\35\4\2\t\2\4\3\t\3\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3")
+        buf.write("\3\5\3\20\n\3\3\3\3\3\3\3\3\3\3\3\3\3\7\3\30\n\3\f\3\16")
+        buf.write("\3\33\13\3\3\3\2\3\4\4\2\4\2\4\3\2\3\4\3\2\5\6\2\35\2")
+        buf.write("\6\3\2\2\2\4\17\3\2\2\2\6\7\5\4\3\2\7\b\7\2\2\3\b\3\3")
+        buf.write("\2\2\2\t\n\b\3\1\2\n\20\7\n\2\2\13\f\7\7\2\2\f\r\5\4\3")
+        buf.write("\2\r\16\7\b\2\2\16\20\3\2\2\2\17\t\3\2\2\2\17\13\3\2\2")
+        buf.write("\2\20\31\3\2\2\2\21\22\f\6\2\2\22\23\t\2\2\2\23\30\5\4")
+        buf.write("\3\7\24\25\f\5\2\2\25\26\t\3\2\2\26\30\5\4\3\6\27\21\3")
+        buf.write("\2\2\2\27\24\3\2\2\2\30\33\3\2\2\2\31\27\3\2\2\2\31\32")
+        buf.write("\3\2\2\2\32\5\3\2\2\2\33\31\3\2\2\2\5\17\27\31")
+        return buf.getvalue()
+
 
 class CalcPlusParser ( Parser ):
 
@@ -53,9 +56,11 @@ class CalcPlusParser ( Parser ):
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
-        self.checkVersion("4.13.1")
+        self.checkVersion("4.9.2")
         self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
+
+
 
     class Calc0Context(ParserRuleContext):
         __slots__ = 'parser'
@@ -82,12 +87,6 @@ class CalcPlusParser ( Parser ):
             if hasattr( listener, "exitCalc0" ):
                 listener.exitCalc0(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitCalc0" ):
-                return visitor.visitCalc0(self)
-            else:
-                return visitor.visitChildren(self)
-
 
 
 
@@ -108,7 +107,6 @@ class CalcPlusParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
-
 
     class ExprContext(ParserRuleContext):
         __slots__ = 'parser'
@@ -147,12 +145,6 @@ class CalcPlusParser ( Parser ):
             if hasattr( listener, "exitMulDiv" ):
                 listener.exitMulDiv(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitMulDiv" ):
-                return visitor.visitMulDiv(self)
-            else:
-                return visitor.visitChildren(self)
-
 
     class AddSubContext(ExprContext):
 
@@ -175,12 +167,6 @@ class CalcPlusParser ( Parser ):
             if hasattr( listener, "exitAddSub" ):
                 listener.exitAddSub(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitAddSub" ):
-                return visitor.visitAddSub(self)
-            else:
-                return visitor.visitChildren(self)
-
 
     class ParensContext(ExprContext):
 
@@ -200,12 +186,6 @@ class CalcPlusParser ( Parser ):
             if hasattr( listener, "exitParens" ):
                 listener.exitParens(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitParens" ):
-                return visitor.visitParens(self)
-            else:
-                return visitor.visitChildren(self)
-
 
     class IntContext(ExprContext):
 
@@ -224,12 +204,6 @@ class CalcPlusParser ( Parser ):
             if hasattr( listener, "exitInt" ):
                 listener.exitInt(self)
 
-        def accept(self, visitor:ParseTreeVisitor):
-            if hasattr( visitor, "visitInt" ):
-                return visitor.visitInt(self)
-            else:
-                return visitor.visitChildren(self)
-
 
 
     def expr(self, _p:int=0):
@@ -245,7 +219,7 @@ class CalcPlusParser ( Parser ):
             self.state = 13
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [8]:
+            if token in [CalcPlusParser.INT]:
                 localctx = CalcPlusParser.IntContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
@@ -253,7 +227,7 @@ class CalcPlusParser ( Parser ):
                 self.state = 8
                 self.match(CalcPlusParser.INT)
                 pass
-            elif token in [5]:
+            elif token in [CalcPlusParser.T__4]:
                 localctx = CalcPlusParser.ParensContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
@@ -288,7 +262,7 @@ class CalcPlusParser ( Parser ):
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 4)")
                         self.state = 16
                         _la = self._input.LA(1)
-                        if not(_la==1 or _la==2):
+                        if not(_la==CalcPlusParser.T__0 or _la==CalcPlusParser.T__1):
                             self._errHandler.recoverInline(self)
                         else:
                             self._errHandler.reportMatch(self)
@@ -306,7 +280,7 @@ class CalcPlusParser ( Parser ):
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 3)")
                         self.state = 19
                         _la = self._input.LA(1)
-                        if not(_la==3 or _la==4):
+                        if not(_la==CalcPlusParser.T__2 or _la==CalcPlusParser.T__3):
                             self._errHandler.recoverInline(self)
                         else:
                             self._errHandler.reportMatch(self)
