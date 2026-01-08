@@ -87,6 +87,12 @@ class CalcPlusParser ( Parser ):
             if hasattr( listener, "exitCalc0" ):
                 listener.exitCalc0(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCalc0" ):
+                return visitor.visitCalc0(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -145,6 +151,12 @@ class CalcPlusParser ( Parser ):
             if hasattr( listener, "exitMulDiv" ):
                 listener.exitMulDiv(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMulDiv" ):
+                return visitor.visitMulDiv(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AddSubContext(ExprContext):
 
@@ -167,6 +179,12 @@ class CalcPlusParser ( Parser ):
             if hasattr( listener, "exitAddSub" ):
                 listener.exitAddSub(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAddSub" ):
+                return visitor.visitAddSub(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ParensContext(ExprContext):
 
@@ -186,6 +204,12 @@ class CalcPlusParser ( Parser ):
             if hasattr( listener, "exitParens" ):
                 listener.exitParens(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitParens" ):
+                return visitor.visitParens(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class IntContext(ExprContext):
 
@@ -203,6 +227,12 @@ class CalcPlusParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitInt" ):
                 listener.exitInt(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInt" ):
+                return visitor.visitInt(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
