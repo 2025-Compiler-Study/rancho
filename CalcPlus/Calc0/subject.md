@@ -1,5 +1,9 @@
 # Calc Plus
 
+
+# 1. 어떻게 쓸 수 있는가
+# 2. 어떻게 매칭되는가
+
 [ANTLR4 Getting Started](https://github.com/antlr/antlr4/blob/master/doc/getting-started.md)의 Expr 예제를 기반으로 조금씩 확장한 언어다.
 
 일반 프로그래밍 언어 개발을 바로 시작할 경우 상당히 많은 문법적 특성도 고려해야 하고, ANTLR 기반의 전단부 해석을 학습하기에 복잡한 부분이 많다.
