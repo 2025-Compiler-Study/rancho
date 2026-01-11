@@ -9,29 +9,37 @@ class CalcVisitor(CalcPlusVisitor):
     
     # expr ('*'|'/') expr 
     def visitMulDiv(self, ctx):
+        print(f"ctx.expr(0).getText() : {ctx.expr(0).getText()}")
+        print(f"ctx.expr(1).getText() : {ctx.expr(1).getText()}")
         left = self.visit(ctx.expr(0))
         right = self.visit(ctx.expr(1))
         op = ctx.getChild(1).getText()
+        print(f"op : {op}")
         return left * right if op == '*' else left / right
     
     def visitAddSub(self, ctx:CalcPlusParser.AddSubContext):
         # ctx.expr(0)
-        # print(f"ctx : #{ctx}")
-        print(f"ctx.expr(0) : #{ctx.expr(0)}")
-        print(f"ctx.expr(1) : #{ctx.expr(1)}")
+        print(f"ctx.expr(0).getText() : {ctx.expr(0).getText()}")
+        print(f"ctx.expr(1).getText() : {ctx.expr(1).getText()}")
         left = self.visit(ctx.expr(0))
+        print(f"left : {left}")
         right = self.visit(ctx.expr(1))
+        print(f"right : {right}")
         op = ctx.getChild(1).getText()
+        print(f"op : {op}")
         return left + right if op == '+' else left - right
     
     # INT
     def visitInt(self, ctx:CalcPlusParser.IntContext):
+        print(f"type(ctx.INT(): {type(ctx.INT())}")
+        print(f"type(ctx.INT().getText(): {type(ctx.INT().getText())}")
         return int(ctx.INT().getText())
     
     # 괄호 ( )
     def visitParens(self, ctx:CalcPlusParser.ParensContext):
+        # print(f"ctx.expr(): {ctx.expr()}")
+        # print(f"self.visit(ctx.expr()): {self.visit(ctx.expr())}")
         return self.visit(ctx.expr())
-
 '''
 class CalcVisitorPostfix(CalcPlusVisitor):
     # calc0 : expr EOF, 마지막인지 확인
