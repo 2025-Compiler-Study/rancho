@@ -145,6 +145,12 @@ a = a + 1; // Line 1 Column 4 : Variable 'a' is not defined.
 
 힌트: listener 방식으로 구현을 추천함.
 
+#### 구현 메모
+
+- `Calc1/calc1_warning_listener.py`에서 `CalcPlusListener`를 상속한 `Calc1WarningListener`가 위 요구사항을 모두 충족한다.
+- `exitExprAssign`에서 좌변 변수명을 정의 집합에 추가하고, `exitVar`에서 미정의 변수를 감지해 `(line, column, name)`을 `warnings` 리스트에 누적한다.
+- `Calc1/test_calc1.py`의 `Calc1WarningListenerTest`가 사용 예시와 라인/컬럼 검증을 자동화해준다. 실행은 `cd Calc1 && python3 test_calc1.py`.
+
 ### 알아 둘 내용
 
 1. 프로그램의 시작 지점이 `Calc1`으로 변경되었음.  

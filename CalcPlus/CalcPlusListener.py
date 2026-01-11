@@ -16,6 +16,7 @@ class CalcPlusListener(ParseTreeListener):
     def exitCalc0(self, ctx:CalcPlusParser.Calc0Context):
         pass
 
+
     # Enter a parse tree produced by CalcPlusParser#MulDiv.
     def enterMulDiv(self, ctx:CalcPlusParser.MulDivContext):
         pass
@@ -34,6 +35,15 @@ class CalcPlusListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by CalcPlusParser#Var.
+    def enterVar(self, ctx:CalcPlusParser.VarContext):
+        pass
+
+    # Exit a parse tree produced by CalcPlusParser#Var.
+    def exitVar(self, ctx:CalcPlusParser.VarContext):
+        pass
+
+
     # Enter a parse tree produced by CalcPlusParser#Parens.
     def enterParens(self, ctx:CalcPlusParser.ParensContext):
         pass
@@ -49,6 +59,24 @@ class CalcPlusListener(ParseTreeListener):
 
     # Exit a parse tree produced by CalcPlusParser#Int.
     def exitInt(self, ctx:CalcPlusParser.IntContext):
+        pass
+
+
+    # Enter a parse tree produced by CalcPlusParser#calc1.
+    def enterCalc1(self, ctx:CalcPlusParser.Calc1Context):
+        pass
+
+    # Exit a parse tree produced by CalcPlusParser#calc1.
+    def exitCalc1(self, ctx:CalcPlusParser.Calc1Context):
+        pass
+
+
+    # Enter a parse tree produced by CalcPlusParser#ExprAssign.
+    def enterExprAssign(self, ctx:CalcPlusParser.ExprAssignContext):
+        pass
+
+    # Exit a parse tree produced by CalcPlusParser#ExprAssign.
+    def exitExprAssign(self, ctx:CalcPlusParser.ExprAssignContext):
         pass
 
 

@@ -18,8 +18,12 @@ def parse_program(program: str):
 class Calc1VisitorTest(unittest.TestCase):
     def test_variable_memory(self):
         program = "A=1;\
+<<<<<<< Updated upstream
             b=A+2;\
             c=b*3;A=A+1;d=(5-e)*2;"
+=======
+        b=A+2;c=b*3;A=A+1;d=(5-e)*2;"
+>>>>>>> Stashed changes
         tree = parse_program(program)
         visitor = Calc1Visitor()
         result = visitor.visit(tree)
@@ -27,7 +31,11 @@ class Calc1VisitorTest(unittest.TestCase):
         self.assertEqual(
             result,
             {
+<<<<<<< Updated upstream
                 "A": 42,
+=======
+                "a": 2,
+>>>>>>> Stashed changes
                 "b": 3,
                 "c": 9,
                 "d": 10,
