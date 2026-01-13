@@ -5,6 +5,16 @@ from CalcPlusParser import CalcPlusParser
 '''
 stack을 쓰므로 return은 stack에 있는 값만함
 스택에 담아둠
+중위 연산자 -> 후위 연산자
+- 10 + 2 * (5 - 9 / 3)
+- 10 + 2
+
+1. 덧셈, 뺼셈만
+10 2 + 
+10 + 2 - 5
+10 2 5 + -
+2. 곱셈, 나눗셈
+3. 괄호 포함
 '''
 class CalcListener(CalcPlusListener):
     def __init__(self):

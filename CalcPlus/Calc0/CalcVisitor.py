@@ -41,6 +41,10 @@ class CalcVisitor(CalcPlusVisitor):
         # print(f"self.visit(ctx.expr()): {self.visit(ctx.expr())}")
         return self.visit(ctx.expr())
 '''
+중위 연산자 -> 후위 연산자
+- 10 + 2 * (5 - 9 / 3)
+- 10 + 2
+'''
 class CalcVisitorPostfix(CalcPlusVisitor):
     # calc0 : expr EOF, 마지막인지 확인
     def visitCalc0(self, ctx:CalcPlusParser.Calc0Context)
@@ -56,6 +60,5 @@ class CalcVisitorPostfix(CalcPlusVisitor):
         # infix
         postfix_expr = None
         return postfix_expr
-'''
 
     

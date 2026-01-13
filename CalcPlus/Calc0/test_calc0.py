@@ -38,7 +38,6 @@ class Calc0Test(unittest.TestCase):
         result = CalcVisitor().visit(tree)
         self.assertEqual(result, 12)
 
-    '''
     @unittest.skipUnless(HAS_POSTFIX_VISITOR, "CalcVisitorPostfix not implemented yet")
     def test_postfix_visitor(self):
         tree = parse_expr("10 + 2 * (5 - 9 / 3)")
@@ -50,6 +49,7 @@ class Calc0Test(unittest.TestCase):
         tree = parse_expr("10 + 2")
         result = CalcVisitorPostfix().visit(tree)
         self.assertEqual(result, "10 2 +")
+    '''
     '''
 
 if __name__ == "__main__":
