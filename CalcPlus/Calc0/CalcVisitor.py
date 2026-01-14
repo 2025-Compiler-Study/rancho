@@ -47,7 +47,7 @@ class CalcVisitor(CalcPlusVisitor):
 '''
 class CalcVisitorPostfix(CalcPlusVisitor):
     # calc0 : expr EOF, 마지막인지 확인
-    def visitCalc0(self, ctx:CalcPlusParser.Calc0Context)
+    def visitCalc0(self, ctx:CalcPlusParser.Calc0Context):
       return self.visit(ctx.expr())
 
     def visitMulDiv(self, ctx):
