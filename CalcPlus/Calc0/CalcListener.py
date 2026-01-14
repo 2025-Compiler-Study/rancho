@@ -45,6 +45,9 @@ class CalcListener(CalcPlusListener):
 listener의 특징
 이미 후위연산자로 되어있는 것인가?
 왜 연산자나 괄호 등 숫자가 인ㄴ 것들은 append하는 것이 없던 것인가?
+- parseTreeWalker는 깊이 우선(DFS), left-to-right로 내려가고, enter → 자식들 → exit 순서로 호출
+- ParseTreeWalker는 전위/중위/후위 중에서 “후위에 해당하는 부분”을 활용
+-  exit(후위) 시점에 자식 결과가 다 모여 있으니까 후위표기 만들기엔 딱 좋은 구조
 '''
 class CalcListenerPostfix(CalcPlusListener):
     def __init__(self):
