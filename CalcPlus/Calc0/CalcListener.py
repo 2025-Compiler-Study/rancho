@@ -48,6 +48,10 @@ listener의 특징
 - parseTreeWalker는 깊이 우선(DFS), left-to-right로 내려가고, enter → 자식들 → exit 순서로 호출
 - ParseTreeWalker는 전위/중위/후위 중에서 “후위에 해당하는 부분”을 활용
 -  exit(후위) 시점에 자식 결과가 다 모여 있으니까 후위표기 만들기엔 딱 좋은 구조
+enter 콜백은 전위(pre-order) 시점
+exit 콜백은 후위(post-order) 시점
+이 리스너에서 후위표기를 만드는 이유는 exit에서 작업
+즉, 순회 자체는 DFS이고, enter 시점은 전위, exit 시점은 후위롤 대응
 '''
 class CalcListenerPostfix(CalcPlusListener):
     def __init__(self):
