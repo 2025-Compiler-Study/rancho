@@ -9,30 +9,30 @@ class CalcVisitor(CalcPlusVisitor):
     
     # expr ('*'|'/') expr 
     def visitMulDiv(self, ctx):
-        print(f"ctx.expr(0).getText() : {ctx.expr(0).getText()}")
-        print(f"ctx.expr(1).getText() : {ctx.expr(1).getText()}")
+        # print(f"ctx.expr(0).getText() : {ctx.expr(0).getText()}")
+        # print(f"ctx.expr(1).getText() : {ctx.expr(1).getText()}")
         left = self.visit(ctx.expr(0))
         right = self.visit(ctx.expr(1))
         op = ctx.getChild(1).getText()
-        print(f"op : {op}")
+        # print(f"op : {op}")
         return left * right if op == '*' else left / right
     
     def visitAddSub(self, ctx:CalcPlusParser.AddSubContext):
         # ctx.expr(0)
-        print(f"ctx.expr(0).getText() : {ctx.expr(0).getText()}")
-        print(f"ctx.expr(1).getText() : {ctx.expr(1).getText()}")
+        # print(f"ctx.expr(0).getText() : {ctx.expr(0).getText()}")
+        # print(f"ctx.expr(1).getText() : {ctx.expr(1).getText()}")
         left = self.visit(ctx.expr(0))
-        print(f"left : {left}")
+        # print(f"left : {left}")
         right = self.visit(ctx.expr(1))
-        print(f"right : {right}")
+        # print(f"right : {right}")
         op = ctx.getChild(1).getText()
-        print(f"op : {op}")
+        # print(f"op : {op}")
         return left + right if op == '+' else left - right
     
     # INT
     def visitInt(self, ctx:CalcPlusParser.IntContext):
-        print(f"type(ctx.INT(): {type(ctx.INT())}")
-        print(f"type(ctx.INT().getText(): {type(ctx.INT().getText())}")
+        # print(f"type(ctx.INT(): {type(ctx.INT())}")
+        # print(f"type(ctx.INT().getText(): {type(ctx.INT().getText())}")
         return int(ctx.INT().getText())
     
     # 괄호 ( )
@@ -52,9 +52,9 @@ class CalcVisitorPostfix(CalcPlusVisitor):
 
     def visitMulDiv(self, ctx):
         left = self.visit(ctx.expr(0))
-        rigit = self.visist(ctx.expr(1))
+        right = self.visist(ctx.expr(1))
         op = ctx.getChild(1).getText()
-        return left * right if op == '*' else left /right
+        return left * right if op == '*' else left / right
     
     def to_postfix_expr(self, infix_expr):
         # infix
