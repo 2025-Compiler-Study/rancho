@@ -54,6 +54,7 @@ class CalcVisitorPostfix(CalcPlusVisitor):
     # 해당 연산자를 방문하는 역할만 하는가?
     def visitCalc0(self, ctx:CalcPlusParser.Calc0Context):
         print(f"{ctx.expr().getText()=}")
+        print(f"{self.visit(ctx.expr())=}")
         return self.visit(ctx.expr())
 
     # expr ('*'|'/') expr 
@@ -68,9 +69,8 @@ class CalcVisitorPostfix(CalcPlusVisitor):
         return cur_expression
     
     def visitAddSub(self, ctx:CalcPlusParser.AddSubContext):
-        # ctx.expr(0)
-        # print(f"ctx.expr(0).getText() : {ctx.expr(0).getText()}")
-        # print(f"ctx.expr(1).getText() : {ctx.expr(1).getText()}")
+        print(f"ctx.expr(0).getText() : {ctx.expr(0).getText()}")
+        print(f"ctx.expr(1).getText() : {ctx.expr(1).getText()}")
         left = self.visit(ctx.expr(0))
         print(f"left : {left}")
         right = self.visit(ctx.expr(1))
@@ -82,12 +82,12 @@ class CalcVisitorPostfix(CalcPlusVisitor):
 
     # INT
     def visitInt(self, ctx:CalcPlusParser.IntContext):
-        # print(f"type(ctx.INT(): {type(ctx.INT())}")
+        print(f"type(ctx.INT(): {type(ctx.INT())}")
         print(f"type(ctx.INT().getText(): {type(ctx.INT().getText())}")
         return int(ctx.INT().getText())
 
     # 괄호 ( )
     def visitParens(self, ctx:CalcPlusParser.ParensContext):
-        # print(f"ctx.expr(): {ctx.expr()}")
-        # print(f"self.visit(ctx.expr()): {self.visit(ctx.expr())}")
+        print(f"# ctx.expr(): {ctx.expr()}")
+        print(f"self.visit(ctx.expr()): {self.visit(ctx.expr())}")
         return self.visit(ctx.expr())
