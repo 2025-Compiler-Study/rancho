@@ -87,7 +87,7 @@ stmt    :   VAR '=' expr ';'    # ExprAssign
         ;
 
 WS  : [ \t\r\n]+ -> skip;
-INT : [0-9]+ ;
+INT : [0-9]+ ;ut
 VAR : [A-Za-z]+ ;
 ```
 

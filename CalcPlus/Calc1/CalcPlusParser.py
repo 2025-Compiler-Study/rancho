@@ -1,4 +1,4 @@
-# Generated from CalcPlus.g4 by ANTLR 4.9.2
+# Generated from CalcPlus.g4 by ANTLR 4.13.1
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -9,36 +9,33 @@ else:
 	from typing.io import TextIO
 
 def serializedATN():
-    with StringIO() as buf:
-        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\27")
-        buf.write("S\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b")
-        buf.write("\t\b\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\33\n")
-        buf.write("\3\3\3\3\3\3\3\3\3\3\3\3\3\7\3#\n\3\f\3\16\3&\13\3\3\4")
-        buf.write("\6\4)\n\4\r\4\16\4*\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5\3")
-        buf.write("\5\3\5\3\5\3\5\3\5\3\5\5\5;\n\5\5\5=\n\5\3\6\6\6@\n\6")
-        buf.write("\r\6\16\6A\3\6\3\6\3\7\3\7\3\7\3\7\3\b\3\b\7\bL\n\b\f")
-        buf.write("\b\16\bO\13\b\3\b\3\b\3\b\2\3\4\t\2\4\6\b\n\f\16\2\5\3")
-        buf.write("\2\3\4\3\2\5\6\3\2\r\22\2T\2\20\3\2\2\2\4\32\3\2\2\2\6")
-        buf.write("(\3\2\2\2\b<\3\2\2\2\n?\3\2\2\2\fE\3\2\2\2\16I\3\2\2\2")
-        buf.write("\20\21\5\4\3\2\21\22\7\2\2\3\22\3\3\2\2\2\23\24\b\3\1")
-        buf.write("\2\24\33\7\26\2\2\25\33\7\27\2\2\26\27\7\7\2\2\27\30\5")
-        buf.write("\4\3\2\30\31\7\b\2\2\31\33\3\2\2\2\32\23\3\2\2\2\32\25")
-        buf.write("\3\2\2\2\32\26\3\2\2\2\33$\3\2\2\2\34\35\f\7\2\2\35\36")
-        buf.write("\t\2\2\2\36#\5\4\3\b\37 \f\6\2\2 !\t\3\2\2!#\5\4\3\7\"")
-        buf.write("\34\3\2\2\2\"\37\3\2\2\2#&\3\2\2\2$\"\3\2\2\2$%\3\2\2")
-        buf.write("\2%\5\3\2\2\2&$\3\2\2\2\')\5\b\5\2(\'\3\2\2\2)*\3\2\2")
-        buf.write("\2*(\3\2\2\2*+\3\2\2\2+,\3\2\2\2,-\7\2\2\3-\7\3\2\2\2")
-        buf.write("./\7\27\2\2/\60\7\t\2\2\60\61\5\4\3\2\61\62\7\n\2\2\62")
-        buf.write("=\3\2\2\2\63\64\7\13\2\2\64\65\7\7\2\2\65\66\5\f\7\2\66")
-        buf.write("\67\7\b\2\2\67:\5\16\b\289\7\f\2\29;\5\16\b\2:8\3\2\2")
-        buf.write("\2:;\3\2\2\2;=\3\2\2\2<.\3\2\2\2<\63\3\2\2\2=\t\3\2\2")
-        buf.write("\2>@\5\b\5\2?>\3\2\2\2@A\3\2\2\2A?\3\2\2\2AB\3\2\2\2B")
-        buf.write("C\3\2\2\2CD\7\2\2\3D\13\3\2\2\2EF\5\4\3\2FG\t\4\2\2GH")
-        buf.write("\5\4\3\2H\r\3\2\2\2IM\7\23\2\2JL\5\b\5\2KJ\3\2\2\2LO\3")
-        buf.write("\2\2\2MK\3\2\2\2MN\3\2\2\2NP\3\2\2\2OM\3\2\2\2PQ\7\24")
-        buf.write("\2\2Q\17\3\2\2\2\n\32\"$*:<AM")
-        return buf.getvalue()
-
+    return [
+        4,1,21,81,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
+        6,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,25,8,1,1,1,1,1,1,1,
+        1,1,1,1,1,1,5,1,33,8,1,10,1,12,1,36,9,1,1,2,4,2,39,8,2,11,2,12,2,
+        40,1,2,1,2,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,3,3,57,
+        8,3,3,3,59,8,3,1,4,4,4,62,8,4,11,4,12,4,63,1,4,1,4,1,5,1,5,1,5,1,
+        5,1,6,1,6,5,6,74,8,6,10,6,12,6,77,9,6,1,6,1,6,1,6,0,1,2,7,0,2,4,
+        6,8,10,12,0,3,1,0,1,2,1,0,3,4,1,0,11,16,82,0,14,1,0,0,0,2,24,1,0,
+        0,0,4,38,1,0,0,0,6,58,1,0,0,0,8,61,1,0,0,0,10,67,1,0,0,0,12,71,1,
+        0,0,0,14,15,3,2,1,0,15,16,5,0,0,1,16,1,1,0,0,0,17,18,6,1,-1,0,18,
+        25,5,20,0,0,19,25,5,21,0,0,20,21,5,5,0,0,21,22,3,2,1,0,22,23,5,6,
+        0,0,23,25,1,0,0,0,24,17,1,0,0,0,24,19,1,0,0,0,24,20,1,0,0,0,25,34,
+        1,0,0,0,26,27,10,5,0,0,27,28,7,0,0,0,28,33,3,2,1,6,29,30,10,4,0,
+        0,30,31,7,1,0,0,31,33,3,2,1,5,32,26,1,0,0,0,32,29,1,0,0,0,33,36,
+        1,0,0,0,34,32,1,0,0,0,34,35,1,0,0,0,35,3,1,0,0,0,36,34,1,0,0,0,37,
+        39,3,6,3,0,38,37,1,0,0,0,39,40,1,0,0,0,40,38,1,0,0,0,40,41,1,0,0,
+        0,41,42,1,0,0,0,42,43,5,0,0,1,43,5,1,0,0,0,44,45,5,21,0,0,45,46,
+        5,7,0,0,46,47,3,2,1,0,47,48,5,8,0,0,48,59,1,0,0,0,49,50,5,9,0,0,
+        50,51,5,5,0,0,51,52,3,10,5,0,52,53,5,6,0,0,53,56,3,12,6,0,54,55,
+        5,10,0,0,55,57,3,12,6,0,56,54,1,0,0,0,56,57,1,0,0,0,57,59,1,0,0,
+        0,58,44,1,0,0,0,58,49,1,0,0,0,59,7,1,0,0,0,60,62,3,6,3,0,61,60,1,
+        0,0,0,62,63,1,0,0,0,63,61,1,0,0,0,63,64,1,0,0,0,64,65,1,0,0,0,65,
+        66,5,0,0,1,66,9,1,0,0,0,67,68,3,2,1,0,68,69,7,2,0,0,69,70,3,2,1,
+        0,70,11,1,0,0,0,71,75,5,17,0,0,72,74,3,6,3,0,73,72,1,0,0,0,74,77,
+        1,0,0,0,75,73,1,0,0,0,75,76,1,0,0,0,76,78,1,0,0,0,77,75,1,0,0,0,
+        78,79,5,18,0,0,79,13,1,0,0,0,8,24,32,34,40,56,58,63,75
+    ]
 
 class CalcPlusParser ( Parser ):
 
@@ -96,9 +93,10 @@ class CalcPlusParser ( Parser ):
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
-        self.checkVersion("4.9.2")
+        self.checkVersion("4.13.1")
         self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
+
 
 
 
@@ -153,6 +151,7 @@ class CalcPlusParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
+
 
     class ExprContext(ParserRuleContext):
         __slots__ = 'parser'
@@ -313,7 +312,7 @@ class CalcPlusParser ( Parser ):
             self.state = 24
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [CalcPlusParser.INT]:
+            if token in [20]:
                 localctx = CalcPlusParser.IntContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
@@ -321,14 +320,14 @@ class CalcPlusParser ( Parser ):
                 self.state = 18
                 self.match(CalcPlusParser.INT)
                 pass
-            elif token in [CalcPlusParser.VAR]:
+            elif token in [21]:
                 localctx = CalcPlusParser.VarContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
                 self.state = 19
                 self.match(CalcPlusParser.VAR)
                 pass
-            elif token in [CalcPlusParser.T__4]:
+            elif token in [5]:
                 localctx = CalcPlusParser.ParensContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
@@ -363,7 +362,7 @@ class CalcPlusParser ( Parser ):
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 5)")
                         self.state = 27
                         _la = self._input.LA(1)
-                        if not(_la==CalcPlusParser.T__0 or _la==CalcPlusParser.T__1):
+                        if not(_la==1 or _la==2):
                             self._errHandler.recoverInline(self)
                         else:
                             self._errHandler.reportMatch(self)
@@ -381,7 +380,7 @@ class CalcPlusParser ( Parser ):
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 4)")
                         self.state = 30
                         _la = self._input.LA(1)
-                        if not(_la==CalcPlusParser.T__2 or _la==CalcPlusParser.T__3):
+                        if not(_la==3 or _la==4):
                             self._errHandler.recoverInline(self)
                         else:
                             self._errHandler.reportMatch(self)
@@ -402,6 +401,7 @@ class CalcPlusParser ( Parser ):
         finally:
             self.unrollRecursionContexts(_parentctx)
         return localctx
+
 
     class Calc1Context(ParserRuleContext):
         __slots__ = 'parser'
@@ -456,7 +456,7 @@ class CalcPlusParser ( Parser ):
                 self.state = 40 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if not (_la==CalcPlusParser.T__8 or _la==CalcPlusParser.VAR):
+                if not (_la==9 or _la==21):
                     break
 
             self.state = 42
@@ -468,6 +468,7 @@ class CalcPlusParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
+
 
     class StmtContext(ParserRuleContext):
         __slots__ = 'parser'
@@ -556,7 +557,7 @@ class CalcPlusParser ( Parser ):
             self.state = 58
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            if token in [CalcPlusParser.VAR]:
+            if token in [21]:
                 localctx = CalcPlusParser.ExprAssignContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
                 self.state = 44
@@ -568,7 +569,7 @@ class CalcPlusParser ( Parser ):
                 self.state = 47
                 self.match(CalcPlusParser.T__7)
                 pass
-            elif token in [CalcPlusParser.T__8]:
+            elif token in [9]:
                 localctx = CalcPlusParser.IfElseContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
                 self.state = 49
@@ -584,7 +585,7 @@ class CalcPlusParser ( Parser ):
                 self.state = 56
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if _la==CalcPlusParser.T__9:
+                if _la==10:
                     self.state = 54
                     self.match(CalcPlusParser.T__9)
                     self.state = 55
@@ -602,6 +603,7 @@ class CalcPlusParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
+
 
     class Calc2Context(ParserRuleContext):
         __slots__ = 'parser'
@@ -656,7 +658,7 @@ class CalcPlusParser ( Parser ):
                 self.state = 63 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if not (_la==CalcPlusParser.T__8 or _la==CalcPlusParser.VAR):
+                if not (_la==9 or _la==21):
                     break
 
             self.state = 65
@@ -668,6 +670,7 @@ class CalcPlusParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
+
 
     class CondContext(ParserRuleContext):
         __slots__ = 'parser'
@@ -714,7 +717,7 @@ class CalcPlusParser ( Parser ):
             self.expr(0)
             self.state = 68
             _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << CalcPlusParser.T__10) | (1 << CalcPlusParser.T__11) | (1 << CalcPlusParser.T__12) | (1 << CalcPlusParser.T__13) | (1 << CalcPlusParser.T__14) | (1 << CalcPlusParser.T__15))) != 0)):
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 129024) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -728,6 +731,7 @@ class CalcPlusParser ( Parser ):
         finally:
             self.exitRule()
         return localctx
+
 
     class BlockContext(ParserRuleContext):
         __slots__ = 'parser'
@@ -775,7 +779,7 @@ class CalcPlusParser ( Parser ):
             self.state = 75
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==CalcPlusParser.T__8 or _la==CalcPlusParser.VAR:
+            while _la==9 or _la==21:
                 self.state = 72
                 self.stmt()
                 self.state = 77

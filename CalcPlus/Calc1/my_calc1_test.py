@@ -2,12 +2,13 @@
 
 import unittest
 
-from antlr4 import CommonTokenStream, InputStream, ParseTreeWalker
+from antlr4 import CommonTokenStream, InputStream
+# ParseTreeWalker
 
 from CalcPlusLexer import CalcPlusLexer
 from CalcPlusParser import CalcPlusParser
 from calc1_visitor import CalcVisitor
-from calc1_warning_listener import Calc1WarningListener
+# from calc1_warning_listener import Calc1WarningListener
 
 def parse_program(program: str):
     input_stream = InputStream(program)
@@ -41,3 +42,6 @@ class CacVisitrTest(unittest.TestCase):
         result = visitor.visit(tree)
 
         self.assertEqual(result, {"a", 3})
+
+if __name__ == "__main__":
+    unittest.main()
