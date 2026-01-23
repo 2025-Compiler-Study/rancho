@@ -1,6 +1,6 @@
-# Generated from CalcPlus.g4 by ANTLR 4.13.1
+# Generated from CalcPlus.g4 by ANTLR 4.9.2
 from antlr4 import *
-if "." in __name__:
+if __name__ is not None and "." in __name__:
     from .CalcPlusParser import CalcPlusParser
 else:
     from CalcPlusParser import CalcPlusParser
@@ -46,6 +46,26 @@ class CalcPlusVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by CalcPlusParser#ExprAssign.
     def visitExprAssign(self, ctx:CalcPlusParser.ExprAssignContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CalcPlusParser#IfElse.
+    def visitIfElse(self, ctx:CalcPlusParser.IfElseContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CalcPlusParser#calc2.
+    def visitCalc2(self, ctx:CalcPlusParser.Calc2Context):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CalcPlusParser#cond.
+    def visitCond(self, ctx:CalcPlusParser.CondContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CalcPlusParser#block.
+    def visitBlock(self, ctx:CalcPlusParser.BlockContext):
         return self.visitChildren(ctx)
 
 
