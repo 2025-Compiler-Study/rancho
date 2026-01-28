@@ -4,6 +4,10 @@ from CalcPlusParser import CalcPlusParser
 
 class CalcVisitor(CalcPlusVisitor):
     # calc0 : expr EOF
+
+    def calc1_visitor(self, ctx:CalcPlusParser.Calc0Context):
+        return self.visit(ctx.expr())
+
     def visitCalc0(self, ctx:CalcPlusParser.Calc0Context):
         return self.visit(ctx.expr())
     
@@ -49,6 +53,7 @@ class CalcVisitor(CalcPlusVisitor):
 트리모양을 생각한다.
 https://www.web4college.com/converters/infix-to-postfix-prefix.php
 '''
+
 class CalcVisitorPostfix(CalcPlusVisitor):
     # calc0 : expr EOF
     # 해당 연산자를 방문하는 역할만 하는가?

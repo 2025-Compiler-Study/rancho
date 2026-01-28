@@ -7,7 +7,8 @@ from antlr4 import CommonTokenStream, InputStream
 
 from CalcPlusLexer import CalcPlusLexer
 from CalcPlusParser import CalcPlusParser
-from calc1_visitor import CalcVisitor
+from calc1_visitor import Calc1Visitor
+
 # from calc1_warning_listener import Calc1WarningListener
 
 def parse_program(program: str):
