@@ -1,6 +1,8 @@
 # CalcVisitor.py
 from CalcPlusVisitor import CalcPlusVisitor
 from CalcPlusParser import CalcPlusParser
+from collections import defaultdict
+
 
 '''
 왼쪽에 stmt는 값을 반환
@@ -9,6 +11,10 @@ expression은 값, 계산함
 calc1 에서는 예외처리 없으므로 무시
 '''
 class CalcVisitor(CalcPlusVisitor):
+
+    def __init__(self):
+        self.memory = defaultdict(int)
+
     # calc0 : expr EOF
 
     # def calc1_visitor(self, ctx:CalcPlusParser.Calc0Context):
@@ -21,6 +27,7 @@ class CalcVisitor(CalcPlusVisitor):
         for stmt_ctx in ctx.stmt():
             print(f"[visitCalc1] stmt: {stmt_ctx.getText()}")
             self.visit(stmt_ctx)
+        return 0
     
     # expr ('*'|'/') expr 
     def visitMulDiv(self, ctx):
@@ -32,10 +39,13 @@ class CalcVisitor(CalcPlusVisitor):
         # print(f"op : {op}")
         return left * right if op == '*' else left / right
     
+    def visitVar(self, ctx:CalcPlusParser.AddSubContext):
+        return 0
+
     def visitAddSub(self, ctx:CalcPlusParser.AddSubContext):
         # ctx.expr(0)
-        # print(f"ctx.expr(0).getText() : {ctx.expr(0).getText()}")
-        # print(f"ctx.expr(1).getText() : {ctx.expr(1).getText()}")
+        print(f"ctx.expr(0).getText() : {ctx.expr(0).getText()}")
+        print(f"ctx.expr(1).getText() : {ctx.expr(1).getText()}")
         left = self.visit(ctx.expr(0))
         # print(f"left : {left}")
         right = self.visit(ctx.expr(1))
