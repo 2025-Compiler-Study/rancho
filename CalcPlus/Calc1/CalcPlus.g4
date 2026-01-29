@@ -1,3 +1,4 @@
+// CalcPlus.g4
 grammar CalcPlus;
 calc0   :   expr EOF ;
 expr    :   expr ('*'|'/') expr # MulDiv

@@ -2,14 +2,25 @@
 from CalcPlusVisitor import CalcPlusVisitor
 from CalcPlusParser import CalcPlusParser
 
+'''
+왼쪽에 stmt는 값을 반환
+expression은 값, 계산함
+';' 세미콜론을 만나야 평가함
+calc1 에서는 예외처리 없으므로 무시
+'''
 class CalcVisitor(CalcPlusVisitor):
     # calc0 : expr EOF
 
-    def calc1_visitor(self, ctx:CalcPlusParser.Calc0Context):
-        return self.visit(ctx.expr())
+    # def calc1_visitor(self, ctx:CalcPlusParser.Calc0Context):
+    #     return self.visit(ctx.expr())
 
     def visitCalc0(self, ctx:CalcPlusParser.Calc0Context):
         return self.visit(ctx.expr())
+
+    def visitCalc1(self, ctx:CalcPlusParser.Calc1Context):
+        for stmt_ctx in ctx.stmt():
+            print(f"[visitCalc1] stmt: {stmt_ctx.getText()}")
+            self.visit(stmt_ctx)
     
     # expr ('*'|'/') expr 
     def visitMulDiv(self, ctx):
@@ -44,6 +55,13 @@ class CalcVisitor(CalcPlusVisitor):
         # print(f"ctx.expr(): {ctx.expr()}")
         # print(f"self.visit(ctx.expr()): {self.visit(ctx.expr())}")
         return self.visit(ctx.expr())
+
+    # stmt: VAR '=' expr ';'  # ExprAssign
+    def visitExprAssign(self, ctx:CalcPlusParser.ExprAssignContext):
+        left_name = ctx.VAR().getText()
+        right_value = self.visit(ctx.expr())
+        print(f"[stmt] left: {left_name}, right: {right_value}")
+        return right_value
 '''
 중위 연산자 -> 후위 연산자
 - 10 + 2 * (5 - 9 / 3)
