@@ -16,7 +16,6 @@ class CalcVisitor(CalcPlusVisitor):
         self.memory = defaultdict(int)
 
     # calc0 : expr EOF
-
     # def calc1_visitor(self, ctx:CalcPlusParser.Calc0Context):
     #     return self.visit(ctx.expr())
 
@@ -27,7 +26,8 @@ class CalcVisitor(CalcPlusVisitor):
         for stmt_ctx in ctx.stmt():
             print(f"[visitCalc1] stmt: {stmt_ctx.getText()}")
             self.visit(stmt_ctx)
-        return 0
+        return dict(self.memory)
+        # return self.memory
     
     # expr ('*'|'/') expr 
     def visitMulDiv(self, ctx):
@@ -36,16 +36,18 @@ class CalcVisitor(CalcPlusVisitor):
         left = self.visit(ctx.expr(0))
         right = self.visit(ctx.expr(1))
         op = ctx.getChild(1).getText()
-        # print(f"op : {op}")
+        # prinmemoryt(f"op : {op}")
         return left * right if op == '*' else left / right
     
-    def visitVar(self, ctx:CalcPlusParser.AddSubContext):
-        return 0
+    def visitVar(self, ctx:CalcPlusParser.VarContext):
+        var_name = ctx.VAR().getText()
+        # print(f"## {self.memory[var_name]=}")
+        return self.memory[var_name]
 
     def visitAddSub(self, ctx:CalcPlusParser.AddSubContext):
         # ctx.expr(0)
-        print(f"ctx.expr(0).getText() : {ctx.expr(0).getText()}")
-        print(f"ctx.expr(1).getText() : {ctx.expr(1).getText()}")
+        # print(f"ctx.expr(0).getText() : {ctx.expr(0).getText()}")
+        # print(f"ctx.expr(1).getText() : {ctx.expr(1).getText()}")
         left = self.visit(ctx.expr(0))
         # print(f"left : {left}")
         right = self.visit(ctx.expr(1))
@@ -67,11 +69,13 @@ class CalcVisitor(CalcPlusVisitor):
         return self.visit(ctx.expr())
 
     # stmt: VAR '=' expr ';'  # ExprAssign
+    ## stmt 저장될 결과, expr 값
     def visitExprAssign(self, ctx:CalcPlusParser.ExprAssignContext):
         left_name = ctx.VAR().getText()
         right_value = self.visit(ctx.expr())
-        print(f"[stmt] left: {left_name}, right: {right_value}")
-        return right_value
+        print(f"[stmt] left_name: {left_name}, right_value: {right_value}")
+        self.memory[left_name] = right_value
+        return None
 '''
 중위 연산자 -> 후위 연산자
 - 10 + 2 * (5 - 9 / 3)
