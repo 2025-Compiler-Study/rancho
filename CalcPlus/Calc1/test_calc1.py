@@ -1,9 +1,10 @@
-# test_calc1.py
+# 테스트: Calc-1
 import unittest
 from antlr4 import InputStream, CommonTokenStream, ParseTreeWalker
 from CalcPlusLexer import CalcPlusLexer
 from CalcPlusParser import CalcPlusParser
 from CalcVisitor import CalcVisitor
+from calc1_warning_listener import Calc1WarningListener
 
 def parse_program(program: str):
     input_stream = InputStream(program)
@@ -33,7 +34,6 @@ class CalcVisitorTest(unittest.TestCase):
             },
         )
 
-'''
 class Calc1WarningListenerTest(unittest.TestCase):
     def test_use_before_definition(self):
         program = "\n".join(
@@ -61,7 +61,6 @@ class Calc1WarningListenerTest(unittest.TestCase):
                 (3, 4, "b"),
             ],
         )
-'''
 
 if __name__ == "__main__":
     unittest.main()
