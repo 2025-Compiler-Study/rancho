@@ -53,7 +53,9 @@ class CalcListenerTest(unittest.TestCase):
             [
                 # "a = b + 3;",
                 # "c = a + d;",
-                "b = b * 1;",
+                # "dd = b * 1;"
+                "A = b * 1 + g;" # Error Var는 문자만 가능하게 antlr g4 파일에 정의 되어있기 때문
+                               # => VAR : [A-Za-z]+ ;
             ]
         )
 
@@ -62,19 +64,22 @@ class CalcListenerTest(unittest.TestCase):
         walker = ParseTreeWalker()
         walker.walk(listener, tree)
 
-        # warnings = [
-        #     (warn["line"], warn["column"], warn["name"])
-        #     for warn in listener.warnings
-        # ]
+        errors = [
+            # (warn["line"], warn["column"], warn["name"])
+            (f"{warn}")
+            for warn in listener.errors
+        ]
 
-        # self.assertEqual(
-        #     warnings,
-        #     [
-        #         (1, 4, "b"),
-        #         (2, 8, "d"),
-        #         (3, 4, "b"),
-        #     ],
-        # )
+        self.assertEqual(
+            errors,
+            [
+                # (1, 4, "b"),
+                # (2, 8, "d"),
+                # (3, 4, "b"),
+                "b(은)는 선언되지 않은 변수 입니다.",
+                "g(은)는 선언되지 않은 변수 입니다."
+            ],
+        )
 
 if __name__ == "__main__":
     unittest.main()
