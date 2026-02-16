@@ -1,61 +1,41 @@
-# 테스트: Calc-1
+# test_calc1.py
+"""Calc-1 Listener(미정의 변수 경고) 테스트."""
+
 import unittest
-from antlr4 import InputStream, CommonTokenStream, ParseTreeWalker
+
+from antlr4 import CommonTokenStream, InputStream, ParseTreeWalker
+
+from CalcListener import CalcListener
 from CalcPlusLexer import CalcPlusLexer
 from CalcPlusParser import CalcPlusParser
-from CalcVisitor import CalcVisitor
-# from calc1_warning_listener import Calc1WarningListener
-from CalcListener import CalcListener
+
 
 def parse_program(program: str):
+    """프로그램 문자열을 calc1 시작 규칙으로 파싱한 트리를 반환."""
     input_stream = InputStream(program)
     lexer = CalcPlusLexer(input_stream)
     stream = CommonTokenStream(lexer)
     parser = CalcPlusParser(stream)
     return parser.calc1()
 
-'''
-class CalcVisitorTest(unittest.TestCase):
-    def test_variable_memory(self):
-        program = "A=1;\
-            b=A+2;\
-            c=b*3;A=A+1;d=(5-e)*2;"
-        tree = parse_program(program)
-        visitor = CalcVisitor()
-        result = visitor.visit(tree)
 
-        self.assertEqual(
-            result,
-            {
-                "A": 2,
-                "b": 3,
-                "c": 9,
-                "d": 10,
-                "e": 0,
-            },
-        )
-'''
-
-'''
-가능한 이유는 간단해. listener.warnings가 dict 리스트고, 각 dict가 {"line": ..., "column": ..., "name": ...} 구조를 보장하기 때문이야. 그래서 리스트 내포로 필요한 값만 추려서 튜플 리스트를 만들 수 있어.
-
-구체적으로:
-
-listener.warnings는 enterVar에서 warning = {"line": token.line, "column": token.column, "name": name} 형태로 추가됨
-그러니 warn["line"], warn["column"], warn["name"]는 항상 존재
-리스트 내포는 그 키들을 순서대로 튜플로 뽑아 [(line, column, name), ...]를 만든다
-이 결과를 self.assertEqual로 기대값과 비교하는 게 자연스러움
-즉, warnings의 자료구조가 정해져 있기 때문에 저렇게 꺼내도 안전하고, 테스트 의도(순서와 내용 비교)에도 맞아.
-'''
 class CalcListenerTest(unittest.TestCase):
-    def test_use_before_definition(self):
+    """미정의 변수 검사 규칙을 검증한다."""
+
+    def test_use_before_definition_with_line_and_column(self):
+        """
+        미정의 변수 사용 시 에러에 line/column이 포함되어야 한다.
+
+        예상 경고:
+        - 1행 4열: b
+        - 2행 8열: d
+        - 3행 4열: b (좌변 대입 전에 우변에서 먼저 사용됨)
+        """
         program = "\n".join(
             [
-                # "a = b + 3;",
-                # "c = a + d;",
-                # "dd = b * 1;"
-                "A = b * 1 + g;" # Error Var는 문자만 가능하게 antlr g4 파일에 정의 되어있기 때문
-                               # => VAR : [A-Za-z]+ ;
+                "a = b + 3;",
+                "c = a + d;",
+                "b = b + 1;",
             ]
         )
 
@@ -64,22 +44,49 @@ class CalcListenerTest(unittest.TestCase):
         walker = ParseTreeWalker()
         walker.walk(listener, tree)
 
-        errors = [
-            # (warn["line"], warn["column"], warn["name"])
-            (f"{warn}")
-            for warn in listener.errors
-        ]
-
         self.assertEqual(
-            errors,
+            listener.errors,
             [
-                # (1, 4, "b"),
-                # (2, 8, "d"),
-                # (3, 4, "b"),
-                "b(은)는 선언되지 않은 변수 입니다.",
-                "g(은)는 선언되지 않은 변수 입니다."
+                "Line 1, Column 4: b(은)는 선언되지 않은 변수 입니다.",
+                "Line 2, Column 8: d(은)는 선언되지 않은 변수 입니다.",
+                "Line 3, Column 4: b(은)는 선언되지 않은 변수 입니다.",
             ],
         )
 
+        self.assertEqual(
+            [(w["line"], w["column"], w["name"]) for w in listener.warnings],
+            [
+                (1, 4, "b"),
+                (2, 8, "d"),
+                (3, 4, "b"),
+            ],
+        )
+
+    def test_self_assignment_reports_undefined_rhs(self):
+        """
+        자기 자신 대입이라도 우변이 먼저 평가되므로 미정의 경고가 나와야 한다.
+        """
+        program = "a = a + 1;"
+        tree = parse_program(program)
+        listener = CalcListener()
+        ParseTreeWalker().walk(listener, tree)
+
+        self.assertEqual(
+            listener.errors,
+            ["Line 1, Column 4: a(은)는 선언되지 않은 변수 입니다."],
+        )
+
+    def test_use_after_definition_has_no_error(self):
+        """먼저 정의된 변수를 이후 식에서 쓰면 경고가 없어야 한다."""
+        program = "x = 1;\ny = x + 2;"
+        tree = parse_program(program)
+        listener = CalcListener()
+        ParseTreeWalker().walk(listener, tree)
+
+        self.assertEqual(listener.errors, [])
+        self.assertEqual(listener.warnings, [])
+
+
 if __name__ == "__main__":
     unittest.main()
+
