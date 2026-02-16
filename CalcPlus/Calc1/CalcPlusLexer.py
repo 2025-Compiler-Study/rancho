@@ -7,8 +7,17 @@ if sys.version_info[1] > 5:
 else:
     from typing.io import TextIO
 
+# 참고:
+# - 이 파일은 CalcPlus.g4의 렉서 규칙으로부터 ANTLR이 자동 생성한 코드입니다.
+# - 사람이 추가한 주석은 학습/유지보수용이며,
+#   CalcPlus.g4로 재생성하면 덮어써질 수 있습니다.
+# - 재생성 예시:
+#   antlr4 -Dlanguage=Python3 -visitor -listener CalcPlus.g4
+
 
 def serializedATN():
+    # 렉서 상태 머신(ATN)을 직렬화한 정수 배열.
+    # 런타임에서 역직렬화되어 실제 토큰 인식기에 사용됩니다.
     return [
         4,0,21,104,6,-1,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,
         2,6,7,6,2,7,7,7,2,8,7,8,2,9,7,9,2,10,7,10,2,11,7,11,2,12,7,12,2,
@@ -48,11 +57,25 @@ def serializedATN():
     ]
 
 class CalcPlusLexer(Lexer):
+    """
+    CalcPlus 언어용 렉서.
 
+    역할:
+    1) 입력 문자열을 왼쪽에서 오른쪽으로 읽습니다.
+    2) 규칙(ruleNames)에 맞춰 토큰을 잘라냅니다.
+    3) WS(공백)는 skip 규칙으로 숨김 채널로 보내거나 제거합니다.
+
+    이후 Parser는 이 렉서가 만든 토큰 스트림을 입력으로 받습니다.
+    """
+
+    # serializedATN()을 런타임 객체(ATN)로 복원합니다.
     atn = ATNDeserializer().deserialize(serializedATN())
 
+    # 각 결정 지점(decision)에 대한 DFA 캐시.
     decisionsToDFA = [ DFA(ds, i) for i, ds in enumerate(atn.decisionToState) ]
 
+    # 토큰 타입 상수.
+    # T__0 ~ T__17은 g4의 리터럴 토큰('*', '/', '+', 'if' 등)에 대응됩니다.
     T__0 = 1
     T__1 = 2
     T__2 = 3
@@ -75,18 +98,25 @@ class CalcPlusLexer(Lexer):
     INT = 20
     VAR = 21
 
+    # 토큰 채널 정보:
+    # - DEFAULT_TOKEN_CHANNEL: 일반 토큰
+    # - HIDDEN: 보통 공백/주석 등 파서가 직접 쓰지 않는 토큰
     channelNames = [ u"DEFAULT_TOKEN_CHANNEL", u"HIDDEN" ]
 
+    # 이 문법은 단일 모드(DEFAULT_MODE)만 사용합니다.
     modeNames = [ "DEFAULT_MODE" ]
 
+    # 리터럴 문자열 테이블(기호 자체가 고정된 토큰).
     literalNames = [ "<INVALID>",
             "'*'", "'/'", "'+'", "'-'", "'('", "')'", "'='", "';'", "'if'", 
             "'else'", "'=='", "'!='", "'>'", "'>='", "'<'", "'<='", "'{'", 
             "'}'" ]
 
+    # 이름이 있는 토큰(lexer rule 기반) 테이블.
     symbolicNames = [ "<INVALID>",
             "WS", "INT", "VAR" ]
 
+    # 렉서 규칙 이름 목록.
     ruleNames = [ "T__0", "T__1", "T__2", "T__3", "T__4", "T__5", "T__6", 
                   "T__7", "T__8", "T__9", "T__10", "T__11", "T__12", "T__13", 
                   "T__14", "T__15", "T__16", "T__17", "WS", "INT", "VAR" ]
@@ -96,8 +126,9 @@ class CalcPlusLexer(Lexer):
     def __init__(self, input=None, output:TextIO = sys.stdout):
         super().__init__(input, output)
         self.checkVersion("4.13.1")
+        # LexerATNSimulator가 실제 문자 소비/토큰 인식을 수행합니다.
         self._interp = LexerATNSimulator(self, self.atn, self.decisionsToDFA, PredictionContextCache())
+        # 이 문법에는 사용자 정의 action/predicate가 없어 기본 None 상태입니다.
         self._actions = None
         self._predicates = None
-
 
