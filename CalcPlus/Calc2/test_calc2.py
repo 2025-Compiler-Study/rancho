@@ -3,7 +3,7 @@ import unittest
 from antlr4 import InputStream, CommonTokenStream
 from CalcPlusLexer import CalcPlusLexer
 from CalcPlusParser import CalcPlusParser
-from calc2_visitor import Calc2Visitor
+from calcVisitor import CalcVisitor
 
 
 def parse_program(program: str):
@@ -15,7 +15,7 @@ def parse_program(program: str):
     return parser.calc2()
 
 
-class Calc2VisitorTest(unittest.TestCase):
+class CalcVisitorTest(unittest.TestCase):
     def test_if_else_then_branch(self):
         program = "\n".join(
             [
@@ -32,7 +32,7 @@ class Calc2VisitorTest(unittest.TestCase):
             ]
         )
         tree = parse_program(program)
-        visitor = Calc2Visitor()
+        visitor = CalcVisitor()
         # Evaluates the program and returns the final variable memory.
         result = visitor.visit(tree)
 
@@ -60,7 +60,7 @@ class Calc2VisitorTest(unittest.TestCase):
             ]
         )
         tree = parse_program(program)
-        visitor = Calc2Visitor()
+        visitor = CalcVisitor()
         # Visitor should execute the else branch only.
         result = visitor.visit(tree)
 
@@ -84,7 +84,7 @@ class Calc2VisitorTest(unittest.TestCase):
             ]
         )
         tree = parse_program(program)
-        visitor = Calc2Visitor()
+        visitor = CalcVisitor()
         # No else branch: condition false means no assignment.
         result = visitor.visit(tree)
 
@@ -109,7 +109,7 @@ class Calc2VisitorTest(unittest.TestCase):
             ]
         )
         tree = parse_program(program)
-        visitor = Calc2Visitor()
+        visitor = CalcVisitor()
         # Accumulates results from each comparison if condition is true.
         result = visitor.visit(tree)
 
@@ -130,7 +130,7 @@ class Calc2VisitorTest(unittest.TestCase):
             ]
         )
         tree = parse_program(program)
-        visitor = Calc2Visitor()
+        visitor = CalcVisitor()
         # Undefined variables in expressions are treated as 0.
         result = visitor.visit(tree)
 

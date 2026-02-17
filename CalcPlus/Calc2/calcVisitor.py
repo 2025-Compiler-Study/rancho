@@ -1,15 +1,12 @@
-# calc2_visitor.py
-"""Visitor-like evaluator for Calc-2 parse trees."""
+# calcVisitor.py
 
 from CalcPlusParser import CalcPlusParser
 
-
-class Calc2Visitor:
-    """Evaluates Calc-2 programs and returns final variable memory."""
+class CalcVisitor:
 
     def __init__(self):
         self.memory: dict[str, int] = {}
-
+    
     def visit(self, ctx):
         if ctx is None:
             return None
@@ -33,19 +30,19 @@ class Calc2Visitor:
             for i in range(ctx.getChildCount()):
                 result = self.visit(ctx.getChild(i))
         return result
-
+    
     def visitCalc2(self, ctx: CalcPlusParser.Calc2Context):
         for stmt_ctx in ctx.stmt():
             self.visit(stmt_ctx)
         return dict(self.memory)
-
+    
     def visitExprAssign(self, ctx: CalcPlusParser.ExprAssignContext):
         var_name = ctx.VAR().getText()
         value = self.visit(ctx.expr())
         self.memory[var_name] = value
-        return value
-
-    def visitIfElse(self, ctx: CalcPlusParser.IfElseContext):
+        return  value
+    
+    def visitIfElse(self, ctx):
         condition = self.visit(ctx.cond())
         if condition:
             self.visit(ctx.thenBlock)
