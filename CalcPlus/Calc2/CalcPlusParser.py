@@ -127,6 +127,12 @@ class CalcPlusParser ( Parser ):
             if hasattr( listener, "exitCalc0" ):
                 listener.exitCalc0(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCalc0" ):
+                return visitor.visitCalc0(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -185,6 +191,12 @@ class CalcPlusParser ( Parser ):
             if hasattr( listener, "exitMulDiv" ):
                 listener.exitMulDiv(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMulDiv" ):
+                return visitor.visitMulDiv(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class AddSubContext(ExprContext):
 
@@ -207,6 +219,12 @@ class CalcPlusParser ( Parser ):
             if hasattr( listener, "exitAddSub" ):
                 listener.exitAddSub(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAddSub" ):
+                return visitor.visitAddSub(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class VarContext(ExprContext):
 
@@ -224,6 +242,12 @@ class CalcPlusParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitVar" ):
                 listener.exitVar(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitVar" ):
+                return visitor.visitVar(self)
+            else:
+                return visitor.visitChildren(self)
 
 
     class ParensContext(ExprContext):
@@ -244,6 +268,12 @@ class CalcPlusParser ( Parser ):
             if hasattr( listener, "exitParens" ):
                 listener.exitParens(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitParens" ):
+                return visitor.visitParens(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class IntContext(ExprContext):
 
@@ -261,6 +291,12 @@ class CalcPlusParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitInt" ):
                 listener.exitInt(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInt" ):
+                return visitor.visitInt(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -395,6 +431,12 @@ class CalcPlusParser ( Parser ):
             if hasattr( listener, "exitCalc1" ):
                 listener.exitCalc1(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCalc1" ):
+                return visitor.visitCalc1(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -470,6 +512,12 @@ class CalcPlusParser ( Parser ):
             if hasattr( listener, "exitIfElse" ):
                 listener.exitIfElse(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIfElse" ):
+                return visitor.visitIfElse(self)
+            else:
+                return visitor.visitChildren(self)
+
 
     class ExprAssignContext(StmtContext):
 
@@ -490,6 +538,12 @@ class CalcPlusParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitExprAssign" ):
                 listener.exitExprAssign(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExprAssign" ):
+                return visitor.visitExprAssign(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -577,6 +631,12 @@ class CalcPlusParser ( Parser ):
             if hasattr( listener, "exitCalc2" ):
                 listener.exitCalc2(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCalc2" ):
+                return visitor.visitCalc2(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -634,6 +694,12 @@ class CalcPlusParser ( Parser ):
             if hasattr( listener, "exitCond" ):
                 listener.exitCond(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCond" ):
+                return visitor.visitCond(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -687,6 +753,12 @@ class CalcPlusParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitBlock" ):
                 listener.exitBlock(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBlock" ):
+                return visitor.visitBlock(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
