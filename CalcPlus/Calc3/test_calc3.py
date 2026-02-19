@@ -1,8 +1,8 @@
-"""Basic test skeleton for Calc-3.
+"""Calc-3 기본 테스트 스켈레톤.
 
-This file is designed to be useful from day one:
-- Parser smoke tests validate grammar wiring.
-- Visitor tests are scaffolded and auto-skipped until implemented.
+이 파일은 시작 단계부터 바로 유용하도록 구성되었다:
+- 파서 스모크 테스트는 문법 연결 상태를 빠르게 검증한다.
+- Visitor 스켈레톤 테스트는 구현 전에는 골격을 제공하고, 준비 전까지 자동 스킵된다.
 """
 
 import unittest
@@ -14,17 +14,17 @@ try:
     from antlr4 import CommonTokenStream, InputStream
     from CalcPlusLexer import CalcPlusLexer
     from CalcPlusParser import CalcPlusParser
-except Exception as exc:  # pragma: no cover - setup guard
+except Exception as exc:  # pragma: no cover - 환경 준비 가드
     IMPORT_ERROR = exc
 
 
 def parse_program(program: str):
-    """Parse a Calc-3 program and return (parser, tree)."""
+    """Calc-3 프로그램을 파싱해 (parser, tree)를 반환한다."""
     if IMPORT_ERROR is not None:
         raise RuntimeError(
-            "Calc-3 parser imports failed. Generate Python parser first:\n"
+            "Calc-3 파서 import에 실패했습니다. 먼저 Python 파서를 생성하세요:\n"
             "  antlr4 -Dlanguage=Python3 -visitor -listener CalcPlus.g4\n"
-            f"Original error: {IMPORT_ERROR}"
+            f"원본 오류: {IMPORT_ERROR}"
         )
 
     input_stream = InputStream(program)
@@ -35,8 +35,9 @@ def parse_program(program: str):
     return parser, tree
 
 
-@unittest.skipIf(IMPORT_ERROR is not None, "ANTLR Python files/runtime not ready")
+@unittest.skipIf(IMPORT_ERROR is not None, "ANTLR Python 파일/런타임이 준비되지 않음")
 class Calc3ParserSmokeTest(unittest.TestCase):
+    # 스모크 테스트: 핵심 경로가 깨지지 않았는지 빠르게 확인한다.
     def test_parse_simple_assign(self):
         parser, tree = parse_program("a = 1 + 2;\n")
         self.assertEqual(parser.getNumberOfSyntaxErrors(), 0)
@@ -58,13 +59,14 @@ class Calc3ParserSmokeTest(unittest.TestCase):
         self.assertIsNotNone(tree)
 
 
-@unittest.skipIf(IMPORT_ERROR is not None, "ANTLR Python files/runtime not ready")
+@unittest.skipIf(IMPORT_ERROR is not None, "ANTLR Python 파일/런타임이 준비되지 않음")
 class Calc3VisitorSkeletonTest(unittest.TestCase):
+    # 스켈레톤 테스트: 구현 계약(입출력/상태)을 먼저 고정해 두는 골격 테스트다.
     def _make_visitor(self, **kwargs):
         try:
             from calc3_visitor import Calc3Visitor
         except Exception as exc:
-            raise RuntimeError(f"calc3_visitor.py / Calc3Visitor import failed: {exc}") from exc
+            raise RuntimeError(f"calc3_visitor.py / Calc3Visitor import 실패: {exc}") from exc
         return Calc3Visitor(**kwargs)
 
     def test_eval_smoke(self):

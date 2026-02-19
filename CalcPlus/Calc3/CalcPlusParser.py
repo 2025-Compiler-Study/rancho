@@ -1,4 +1,4 @@
-# Generated from CalcPlus.g4 by ANTLR 4.9.2
+# ANTLR 4.9.2가 CalcPlus.g4에서 생성한 파일
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -183,7 +183,7 @@ class CalcPlusParser ( Parser ):
 
     class MulDivContext(ExprContext):
 
-        def __init__(self, parser, ctx:ParserRuleContext): # actually a CalcPlusParser.ExprContext
+        def __init__(self, parser, ctx:ParserRuleContext): # 실제로는 CalcPlusParser.ExprContext
             super().__init__(parser)
             self.copyFrom(ctx)
 
@@ -211,7 +211,7 @@ class CalcPlusParser ( Parser ):
 
     class AddSubContext(ExprContext):
 
-        def __init__(self, parser, ctx:ParserRuleContext): # actually a CalcPlusParser.ExprContext
+        def __init__(self, parser, ctx:ParserRuleContext): # 실제로는 CalcPlusParser.ExprContext
             super().__init__(parser)
             self.copyFrom(ctx)
 
@@ -239,7 +239,7 @@ class CalcPlusParser ( Parser ):
 
     class VarContext(ExprContext):
 
-        def __init__(self, parser, ctx:ParserRuleContext): # actually a CalcPlusParser.ExprContext
+        def __init__(self, parser, ctx:ParserRuleContext): # 실제로는 CalcPlusParser.ExprContext
             super().__init__(parser)
             self.copyFrom(ctx)
 
@@ -263,7 +263,7 @@ class CalcPlusParser ( Parser ):
 
     class ParensContext(ExprContext):
 
-        def __init__(self, parser, ctx:ParserRuleContext): # actually a CalcPlusParser.ExprContext
+        def __init__(self, parser, ctx:ParserRuleContext): # 실제로는 CalcPlusParser.ExprContext
             super().__init__(parser)
             self.copyFrom(ctx)
 
@@ -288,7 +288,7 @@ class CalcPlusParser ( Parser ):
 
     class IntContext(ExprContext):
 
-        def __init__(self, parser, ctx:ParserRuleContext): # actually a CalcPlusParser.ExprContext
+        def __init__(self, parser, ctx:ParserRuleContext): # 실제로는 CalcPlusParser.ExprContext
             super().__init__(parser)
             self.copyFrom(ctx)
 
@@ -318,7 +318,7 @@ class CalcPlusParser ( Parser ):
         _prevctx = localctx
         _startState = 2
         self.enterRecursionRule(localctx, 2, self.RULE_expr, _p)
-        self._la = 0 # Token type
+        self._la = 0 # 토큰 타입
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 26
@@ -455,7 +455,7 @@ class CalcPlusParser ( Parser ):
 
         localctx = CalcPlusParser.Calc1Context(self, self._ctx, self.state)
         self.enterRule(localctx, 4, self.RULE_calc1)
-        self._la = 0 # Token type
+        self._la = 0 # 토큰 타입
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 40 
@@ -499,7 +499,7 @@ class CalcPlusParser ( Parser ):
 
     class WriteContext(StmtContext):
 
-        def __init__(self, parser, ctx:ParserRuleContext): # actually a CalcPlusParser.StmtContext
+        def __init__(self, parser, ctx:ParserRuleContext): # 실제로는 CalcPlusParser.StmtContext
             super().__init__(parser)
             self.copyFrom(ctx)
 
@@ -524,10 +524,10 @@ class CalcPlusParser ( Parser ):
 
     class IfElseContext(StmtContext):
 
-        def __init__(self, parser, ctx:ParserRuleContext): # actually a CalcPlusParser.StmtContext
+        def __init__(self, parser, ctx:ParserRuleContext): # 실제로는 CalcPlusParser.StmtContext
             super().__init__(parser)
-            self.thenBlock = None # BlockContext
-            self.elseBlock = None # BlockContext
+            self.thenBlock = None # BlockContext 타입
+            self.elseBlock = None # BlockContext 타입
             self.copyFrom(ctx)
 
         def cond(self):
@@ -557,7 +557,7 @@ class CalcPlusParser ( Parser ):
 
     class ReadAssignContext(StmtContext):
 
-        def __init__(self, parser, ctx:ParserRuleContext): # actually a CalcPlusParser.StmtContext
+        def __init__(self, parser, ctx:ParserRuleContext): # 실제로는 CalcPlusParser.StmtContext
             super().__init__(parser)
             self.copyFrom(ctx)
 
@@ -581,7 +581,7 @@ class CalcPlusParser ( Parser ):
 
     class ExprAssignContext(StmtContext):
 
-        def __init__(self, parser, ctx:ParserRuleContext): # actually a CalcPlusParser.StmtContext
+        def __init__(self, parser, ctx:ParserRuleContext): # 실제로는 CalcPlusParser.StmtContext
             super().__init__(parser)
             self.copyFrom(ctx)
 
@@ -611,7 +611,7 @@ class CalcPlusParser ( Parser ):
 
         localctx = CalcPlusParser.StmtContext(self, self._ctx, self.state)
         self.enterRule(localctx, 6, self.RULE_stmt)
-        self._la = 0 # Token type
+        self._la = 0 # 토큰 타입
         try:
             self.state = 72
             self._errHandler.sync(self)
@@ -736,7 +736,7 @@ class CalcPlusParser ( Parser ):
 
         localctx = CalcPlusParser.Calc2Context(self, self._ctx, self.state)
         self.enterRule(localctx, 8, self.RULE_calc2)
-        self._la = 0 # Token type
+        self._la = 0 # 토큰 타입
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 75 
@@ -799,7 +799,7 @@ class CalcPlusParser ( Parser ):
 
         localctx = CalcPlusParser.CondContext(self, self._ctx, self.state)
         self.enterRule(localctx, 10, self.RULE_cond)
-        self._la = 0 # Token type
+        self._la = 0 # 토큰 타입
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 81
@@ -859,7 +859,7 @@ class CalcPlusParser ( Parser ):
 
         localctx = CalcPlusParser.BlockContext(self, self._ctx, self.state)
         self.enterRule(localctx, 12, self.RULE_block)
-        self._la = 0 # Token type
+        self._la = 0 # 토큰 타입
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 85
@@ -925,7 +925,7 @@ class CalcPlusParser ( Parser ):
 
         localctx = CalcPlusParser.Calc3Context(self, self._ctx, self.state)
         self.enterRule(localctx, 14, self.RULE_calc3)
-        self._la = 0 # Token type
+        self._la = 0 # 토큰 타입
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 95 

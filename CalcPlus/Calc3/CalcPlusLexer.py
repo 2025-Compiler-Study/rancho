@@ -1,4 +1,4 @@
-# Generated from CalcPlus.g4 by ANTLR 4.9.2
+# ANTLR 4.9.2가 CalcPlus.g4에서 생성한 파일
 from antlr4 import *
 from io import StringIO
 import sys

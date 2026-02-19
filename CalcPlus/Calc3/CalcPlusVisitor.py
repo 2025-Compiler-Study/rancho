@@ -1,85 +1,85 @@
-# Generated from CalcPlus.g4 by ANTLR 4.9.2
+# ANTLR 4.9.2가 CalcPlus.g4에서 생성한 파일
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .CalcPlusParser import CalcPlusParser
 else:
     from CalcPlusParser import CalcPlusParser
 
-# This class defines a complete generic visitor for a parse tree produced by CalcPlusParser.
+# 이 클래스는 CalcPlusParser가 만든 파스 트리를 위한 전체 방문자를 정의한다.
 
 class CalcPlusVisitor(ParseTreeVisitor):
 
-    # Visit a parse tree produced by CalcPlusParser#calc0.
+    # CalcPlusParser#calc0가 만든 파스 트리를 방문한다.
     def visitCalc0(self, ctx:CalcPlusParser.Calc0Context):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by CalcPlusParser#MulDiv.
+    # CalcPlusParser#MulDiv가 만든 파스 트리를 방문한다.
     def visitMulDiv(self, ctx:CalcPlusParser.MulDivContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by CalcPlusParser#AddSub.
+    # CalcPlusParser#AddSub가 만든 파스 트리를 방문한다.
     def visitAddSub(self, ctx:CalcPlusParser.AddSubContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by CalcPlusParser#Var.
+    # CalcPlusParser#Var가 만든 파스 트리를 방문한다.
     def visitVar(self, ctx:CalcPlusParser.VarContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by CalcPlusParser#Parens.
+    # CalcPlusParser#Parens가 만든 파스 트리를 방문한다.
     def visitParens(self, ctx:CalcPlusParser.ParensContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by CalcPlusParser#Int.
+    # CalcPlusParser#Int가 만든 파스 트리를 방문한다.
     def visitInt(self, ctx:CalcPlusParser.IntContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by CalcPlusParser#calc1.
+    # CalcPlusParser#calc1가 만든 파스 트리를 방문한다.
     def visitCalc1(self, ctx:CalcPlusParser.Calc1Context):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by CalcPlusParser#ExprAssign.
+    # CalcPlusParser#ExprAssign가 만든 파스 트리를 방문한다.
     def visitExprAssign(self, ctx:CalcPlusParser.ExprAssignContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by CalcPlusParser#ReadAssign.
+    # CalcPlusParser#ReadAssign가 만든 파스 트리를 방문한다.
     def visitReadAssign(self, ctx:CalcPlusParser.ReadAssignContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by CalcPlusParser#IfElse.
+    # CalcPlusParser#IfElse가 만든 파스 트리를 방문한다.
     def visitIfElse(self, ctx:CalcPlusParser.IfElseContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by CalcPlusParser#Write.
+    # CalcPlusParser#Write가 만든 파스 트리를 방문한다.
     def visitWrite(self, ctx:CalcPlusParser.WriteContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by CalcPlusParser#calc2.
+    # CalcPlusParser#calc2가 만든 파스 트리를 방문한다.
     def visitCalc2(self, ctx:CalcPlusParser.Calc2Context):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by CalcPlusParser#cond.
+    # CalcPlusParser#cond가 만든 파스 트리를 방문한다.
     def visitCond(self, ctx:CalcPlusParser.CondContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by CalcPlusParser#block.
+    # CalcPlusParser#block가 만든 파스 트리를 방문한다.
     def visitBlock(self, ctx:CalcPlusParser.BlockContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by CalcPlusParser#calc3.
+    # CalcPlusParser#calc3가 만든 파스 트리를 방문한다.
     def visitCalc3(self, ctx:CalcPlusParser.Calc3Context):
         return self.visitChildren(ctx)
 

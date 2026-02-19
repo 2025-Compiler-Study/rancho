@@ -1,4 +1,4 @@
-"""Calc-3 interpreter visitor built on top of CalcVisitor."""
+"""CalcVisitor 기반으로 만든 Calc-3 인터프리터 Visitor."""
 
 from typing import Callable, List, Optional, Union
 
@@ -8,7 +8,7 @@ Number = Union[int, float]
 
 
 class Calc3Visitor(CalcVisitor):
-    """CalcVisitor를 상속해 Calc-3의 I/O 문장만 확장한 Visitor."""
+    """CalcVisitor를 상속해 Calc-3의 I/O 문장만 확장한 방문자."""
 
     def __init__(
         self,

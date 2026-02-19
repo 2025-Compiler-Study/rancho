@@ -10,7 +10,7 @@ class CalcVisitor(CalcPlusVisitor):
         self.memory: dict[str, int] = {}
     
     # 오버라이드
-    '''# TODO: visit() 오버라이드 없이 재구현
+    '''# 할 일: visit() 오버라이드 없이 재구현
     '''
     # def visit(self, ctx):
     #     # 방어 코드: 컨텍스트가 없으면 평가할 대상이 없다.
