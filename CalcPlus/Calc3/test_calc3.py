@@ -58,13 +58,14 @@ class Calc3ParserSmokeTest(unittest.TestCase):
         self.assertIsNotNone(tree)
 
 
+@unittest.skipIf(IMPORT_ERROR is not None, "ANTLR Python files/runtime not ready")
 class Calc3VisitorSkeletonTest(unittest.TestCase):
-    def _make_visitor(self):
+    def _make_visitor(self, **kwargs):
         try:
             from calc3_visitor import Calc3Visitor
         except Exception as exc:
             raise RuntimeError(f"calc3_visitor.py / Calc3Visitor import failed: {exc}") from exc
-        return Calc3Visitor()
+        return Calc3Visitor(**kwargs)
 
     def test_eval_smoke(self):
         source = "\n".join(
@@ -74,11 +75,45 @@ class Calc3VisitorSkeletonTest(unittest.TestCase):
             ]
         )
         _, tree = parse_program(source)
-        visitor = self._make_visitor()
+        writes = []
+        visitor = self._make_visitor(write_fn=writes.append)
 
-        # TODO: Define exact return contract for visitor (e.g., memory dict).
         result = visitor.visit(tree)
-        self.assertIsNotNone(result)
+        self.assertEqual(result, {"a": 1})
+        self.assertEqual(visitor.outputs, [1])
+        self.assertEqual(writes, [1])
+
+    def test_read_assign_else_branch(self):
+        source = "\n".join(
+            [
+                "a = read();",
+                "if (a > 0) { write(a); } else { write(0 - a); }",
+            ]
+        )
+        _, tree = parse_program(source)
+        writes = []
+        visitor = self._make_visitor(read_fn=lambda: "-2", write_fn=writes.append)
+
+        result = visitor.visit(tree)
+        self.assertEqual(result, {"a": -2})
+        self.assertEqual(visitor.outputs, [2])
+        self.assertEqual(writes, [2])
+
+    def test_read_invalid_defaults_to_zero(self):
+        source = "\n".join(
+            [
+                "a = read();",
+                "write(a);",
+            ]
+        )
+        _, tree = parse_program(source)
+        writes = []
+        visitor = self._make_visitor(read_fn=lambda: "abc", write_fn=writes.append)
+
+        result = visitor.visit(tree)
+        self.assertEqual(result, {"a": 0})
+        self.assertEqual(visitor.outputs, [0])
+        self.assertEqual(writes, [0])
 
 
 if __name__ == "__main__":

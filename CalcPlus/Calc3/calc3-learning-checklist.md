@@ -25,6 +25,7 @@
 
 ### D. CLI 연결
 - [ ] `calc3 <source-file>` 형태로 소스 파일을 읽어 실행한다.
+  - [ ] `python3 test_calc3 <source-file>` 형태로 소스 파일을 읽어 실행한다.
 - [ ] 프로그램 입력은 stdin, 출력은 stdout으로 연결한다.
 - [ ] 실행 실패 시 종료 코드/에러 메시지 정책을 정한다.
 

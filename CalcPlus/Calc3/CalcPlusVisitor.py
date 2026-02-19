@@ -9,38 +9,8 @@ else:
 
 class CalcPlusVisitor(ParseTreeVisitor):
 
-    # Visit a parse tree produced by CalcPlusParser#calc3.
-    def visitCalc3(self, ctx:CalcPlusParser.Calc3Context):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by CalcPlusParser#ExprAssign.
-    def visitExprAssign(self, ctx:CalcPlusParser.ExprAssignContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by CalcPlusParser#ReadAssign.
-    def visitReadAssign(self, ctx:CalcPlusParser.ReadAssignContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by CalcPlusParser#IfElse.
-    def visitIfElse(self, ctx:CalcPlusParser.IfElseContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by CalcPlusParser#Write.
-    def visitWrite(self, ctx:CalcPlusParser.WriteContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by CalcPlusParser#cond.
-    def visitCond(self, ctx:CalcPlusParser.CondContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by CalcPlusParser#block.
-    def visitBlock(self, ctx:CalcPlusParser.BlockContext):
+    # Visit a parse tree produced by CalcPlusParser#calc0.
+    def visitCalc0(self, ctx:CalcPlusParser.Calc0Context):
         return self.visitChildren(ctx)
 
 
@@ -66,6 +36,51 @@ class CalcPlusVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by CalcPlusParser#Int.
     def visitInt(self, ctx:CalcPlusParser.IntContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CalcPlusParser#calc1.
+    def visitCalc1(self, ctx:CalcPlusParser.Calc1Context):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CalcPlusParser#ExprAssign.
+    def visitExprAssign(self, ctx:CalcPlusParser.ExprAssignContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CalcPlusParser#ReadAssign.
+    def visitReadAssign(self, ctx:CalcPlusParser.ReadAssignContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CalcPlusParser#IfElse.
+    def visitIfElse(self, ctx:CalcPlusParser.IfElseContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CalcPlusParser#Write.
+    def visitWrite(self, ctx:CalcPlusParser.WriteContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CalcPlusParser#calc2.
+    def visitCalc2(self, ctx:CalcPlusParser.Calc2Context):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CalcPlusParser#cond.
+    def visitCond(self, ctx:CalcPlusParser.CondContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CalcPlusParser#block.
+    def visitBlock(self, ctx:CalcPlusParser.BlockContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by CalcPlusParser#calc3.
+    def visitCalc3(self, ctx:CalcPlusParser.Calc3Context):
         return self.visitChildren(ctx)
 
 

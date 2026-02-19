@@ -8,66 +8,12 @@ else:
 # This class defines a complete listener for a parse tree produced by CalcPlusParser.
 class CalcPlusListener(ParseTreeListener):
 
-    # Enter a parse tree produced by CalcPlusParser#calc3.
-    def enterCalc3(self, ctx:CalcPlusParser.Calc3Context):
+    # Enter a parse tree produced by CalcPlusParser#calc0.
+    def enterCalc0(self, ctx:CalcPlusParser.Calc0Context):
         pass
 
-    # Exit a parse tree produced by CalcPlusParser#calc3.
-    def exitCalc3(self, ctx:CalcPlusParser.Calc3Context):
-        pass
-
-
-    # Enter a parse tree produced by CalcPlusParser#ExprAssign.
-    def enterExprAssign(self, ctx:CalcPlusParser.ExprAssignContext):
-        pass
-
-    # Exit a parse tree produced by CalcPlusParser#ExprAssign.
-    def exitExprAssign(self, ctx:CalcPlusParser.ExprAssignContext):
-        pass
-
-
-    # Enter a parse tree produced by CalcPlusParser#ReadAssign.
-    def enterReadAssign(self, ctx:CalcPlusParser.ReadAssignContext):
-        pass
-
-    # Exit a parse tree produced by CalcPlusParser#ReadAssign.
-    def exitReadAssign(self, ctx:CalcPlusParser.ReadAssignContext):
-        pass
-
-
-    # Enter a parse tree produced by CalcPlusParser#IfElse.
-    def enterIfElse(self, ctx:CalcPlusParser.IfElseContext):
-        pass
-
-    # Exit a parse tree produced by CalcPlusParser#IfElse.
-    def exitIfElse(self, ctx:CalcPlusParser.IfElseContext):
-        pass
-
-
-    # Enter a parse tree produced by CalcPlusParser#Write.
-    def enterWrite(self, ctx:CalcPlusParser.WriteContext):
-        pass
-
-    # Exit a parse tree produced by CalcPlusParser#Write.
-    def exitWrite(self, ctx:CalcPlusParser.WriteContext):
-        pass
-
-
-    # Enter a parse tree produced by CalcPlusParser#cond.
-    def enterCond(self, ctx:CalcPlusParser.CondContext):
-        pass
-
-    # Exit a parse tree produced by CalcPlusParser#cond.
-    def exitCond(self, ctx:CalcPlusParser.CondContext):
-        pass
-
-
-    # Enter a parse tree produced by CalcPlusParser#block.
-    def enterBlock(self, ctx:CalcPlusParser.BlockContext):
-        pass
-
-    # Exit a parse tree produced by CalcPlusParser#block.
-    def exitBlock(self, ctx:CalcPlusParser.BlockContext):
+    # Exit a parse tree produced by CalcPlusParser#calc0.
+    def exitCalc0(self, ctx:CalcPlusParser.Calc0Context):
         pass
 
 
@@ -113,6 +59,87 @@ class CalcPlusListener(ParseTreeListener):
 
     # Exit a parse tree produced by CalcPlusParser#Int.
     def exitInt(self, ctx:CalcPlusParser.IntContext):
+        pass
+
+
+    # Enter a parse tree produced by CalcPlusParser#calc1.
+    def enterCalc1(self, ctx:CalcPlusParser.Calc1Context):
+        pass
+
+    # Exit a parse tree produced by CalcPlusParser#calc1.
+    def exitCalc1(self, ctx:CalcPlusParser.Calc1Context):
+        pass
+
+
+    # Enter a parse tree produced by CalcPlusParser#ExprAssign.
+    def enterExprAssign(self, ctx:CalcPlusParser.ExprAssignContext):
+        pass
+
+    # Exit a parse tree produced by CalcPlusParser#ExprAssign.
+    def exitExprAssign(self, ctx:CalcPlusParser.ExprAssignContext):
+        pass
+
+
+    # Enter a parse tree produced by CalcPlusParser#ReadAssign.
+    def enterReadAssign(self, ctx:CalcPlusParser.ReadAssignContext):
+        pass
+
+    # Exit a parse tree produced by CalcPlusParser#ReadAssign.
+    def exitReadAssign(self, ctx:CalcPlusParser.ReadAssignContext):
+        pass
+
+
+    # Enter a parse tree produced by CalcPlusParser#IfElse.
+    def enterIfElse(self, ctx:CalcPlusParser.IfElseContext):
+        pass
+
+    # Exit a parse tree produced by CalcPlusParser#IfElse.
+    def exitIfElse(self, ctx:CalcPlusParser.IfElseContext):
+        pass
+
+
+    # Enter a parse tree produced by CalcPlusParser#Write.
+    def enterWrite(self, ctx:CalcPlusParser.WriteContext):
+        pass
+
+    # Exit a parse tree produced by CalcPlusParser#Write.
+    def exitWrite(self, ctx:CalcPlusParser.WriteContext):
+        pass
+
+
+    # Enter a parse tree produced by CalcPlusParser#calc2.
+    def enterCalc2(self, ctx:CalcPlusParser.Calc2Context):
+        pass
+
+    # Exit a parse tree produced by CalcPlusParser#calc2.
+    def exitCalc2(self, ctx:CalcPlusParser.Calc2Context):
+        pass
+
+
+    # Enter a parse tree produced by CalcPlusParser#cond.
+    def enterCond(self, ctx:CalcPlusParser.CondContext):
+        pass
+
+    # Exit a parse tree produced by CalcPlusParser#cond.
+    def exitCond(self, ctx:CalcPlusParser.CondContext):
+        pass
+
+
+    # Enter a parse tree produced by CalcPlusParser#block.
+    def enterBlock(self, ctx:CalcPlusParser.BlockContext):
+        pass
+
+    # Exit a parse tree produced by CalcPlusParser#block.
+    def exitBlock(self, ctx:CalcPlusParser.BlockContext):
+        pass
+
+
+    # Enter a parse tree produced by CalcPlusParser#calc3.
+    def enterCalc3(self, ctx:CalcPlusParser.Calc3Context):
+        pass
+
+    # Exit a parse tree produced by CalcPlusParser#calc3.
+    def exitCalc3(self, ctx:CalcPlusParser.Calc3Context):
         pass
 
 
