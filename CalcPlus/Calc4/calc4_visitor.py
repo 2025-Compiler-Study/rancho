@@ -1,4 +1,4 @@
-"""Calc4 visitor 스텁.
+"""Calc4 visitor 골격.
 
 구현 전에는 각 의미 규칙이 명시적으로 비어 있음을 드러내기 위해
 `NotImplementedError`를 발생시킨다.
@@ -13,8 +13,27 @@ from symbol_table import SymbolTable
 class Calc4Visitor(CalcPlusVisitor):
     def __init__(self, read_fn=None, write_fn=None):
         self.symbols = SymbolTable()
-        self.read_fn = read_fn
-        self.write_fn = write_fn
+        self.read_fn = read_fn or self._default_read
+        self.write_fn = write_fn or self._default_write
+
+    def _default_read(self):
+        return int(input())
+
+    def _default_write(self, value: int):
+        print(value)
+
+    def _var_name(self, token) -> str:
+        return token.getText()
+
+    def _binary_op(self, ctx, op_map: dict[str, callable]):
+        raise NotImplementedError(
+            f"{type(ctx).__name__}의 좌/우 식 계산과 연산자 분기를 구현하세요."
+        )
+
+    def _comparison(self, ctx, op_map: dict[str, callable]):
+        raise NotImplementedError(
+            f"{type(ctx).__name__}의 비교 연산 평가를 구현하세요."
+        )
 
     def visitCalc4(self, ctx: CalcPlusParser.Calc4Context):
         raise NotImplementedError("Calc4 프로그램 실행을 구현하세요.")
