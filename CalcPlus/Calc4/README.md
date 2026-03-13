@@ -9,6 +9,8 @@
 - `symbol_table.py`: 스코프 기반 심볼 테이블 스텁
 - `test_calc4.py`: 파서 스모크 테스트와 구현 계약 테스트
 - `docs/test-structure.md`: `test_calc4.py` 구조 해설
+- `docs/problem-explanation.md`: Calc4 문제 해설
+- `docs/implementation-steps.md`: Calc4 단계별 구현 가이드
 
 현재 의도:
 
@@ -31,6 +33,14 @@ python3 -m unittest -v test_calc4.py
 ## test guide
 
 테스트 구조 설명은 [`docs/test-structure.md`](/home/jake/project/CS/compiler/rancho/CalcPlus/Calc4/docs/test-structure.md)에 정리했다.
+
+## problem guide
+
+Calc4 문제 해설은 [`docs/problem-explanation.md`](/home/jake/project/CS/compiler/rancho/CalcPlus/Calc4/docs/problem-explanation.md)에 정리했다.
+
+## implementation guide
+
+Calc4 단계별 구현 순서는 [`docs/implementation-steps.md`](/home/jake/project/CS/compiler/rancho/CalcPlus/Calc4/docs/implementation-steps.md)에 정리했다.
 
 ## next implementation order
 
