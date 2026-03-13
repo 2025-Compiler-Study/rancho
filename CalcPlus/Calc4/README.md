@@ -8,6 +8,7 @@
 - `calc4_visitor.py`: 구현할 Visitor 스텁
 - `symbol_table.py`: 스코프 기반 심볼 테이블 스텁
 - `test_calc4.py`: 파서 스모크 테스트와 구현 계약 테스트
+- `docs/test-structure.md`: `test_calc4.py` 구조 해설
 
 현재 의도:
 
@@ -26,6 +27,10 @@ antlr4 -Dlanguage=Python3 -visitor -listener CalcPlus.g4
 ```bash
 python3 -m unittest -v test_calc4.py
 ```
+
+## test guide
+
+테스트 구조 설명은 [`docs/test-structure.md`](/home/jake/project/CS/compiler/rancho/CalcPlus/Calc4/docs/test-structure.md)에 정리했다.
 
 ## next implementation order
 

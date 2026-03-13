@@ -53,7 +53,6 @@ class CalcListener(CalcPlusListener):
         message = self._format_error(var_name, line, column)
 
         # 문자열 형태 + 구조화 형태를 모두 저장해 다양한 테스트에 대응.
-        self.errors.append(message)
         self.warnings.append(
             {
                 "name": var_name,
@@ -62,6 +61,8 @@ class CalcListener(CalcPlusListener):
                 "message": message,
             }
         )
+        self.errors.append(message)
+
 
     def exitExprAssign(self, ctx: CalcPlusParser.ExprAssignContext) -> None:
         """
@@ -82,4 +83,3 @@ class CalcListener(CalcPlusListener):
     def result(self) -> list[str]:
         """기존 호출부 호환을 위한 보조 메서드."""
         return self.errors
-
