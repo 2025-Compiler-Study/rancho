@@ -1,5 +1,22 @@
 # Calc4 Test Structure
 
+## 테스트 실행 방법
+
+가상환경과 의존성이 아직 준비되지 않았다면 먼저 아래 순서로 맞춘다.
+
+```bash
+python3 -m venv .venv
+. .venv/bin/activate
+pip install -r requirements.txt
+```
+
+테스트는 프로젝트 루트에서 아래 명령으로 실행한다.
+
+```bash
+. .venv/bin/activate
+python -m unittest -v test_calc4.py
+```
+
 `test_calc4.py`는 구현을 검증하는 완성형 테스트 모음이 아니라, Calc4 시작 시점의 기준점을 고정하는 "골격 테스트"다.
 
 핵심 목적은 세 가지다.
