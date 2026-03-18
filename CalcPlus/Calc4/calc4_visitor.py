@@ -66,13 +66,25 @@ class Calc4Visitor(CalcPlusVisitor):
         raise NotImplementedError("변수 조회를 구현하세요.")
 
     def visitInt(self, ctx: CalcPlusParser.IntContext):
-        raise NotImplementedError("정수 리터럴 평가를 구현하세요.")
+        # raise NotImplementedError("정수 리터럴 평가를 구현하세요.")
+        var = int(ctx.INT().getText())
+        # print(f"{var=} of visitInt()")
+        return var
 
     def visitParens(self, ctx: CalcPlusParser.ParensContext):
         raise NotImplementedError("괄호식 평가를 구현하세요.")
 
     def visitMulDiv(self, ctx: CalcPlusParser.MulDivContext):
-        raise NotImplementedError("곱셈/나눗셈 평가를 구현하세요.")
+        # raise NotImplementedError("곱셈/나눗셈 평가를 구현하세요.")
+        left = self.visit(ctx.expr(0))
+        right = self.visit(ctx.expr(1))
+        op = ctx.getChild(1).getText()
+        result = left / right if op == '/' else left * right 
+        return result
 
     def visitAddSub(self, ctx: CalcPlusParser.AddSubContext):
-        raise NotImplementedError("덧셈/뺄셈 평가를 구현하세요.")
+        left = self.visit(ctx.expr(0))
+        right = self.visit(ctx.expr(1))
+        op = ctx.getChild(1).getText()
+        result = left - right if op == '-' else left + right 
+        return result
