@@ -63,12 +63,17 @@ class Calc4Visitor(CalcPlusVisitor):
         raise NotImplementedError("조건식 평가를 구현하세요.")
 
     def visitVar(self, ctx: CalcPlusParser.VarContext):
-        raise NotImplementedError("변수 조회를 구현하세요.")
+        # raise NotImplementedError("변수 조회를 구현하세요.")
+        var_name = ctx.VAR().getText()
+        if var_name not in self.memory:
+            raise NotImplementedError(f"{var_name}는 정의되지 않았습니다.")
+            # throw error
+            # self.memory[var_name] = 0
+        return self.memory[var_name]
 
     def visitInt(self, ctx: CalcPlusParser.IntContext):
         # raise NotImplementedError("정수 리터럴 평가를 구현하세요.")
         var = int(ctx.INT().getText())
-        # print(f"{var=} of visitInt()")
         return var
 
     def visitParens(self, ctx: CalcPlusParser.ParensContext):

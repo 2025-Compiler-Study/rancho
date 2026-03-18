@@ -106,6 +106,16 @@ class Calc4VisitorContractTest(unittest.TestCase):
 
 @unittest.skipIf(IMPORT_ERROR is not None, "ANTLR Python 파일/런타임이 준비되지 않음")
 class Calc4VisitorExecutionTest(unittest.TestCase):
+
+    def test_visit_var(self):
+        from calc4_visitor import Calc4Visitor
+
+        parser, tree = parse_expr("a")
+        visitor = Calc4Visitor()
+
+        self.assertEqual(parser.getNumberOfSyntaxErrors(), 0)
+        self.assertEqual(visitor.visit(tree), 'a')
+
     def test_visit_mul_div(self):
         from calc4_visitor import Calc4Visitor
 
@@ -132,6 +142,7 @@ class Calc4VisitorExecutionTest(unittest.TestCase):
 
         self.assertEqual(parser.getNumberOfSyntaxErrors(), 0)
         self.assertEqual(visitor.visit(tree), 123)
+
 
 
 @unittest.skipIf(IMPORT_ERROR is not None, "ANTLR Python 파일/런타임이 준비되지 않음")
