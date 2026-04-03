@@ -1,5 +1,19 @@
 """Calc4 스코프 심볼 테이블 골격."""
 
+# TODO 
+'''초기화된다
+동작이 여러 개
+
+- 중첩 블럭
+- 선언
+  - 재선언 
+- 할당
+## 2단계
+push, pop은 확장
+lookup
+등등 고려
+
+'''
 
 class SymbolTableError(RuntimeError):
     """심볼 테이블 관련 오류의 공통 기반 예외."""
@@ -15,6 +29,9 @@ class UndefinedVariableError(SymbolTableError):
 
 class SymbolTable:
     """블록 스코프 구현용 최소 인터페이스와 헬퍼를 정의한다."""
+    '''
+    현재 블럭에 찾고자하는 변수가 있는가?
+    '''
 
     def __init__(self):
         self.scopes: list[dict[str, int]] = [{}]
