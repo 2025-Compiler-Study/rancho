@@ -45,17 +45,42 @@ class SymbolTable:
                 return scope
         return None
 
+    '''
+    - scope top에 있는 것에 push함
+    '''
     def push_scope(self):
-        raise NotImplementedError("블록 진입 시 scope push를 구현하세요.")
+        new_block = {}
+        self.scopes.append(new_block)
 
+    # 현재 블록을 빠져나옴
     def pop_scope(self):
-        raise NotImplementedError("블록 종료 시 scope pop을 구현하세요.")
+        # 스택이 비어있는 때 빼야할 때 에러가 아닌 경우는? => 빈 블록
+        if len(self.scopes):
+          self.scopes.pop()
 
+    # TODO: 구현과제 #2에서는 같은 블록 내에 재선언 시 에러 처리해야함
     def declare(self, name: str):
+        # TODO: 스코프 스택이 비어있는 경우 감안. 예외처리
+        top_scope = self.scopes[-1]
+        '''
+        if top_scope[str]:
+          raise NotImplementedError("변수 재선언")
+        '''
+        top_scope[str] = 0
         raise NotImplementedError("현재 scope에 변수 선언을 구현하세요.")
 
+    '''
+    - 전역변수는 신경쓰지 않음
+    - 현재 스코프만 감안함
+    '''
     def assign(self, name: str, value: int):
-        raise NotImplementedError("가장 가까운 선언 위치에 값 대입을 구현하세요.")
+        # TODO:self.self.scopes가 비어있는 경우 감안
+        top_scope = self.scopes[-1]
+        top_scope[str] = value
 
     def lookup(self, name: str) -> int:
-        raise NotImplementedError("안쪽 scope부터 변수 조회를 구현하세요.")
+        scope = self._find_scope_containing(str)
+        if scope:
+          return scope[str]
+        # 없는 경우에 에러 처리할 것인가?, 밖에서 처리하게 할 것인가? 역할을 어디에 맡길것인가?
+        return None
