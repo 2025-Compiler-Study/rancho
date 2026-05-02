@@ -1,8 +1,4 @@
-"""Calc4 visitor 골격.
-
-구현 전에는 각 의미 규칙이 명시적으로 비어 있음을 드러내기 위해
-`NotImplementedError`를 발생시킨다.
-"""
+"""Calc4 실행 visitor."""
 
 import operator
 
@@ -15,7 +11,6 @@ from symbol_table import SymbolTable
 class Calc4Visitor(CalcPlusVisitor):
     def __init__(self, read_fn=None, write_fn=None):
         self.symbols = SymbolTable()
-        self.memory: dict[str, int] = {}
         self.outputs: list[int] = []
         self.read_fn = read_fn or self._default_read
         self.write_fn = write_fn or self._default_write
@@ -42,21 +37,28 @@ class Calc4Visitor(CalcPlusVisitor):
         return op_map[op](left, right)
 
     def visitCalc4(self, ctx: CalcPlusParser.Calc4Context):
-        raise NotImplementedError("Calc4 프로그램 실행을 구현하세요.")
+        for stmt in ctx.stmt():
+            self.visit(stmt)
+        return None
 
     def visitDeclare(self, ctx: CalcPlusParser.DeclareContext):
-        raise NotImplementedError("변수 선언 처리를 구현하세요.")
+        for token in ctx.VAR():
+            # 선언 규칙은 SymbolTable 한 곳에서 검사
+            self.symbols.declare(self._var_name(token))
+        return None
 
     def visitExprAssign(self, ctx: CalcPlusParser.ExprAssignContext):
         var_name = self._var_name(ctx.VAR())
         value = self.visit(ctx.expr())
-        self.memory[var_name] = value
+        # 대입도 SymbolTable을 거치게 해야 일관적 처리 가능
+        self.symbols.assign(var_name, value)
         return value
 
     def visitReadAssign(self, ctx: CalcPlusParser.ReadAssignContext):
         var_name = self._var_name(ctx.VAR())
         value = self.read_fn()
-        self.memory[var_name] = value
+        # read() 결과도 일반 대입과 같은 선언 검사 규칙을 따름
+        self.symbols.assign(var_name, value)
         return value
 
     def visitWrite(self, ctx: CalcPlusParser.WriteContext):
@@ -77,7 +79,14 @@ class Calc4Visitor(CalcPlusVisitor):
         return self.visit(ctx.block())
 
     def visitBlock(self, ctx: CalcPlusParser.BlockContext):
-        raise NotImplementedError("블록 scope 진입/탈출을 구현하세요.")
+        # 블록은 새 스코프를 만들고, 끝나면 내부 선언을 버려야 한다.
+        self.symbols.push_scope()
+        try:
+            for stmt in ctx.stmt():
+                self.visit(stmt)
+        finally:
+            self.symbols.pop_scope()
+        return None
 
     def visitCond(self, ctx: CalcPlusParser.CondContext):
         return self._comparison(
@@ -94,9 +103,8 @@ class Calc4Visitor(CalcPlusVisitor):
 
     def visitVar(self, ctx: CalcPlusParser.VarContext):
         var_name = self._var_name(ctx.VAR())
-        if var_name not in self.memory:
-            return var_name
-        return self.memory[var_name]
+        # 변수 읽기는 SymbolTable 조회로 통일해 선언 전 사용을 에러로 만든다.
+        return self.symbols.lookup(var_name)
 
     def visitInt(self, ctx: CalcPlusParser.IntContext):
         return int(ctx.INT().getText())

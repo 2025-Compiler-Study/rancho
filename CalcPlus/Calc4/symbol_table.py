@@ -1,19 +1,4 @@
-"""Calc4 스코프 심볼 테이블 골격."""
-
-# TODO 
-'''초기화된다
-동작이 여러 개
-
-- 중첩 블럭
-- 선언
-  - 재선언 
-- 할당
-## 2단계
-push, pop은 확장
-lookup
-등등 고려
-
-'''
+"""Calc4 블록 스코프 심볼 테이블."""
 
 class SymbolTableError(RuntimeError):
     """심볼 테이블 관련 오류의 공통 기반 예외."""
@@ -28,10 +13,7 @@ class UndefinedVariableError(SymbolTableError):
 
 
 class SymbolTable:
-    """블록 스코프 구현용 최소 인터페이스와 헬퍼를 정의한다."""
-    '''
-    현재 블럭에 찾고자하는 변수가 있는가?
-    '''
+    """스코프 스택으로 변수 선언, 대입, 조회를 관리한다."""
 
     def __init__(self):
         self.scopes: list[dict[str, int]] = [{}]
@@ -40,47 +22,38 @@ class SymbolTable:
         return self.scopes[-1]
 
     def _find_scope_containing(self, name: str) -> dict[str, int] | None:
+        # 안쪽 블록의 선언이 바깥 선언을 가려야 하므로 뒤에서부터 찾는다.
         for scope in reversed(self.scopes):
             if name in scope:
                 return scope
         return None
 
-    '''
-    - scope top에 있는 것에 push함
-    '''
     def push_scope(self):
-        new_block = {}
-        self.scopes.append(new_block)
+        self.scopes.append({})
 
-    # 현재 블록을 빠져나옴
     def pop_scope(self):
-        # 스택이 비어있는 때 빼야할 때 에러가 아닌 경우는? => 빈 블록
-        if len(self.scopes):
-          self.scopes.pop()
+        # 전역 스코프는 프로그램 전체의 기본 저장소라서 제거하지 않는다.
+        if len(self.scopes) == 1:
+            return
+        self.scopes.pop()
 
-    # TODO: 구현과제 #2에서는 같은 블록 내에 재선언 시 에러 처리해야함
     def declare(self, name: str):
-        # TODO: 스코프 스택이 비어있는 경우 감안. 예외처리
-        top_scope = self.scopes[-1]
-        '''
-        if top_scope[str]:
-          raise NotImplementedError("변수 재선언")
-        '''
-        top_scope[str] = 0
-        raise NotImplementedError("현재 scope에 변수 선언을 구현하세요.")
+        scope = self._current_scope()
+        # 재선언 금지는 현재 스코프만 검사해야 바깥 변수 shadowing이 가능하다.
+        if name in scope:
+            raise DuplicateDeclarationError(f"이미 선언된 변수입니다: {name}")
+        scope[name] = 0
 
-    '''
-    - 전역변수는 신경쓰지 않음
-    - 현재 스코프만 감안함
-    '''
     def assign(self, name: str, value: int):
-        # TODO:self.self.scopes가 비어있는 경우 감안
-        top_scope = self.scopes[-1]
-        top_scope[str] = value
+        # 대입은 가장 가까운 선언을 갱신해야 내부 블록과 외부 블록이 함께 동작한다.
+        scope = self._find_scope_containing(name)
+        if scope is None:
+            raise UndefinedVariableError(f"선언되지 않은 변수입니다: {name}")
+        scope[name] = value
 
     def lookup(self, name: str) -> int:
-        scope = self._find_scope_containing(str)
-        if scope:
-          return scope[str]
-        # 없는 경우에 에러 처리할 것인가?, 밖에서 처리하게 할 것인가? 역할을 어디에 맡길것인가?
-        return None
+        # 조회도 같은 탐색 규칙을 써야 수식 평가와 대입 대상이 같은 변수를 본다.
+        scope = self._find_scope_containing(name)
+        if scope is None:
+            raise UndefinedVariableError(f"선언되지 않은 변수입니다: {name}")
+        return scope[name]
