@@ -18,6 +18,7 @@ Calc5의 목표는 언어 문법을 크게 바꾸지 않고, Parse Tree를 바�
 - `ast_executor.py`: AST 실행기 스텁
 - `symbol_table.py`: Calc4에서 쓰던 스코프 기반 심볼 테이블
 - `test_calc5.py`: 파서 스모크 테스트와 스켈레톤 계약 테스트
+- `docs/overview.md`: Calc5 전체 구조 요약
 - `docs/`: Calc5 문제 해설과 구현 순서
 
 현재 의도:
