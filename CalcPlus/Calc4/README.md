@@ -8,6 +8,9 @@
 - `calc4_visitor.py`: 구현할 Visitor 스텁
 - `symbol_table.py`: 스코프 기반 심볼 테이블 스텁
 - `test_calc4.py`: 파서 스모크 테스트와 구현 계약 테스트
+- `docs/test-structure.md`: `test_calc4.py` 구조 해설
+- `docs/problem-explanation.md`: Calc4 문제 해설
+- `docs/implementation-steps.md`: Calc4 단계별 구현 가이드
 
 현재 의도:
 
@@ -15,17 +18,43 @@
 - 시맨틱 구현은 아직 비워 둔다.
 - 구현 전 테스트 기준점만 먼저 고정한다.
 
-## regenerate
+## venv setup
+
+```bash
+python3 -m venv .venv
+. .venv/bin/activate
+pip install -r requirements.txt
+```
+
+현재 코드 실행에 필요한 최소 외부 의존성은 `antlr4-python3-runtime` 하나다.
+이 저장소의 생성 파일은 현재 `ANTLR 4.9.2` 기준이므로 런타임도 같은 버전으로 맞춰 둔다.
+
+## run tests
+
+```bash
+. .venv/bin/activate
+python -m unittest -v test_calc4.py
+```
+
+## regenerate parser
 
 ```bash
 antlr4 -Dlanguage=Python3 -visitor -listener CalcPlus.g4
 ```
 
-## run tests
+`CalcPlus.g4`로 생성 파일을 다시 만들려면 ANTLR tool과 Java가 필요하다. 이미 생성된 `CalcPlusLexer.py`, `CalcPlusParser.py`, `CalcPlusVisitor.py`, `CalcPlusListener.py`가 유효하면 테스트 실행만으로는 Java가 없어도 된다.
 
-```bash
-python3 -m unittest -v test_calc4.py
-```
+## test guide
+
+테스트 구조 설명은 [`docs/test-structure.md`](/home/jhlim/other/cs/compiler/study/rancho/CalcPlus/Calc4/docs/test-structure.md)에 정리했다.
+
+## problem guide
+
+Calc4 문제 해설은 [`docs/problem-explanation.md`](/home/jhlim/other/cs/compiler/study/rancho/CalcPlus/Calc4/docs/problem-explanation.md)에 정리했다.
+
+## implementation guide
+
+Calc4 단계별 구현 순서는 [`docs/implementation-steps.md`](/home/jhlim/other/cs/compiler/study/rancho/CalcPlus/Calc4/docs/implementation-steps.md)에 정리했다.
 
 ## next implementation order
 

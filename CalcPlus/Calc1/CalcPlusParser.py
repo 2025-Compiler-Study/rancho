@@ -1,4 +1,4 @@
-# Generated from CalcPlus.g4 by ANTLR 4.13.1
+# Generated from CalcPlus.g4 by ANTLR 4.9.2
 # encoding: utf-8
 from antlr4 import *
 from io import StringIO
@@ -8,55 +8,39 @@ if sys.version_info[1] > 5:
 else:
 	from typing.io import TextIO
 
-# 참고:
-# - 이 파일은 CalcPlus.g4로부터 ANTLR이 자동 생성한 파서 코드입니다.
-# - 사람이 추가한 주석은 학습/유지보수용이며 재생성 시 덮어써질 수 있습니다.
-# - 규칙/대안 매핑 예시:
-#   * g4 규칙 `expr` -> `ExprContext` 클래스 + `expr(...)` 파싱 메서드
-#   * g4 라벨 대안 `#MulDiv` -> `MulDivContext` 클래스
-#
-# 재생성 예시:
-# antlr4 -Dlanguage=Python3 -visitor -listener CalcPlus.g4
-
 def serializedATN():
-    return [
-        4,1,21,81,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,2,4,7,4,2,5,7,5,2,6,7,
-        6,1,0,1,0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,3,1,25,8,1,1,1,1,1,1,1,
-        1,1,1,1,1,1,5,1,33,8,1,10,1,12,1,36,9,1,1,2,4,2,39,8,2,11,2,12,2,
-        40,1,2,1,2,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,1,3,3,3,57,
-        8,3,3,3,59,8,3,1,4,4,4,62,8,4,11,4,12,4,63,1,4,1,4,1,5,1,5,1,5,1,
-        5,1,6,1,6,5,6,74,8,6,10,6,12,6,77,9,6,1,6,1,6,1,6,0,1,2,7,0,2,4,
-        6,8,10,12,0,3,1,0,1,2,1,0,3,4,1,0,11,16,82,0,14,1,0,0,0,2,24,1,0,
-        0,0,4,38,1,0,0,0,6,58,1,0,0,0,8,61,1,0,0,0,10,67,1,0,0,0,12,71,1,
-        0,0,0,14,15,3,2,1,0,15,16,5,0,0,1,16,1,1,0,0,0,17,18,6,1,-1,0,18,
-        25,5,20,0,0,19,25,5,21,0,0,20,21,5,5,0,0,21,22,3,2,1,0,22,23,5,6,
-        0,0,23,25,1,0,0,0,24,17,1,0,0,0,24,19,1,0,0,0,24,20,1,0,0,0,25,34,
-        1,0,0,0,26,27,10,5,0,0,27,28,7,0,0,0,28,33,3,2,1,6,29,30,10,4,0,
-        0,30,31,7,1,0,0,31,33,3,2,1,5,32,26,1,0,0,0,32,29,1,0,0,0,33,36,
-        1,0,0,0,34,32,1,0,0,0,34,35,1,0,0,0,35,3,1,0,0,0,36,34,1,0,0,0,37,
-        39,3,6,3,0,38,37,1,0,0,0,39,40,1,0,0,0,40,38,1,0,0,0,40,41,1,0,0,
-        0,41,42,1,0,0,0,42,43,5,0,0,1,43,5,1,0,0,0,44,45,5,21,0,0,45,46,
-        5,7,0,0,46,47,3,2,1,0,47,48,5,8,0,0,48,59,1,0,0,0,49,50,5,9,0,0,
-        50,51,5,5,0,0,51,52,3,10,5,0,52,53,5,6,0,0,53,56,3,12,6,0,54,55,
-        5,10,0,0,55,57,3,12,6,0,56,54,1,0,0,0,56,57,1,0,0,0,57,59,1,0,0,
-        0,58,44,1,0,0,0,58,49,1,0,0,0,59,7,1,0,0,0,60,62,3,6,3,0,61,60,1,
-        0,0,0,62,63,1,0,0,0,63,61,1,0,0,0,63,64,1,0,0,0,64,65,1,0,0,0,65,
-        66,5,0,0,1,66,9,1,0,0,0,67,68,3,2,1,0,68,69,7,2,0,0,69,70,3,2,1,
-        0,70,11,1,0,0,0,71,75,5,17,0,0,72,74,3,6,3,0,73,72,1,0,0,0,74,77,
-        1,0,0,0,75,73,1,0,0,0,75,76,1,0,0,0,76,78,1,0,0,0,77,75,1,0,0,0,
-        78,79,5,18,0,0,79,13,1,0,0,0,8,24,32,34,40,56,58,63,75
-    ]
+    with StringIO() as buf:
+        buf.write("\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\27")
+        buf.write("S\4\2\t\2\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b")
+        buf.write("\t\b\3\2\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3\33\n")
+        buf.write("\3\3\3\3\3\3\3\3\3\3\3\3\3\7\3#\n\3\f\3\16\3&\13\3\3\4")
+        buf.write("\6\4)\n\4\r\4\16\4*\3\4\3\4\3\5\3\5\3\5\3\5\3\5\3\5\3")
+        buf.write("\5\3\5\3\5\3\5\3\5\3\5\5\5;\n\5\5\5=\n\5\3\6\6\6@\n\6")
+        buf.write("\r\6\16\6A\3\6\3\6\3\7\3\7\3\7\3\7\3\b\3\b\7\bL\n\b\f")
+        buf.write("\b\16\bO\13\b\3\b\3\b\3\b\2\3\4\t\2\4\6\b\n\f\16\2\5\3")
+        buf.write("\2\3\4\3\2\5\6\3\2\r\22\2T\2\20\3\2\2\2\4\32\3\2\2\2\6")
+        buf.write("(\3\2\2\2\b<\3\2\2\2\n?\3\2\2\2\fE\3\2\2\2\16I\3\2\2\2")
+        buf.write("\20\21\5\4\3\2\21\22\7\2\2\3\22\3\3\2\2\2\23\24\b\3\1")
+        buf.write("\2\24\33\7\26\2\2\25\33\7\27\2\2\26\27\7\7\2\2\27\30\5")
+        buf.write("\4\3\2\30\31\7\b\2\2\31\33\3\2\2\2\32\23\3\2\2\2\32\25")
+        buf.write("\3\2\2\2\32\26\3\2\2\2\33$\3\2\2\2\34\35\f\7\2\2\35\36")
+        buf.write("\t\2\2\2\36#\5\4\3\b\37 \f\6\2\2 !\t\3\2\2!#\5\4\3\7\"")
+        buf.write("\34\3\2\2\2\"\37\3\2\2\2#&\3\2\2\2$\"\3\2\2\2$%\3\2\2")
+        buf.write("\2%\5\3\2\2\2&$\3\2\2\2\')\5\b\5\2(\'\3\2\2\2)*\3\2\2")
+        buf.write("\2*(\3\2\2\2*+\3\2\2\2+,\3\2\2\2,-\7\2\2\3-\7\3\2\2\2")
+        buf.write("./\7\27\2\2/\60\7\t\2\2\60\61\5\4\3\2\61\62\7\n\2\2\62")
+        buf.write("=\3\2\2\2\63\64\7\13\2\2\64\65\7\7\2\2\65\66\5\f\7\2\66")
+        buf.write("\67\7\b\2\2\67:\5\16\b\289\7\f\2\29;\5\16\b\2:8\3\2\2")
+        buf.write("\2:;\3\2\2\2;=\3\2\2\2<.\3\2\2\2<\63\3\2\2\2=\t\3\2\2")
+        buf.write("\2>@\5\b\5\2?>\3\2\2\2@A\3\2\2\2A?\3\2\2\2AB\3\2\2\2B")
+        buf.write("C\3\2\2\2CD\7\2\2\3D\13\3\2\2\2EF\5\4\3\2FG\t\4\2\2GH")
+        buf.write("\5\4\3\2H\r\3\2\2\2IM\7\23\2\2JL\5\b\5\2KJ\3\2\2\2LO\3")
+        buf.write("\2\2\2MK\3\2\2\2MN\3\2\2\2NP\3\2\2\2OM\3\2\2\2PQ\7\24")
+        buf.write("\2\2Q\17\3\2\2\2\n\32\"$*:<AM")
+        return buf.getvalue()
+
 
 class CalcPlusParser ( Parser ):
-    """
-    CalcPlus.g4에서 생성된 구체 파서 클래스.
-
-    상위 구조:
-    - `literalNames`/`symbolicNames`: 토큰 어휘 테이블
-    - `RULE_*` 상수: 파서 규칙의 내부 인덱스
-    - `*Context` 클래스: 파스 트리에 나타나는 노드 타입
-    - 규칙 메서드(`calc0`, `expr`, ...): 실제 파싱 절차
-    """
 
     grammarFileName = "CalcPlus.g4"
 
@@ -66,12 +50,10 @@ class CalcPlusParser ( Parser ):
 
     sharedContextCache = PredictionContextCache()
 
-    # 문법의 리터럴 터미널('*', 'if' 등)로부터 생성된 토큰 테이블.
     literalNames = [ "<INVALID>", "'*'", "'/'", "'+'", "'-'", "'('", "')'", 
                      "'='", "';'", "'if'", "'else'", "'=='", "'!='", "'>'", 
                      "'>='", "'<'", "'<='", "'{'", "'}'" ]
 
-    # 렉서 규칙(WS/INT/VAR)로부터 생성된 심볼릭 토큰 테이블.
     symbolicNames = [ "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
                       "<INVALID>", "<INVALID>", "<INVALID>", "<INVALID>", 
@@ -79,7 +61,6 @@ class CalcPlusParser ( Parser ):
                       "<INVALID>", "<INVALID>", "<INVALID>", "WS", "INT", 
                       "VAR" ]
 
-    # ANTLR 런타임이 내부적으로 사용하는 규칙 인덱스 상수.
     RULE_calc0 = 0
     RULE_expr = 1
     RULE_calc1 = 2
@@ -88,10 +69,8 @@ class CalcPlusParser ( Parser ):
     RULE_cond = 5
     RULE_block = 6
 
-    # RULE_* 상수 인덱스 순서와 정확히 일치하는 규칙 이름 배열.
     ruleNames =  [ "calc0", "expr", "calc1", "stmt", "calc2", "cond", "block" ]
 
-    # 토큰 타입 정수 상수.
     EOF = Token.EOF
     T__0=1
     T__1=2
@@ -117,16 +96,13 @@ class CalcPlusParser ( Parser ):
 
     def __init__(self, input:TokenStream, output:TextIO = sys.stdout):
         super().__init__(input, output)
-        self.checkVersion("4.13.1")
-        # ParserATNSimulator가 생성된 ATN 상태기계를 실행해 파싱을 수행합니다.
+        self.checkVersion("4.9.2")
         self._interp = ParserATNSimulator(self, self.atn, self.decisionsToDFA, self.sharedContextCache)
         self._predicates = None
 
 
 
-
     class Calc0Context(ParserRuleContext):
-        # 규칙 `calc0 : expr EOF ;`에 대응되는 파스 트리 노드 타입.
         __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -161,10 +137,6 @@ class CalcPlusParser ( Parser ):
 
 
     def calc0(self):
-        """
-        `calc0` 규칙을 파싱합니다.
-        문법: calc0 : expr EOF ;
-        """
 
         localctx = CalcPlusParser.Calc0Context(self, self._ctx, self.state)
         self.enterRule(localctx, 0, self.RULE_calc0)
@@ -182,10 +154,7 @@ class CalcPlusParser ( Parser ):
             self.exitRule()
         return localctx
 
-
     class ExprContext(ParserRuleContext):
-        # `expr` 규칙의 공통 부모 Context.
-        # 실제 인스턴스 타입은 MulDiv/AddSub/Var/Parens/Int 중 하나입니다.
         __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -202,9 +171,8 @@ class CalcPlusParser ( Parser ):
 
 
     class MulDivContext(ExprContext):
-        # 라벨 대안: expr ('*'|'/') expr # MulDiv
 
-        def __init__(self, parser, ctx:ParserRuleContext): # 실제 타입: CalcPlusParser.ExprContext
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a CalcPlusParser.ExprContext
             super().__init__(parser)
             self.copyFrom(ctx)
 
@@ -231,9 +199,8 @@ class CalcPlusParser ( Parser ):
 
 
     class AddSubContext(ExprContext):
-        # 라벨 대안: expr ('+'|'-') expr # AddSub
 
-        def __init__(self, parser, ctx:ParserRuleContext): # 실제 타입: CalcPlusParser.ExprContext
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a CalcPlusParser.ExprContext
             super().__init__(parser)
             self.copyFrom(ctx)
 
@@ -260,9 +227,8 @@ class CalcPlusParser ( Parser ):
 
 
     class VarContext(ExprContext):
-        # 라벨 대안: VAR # Var
 
-        def __init__(self, parser, ctx:ParserRuleContext): # 실제 타입: CalcPlusParser.ExprContext
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a CalcPlusParser.ExprContext
             super().__init__(parser)
             self.copyFrom(ctx)
 
@@ -285,9 +251,8 @@ class CalcPlusParser ( Parser ):
 
 
     class ParensContext(ExprContext):
-        # 라벨 대안: '(' expr ')' # Parens
 
-        def __init__(self, parser, ctx:ParserRuleContext): # 실제 타입: CalcPlusParser.ExprContext
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a CalcPlusParser.ExprContext
             super().__init__(parser)
             self.copyFrom(ctx)
 
@@ -311,9 +276,8 @@ class CalcPlusParser ( Parser ):
 
 
     class IntContext(ExprContext):
-        # 라벨 대안: INT # Int
 
-        def __init__(self, parser, ctx:ParserRuleContext): # 실제 타입: CalcPlusParser.ExprContext
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a CalcPlusParser.ExprContext
             super().__init__(parser)
             self.copyFrom(ctx)
 
@@ -337,32 +301,19 @@ class CalcPlusParser ( Parser ):
 
 
     def expr(self, _p:int=0):
-        """
-        `expr` 규칙을 연산자 우선순위 기반(left recursion)으로 파싱합니다.
-
-        문법:
-            expr
-              : expr ('*'|'/') expr # MulDiv
-              | expr ('+'|'-') expr # AddSub
-              | INT                 # Int
-              | VAR                 # Var
-              | '(' expr ')'        # Parens
-              ;
-        """
         _parentctx = self._ctx
         _parentState = self.state
         localctx = CalcPlusParser.ExprContext(self, self._ctx, _parentState)
         _prevctx = localctx
         _startState = 2
         self.enterRecursionRule(localctx, 2, self.RULE_expr, _p)
-        self._la = 0 # 현재 lookahead 토큰 타입
+        self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 24
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            # 1단계: INT/VAR/(expr) 같은 원자(기저) 대안을 먼저 파싱합니다.
-            if token in [20]:
+            if token in [CalcPlusParser.INT]:
                 localctx = CalcPlusParser.IntContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
@@ -370,14 +321,14 @@ class CalcPlusParser ( Parser ):
                 self.state = 18
                 self.match(CalcPlusParser.INT)
                 pass
-            elif token in [21]:
+            elif token in [CalcPlusParser.VAR]:
                 localctx = CalcPlusParser.VarContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
                 self.state = 19
                 self.match(CalcPlusParser.VAR)
                 pass
-            elif token in [5]:
+            elif token in [CalcPlusParser.T__4]:
                 localctx = CalcPlusParser.ParensContext(self, localctx)
                 self._ctx = localctx
                 _prevctx = localctx
@@ -394,7 +345,6 @@ class CalcPlusParser ( Parser ):
             self._ctx.stop = self._input.LT(-1)
             self.state = 34
             self._errHandler.sync(self)
-            # 2단계: 우선순위 조건을 만족하는 재귀 대안을 반복적으로 확장합니다.
             _alt = self._interp.adaptivePredict(self._input,2,self._ctx)
             while _alt!=2 and _alt!=ATN.INVALID_ALT_NUMBER:
                 if _alt==1:
@@ -413,7 +363,7 @@ class CalcPlusParser ( Parser ):
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 5)")
                         self.state = 27
                         _la = self._input.LA(1)
-                        if not(_la==1 or _la==2):
+                        if not(_la==CalcPlusParser.T__0 or _la==CalcPlusParser.T__1):
                             self._errHandler.recoverInline(self)
                         else:
                             self._errHandler.reportMatch(self)
@@ -431,7 +381,7 @@ class CalcPlusParser ( Parser ):
                             raise FailedPredicateException(self, "self.precpred(self._ctx, 4)")
                         self.state = 30
                         _la = self._input.LA(1)
-                        if not(_la==3 or _la==4):
+                        if not(_la==CalcPlusParser.T__2 or _la==CalcPlusParser.T__3):
                             self._errHandler.recoverInline(self)
                         else:
                             self._errHandler.reportMatch(self)
@@ -453,9 +403,7 @@ class CalcPlusParser ( Parser ):
             self.unrollRecursionContexts(_parentctx)
         return localctx
 
-
     class Calc1Context(ParserRuleContext):
-        # 규칙 `calc1 : (stmt)+ EOF ;`에 대응되는 파스 트리 노드 타입.
         __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -493,11 +441,6 @@ class CalcPlusParser ( Parser ):
 
 
     def calc1(self):
-        """
-        `calc1` 규칙을 파싱합니다.
-        문법: calc1 : (stmt)+ EOF ;
-        즉, EOF 전에 최소 1개 이상의 stmt가 필요합니다.
-        """
 
         localctx = CalcPlusParser.Calc1Context(self, self._ctx, self.state)
         self.enterRule(localctx, 4, self.RULE_calc1)
@@ -513,7 +456,7 @@ class CalcPlusParser ( Parser ):
                 self.state = 40 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if not (_la==9 or _la==21):
+                if not (_la==CalcPlusParser.T__8 or _la==CalcPlusParser.VAR):
                     break
 
             self.state = 42
@@ -526,10 +469,7 @@ class CalcPlusParser ( Parser ):
             self.exitRule()
         return localctx
 
-
     class StmtContext(ParserRuleContext):
-        # `stmt` 규칙의 공통 부모 Context.
-        # 실제 인스턴스 타입은 ExprAssign 또는 IfElse입니다.
         __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -547,13 +487,11 @@ class CalcPlusParser ( Parser ):
 
 
     class IfElseContext(StmtContext):
-        # 라벨 대안:
-        #   'if' '(' cond ')' thenBlock=block ('else' elseBlock=block)? # IfElse
 
-        def __init__(self, parser, ctx:ParserRuleContext): # 실제 타입: CalcPlusParser.StmtContext
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a CalcPlusParser.StmtContext
             super().__init__(parser)
-            self.thenBlock = None # then 절 블록(Context 객체)
-            self.elseBlock = None # else 절 블록(Context 객체)
+            self.thenBlock = None # BlockContext
+            self.elseBlock = None # BlockContext
             self.copyFrom(ctx)
 
         def cond(self):
@@ -582,9 +520,8 @@ class CalcPlusParser ( Parser ):
 
 
     class ExprAssignContext(StmtContext):
-        # 라벨 대안: VAR '=' expr ';' # ExprAssign
 
-        def __init__(self, parser, ctx:ParserRuleContext): # 실제 타입: CalcPlusParser.StmtContext
+        def __init__(self, parser, ctx:ParserRuleContext): # actually a CalcPlusParser.StmtContext
             super().__init__(parser)
             self.copyFrom(ctx)
 
@@ -611,22 +548,15 @@ class CalcPlusParser ( Parser ):
 
 
     def stmt(self):
-        """
-        `stmt` 규칙을 파싱합니다.
-        문법 대안:
-        - 대입문(VAR '=' expr ';')
-        - 조건문(if/else)
-        """
 
         localctx = CalcPlusParser.StmtContext(self, self._ctx, self.state)
         self.enterRule(localctx, 6, self.RULE_stmt)
-        self._la = 0 # 현재 lookahead 토큰 타입
+        self._la = 0 # Token type
         try:
             self.state = 58
             self._errHandler.sync(self)
             token = self._input.LA(1)
-            # 대안 1: 대입문 `VAR = expr ;`
-            if token in [21]:
+            if token in [CalcPlusParser.VAR]:
                 localctx = CalcPlusParser.ExprAssignContext(self, localctx)
                 self.enterOuterAlt(localctx, 1)
                 self.state = 44
@@ -638,8 +568,7 @@ class CalcPlusParser ( Parser ):
                 self.state = 47
                 self.match(CalcPlusParser.T__7)
                 pass
-            # 대안 2: if/else 조건문.
-            elif token in [9]:
+            elif token in [CalcPlusParser.T__8]:
                 localctx = CalcPlusParser.IfElseContext(self, localctx)
                 self.enterOuterAlt(localctx, 2)
                 self.state = 49
@@ -655,7 +584,7 @@ class CalcPlusParser ( Parser ):
                 self.state = 56
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if _la==10:
+                if _la==CalcPlusParser.T__9:
                     self.state = 54
                     self.match(CalcPlusParser.T__9)
                     self.state = 55
@@ -674,9 +603,7 @@ class CalcPlusParser ( Parser ):
             self.exitRule()
         return localctx
 
-
     class Calc2Context(ParserRuleContext):
-        # 규칙 `calc2 : (stmt)+ EOF ;`에 대응되는 파스 트리 노드 타입.
         __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -714,15 +641,10 @@ class CalcPlusParser ( Parser ):
 
 
     def calc2(self):
-        """
-        `calc2` 규칙을 파싱합니다.
-        문법: calc2 : (stmt)+ EOF ;
-        형태는 calc1과 유사하지만 엔트리 규칙을 분리하기 위해 별도 유지합니다.
-        """
 
         localctx = CalcPlusParser.Calc2Context(self, self._ctx, self.state)
         self.enterRule(localctx, 8, self.RULE_calc2)
-        self._la = 0 # 현재 lookahead 토큰 타입
+        self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 61 
@@ -734,7 +656,7 @@ class CalcPlusParser ( Parser ):
                 self.state = 63 
                 self._errHandler.sync(self)
                 _la = self._input.LA(1)
-                if not (_la==9 or _la==21):
+                if not (_la==CalcPlusParser.T__8 or _la==CalcPlusParser.VAR):
                     break
 
             self.state = 65
@@ -747,10 +669,7 @@ class CalcPlusParser ( Parser ):
             self.exitRule()
         return localctx
 
-
     class CondContext(ParserRuleContext):
-        # 규칙에 대응되는 파스 트리 노드 타입:
-        # cond : expr ('=='|'!='|'>'|'>='|'<'|'<=') expr ;
         __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -785,21 +704,17 @@ class CalcPlusParser ( Parser ):
 
 
     def cond(self):
-        """
-        `cond` 규칙(이항 비교식)을 파싱합니다.
-        문법: expr 비교연산자 expr
-        """
 
         localctx = CalcPlusParser.CondContext(self, self._ctx, self.state)
         self.enterRule(localctx, 10, self.RULE_cond)
-        self._la = 0 # 현재 lookahead 토큰 타입
+        self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 67
             self.expr(0)
             self.state = 68
             _la = self._input.LA(1)
-            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & 129024) != 0)):
+            if not((((_la) & ~0x3f) == 0 and ((1 << _la) & ((1 << CalcPlusParser.T__10) | (1 << CalcPlusParser.T__11) | (1 << CalcPlusParser.T__12) | (1 << CalcPlusParser.T__13) | (1 << CalcPlusParser.T__14) | (1 << CalcPlusParser.T__15))) != 0)):
                 self._errHandler.recoverInline(self)
             else:
                 self._errHandler.reportMatch(self)
@@ -814,9 +729,7 @@ class CalcPlusParser ( Parser ):
             self.exitRule()
         return localctx
 
-
     class BlockContext(ParserRuleContext):
-        # 규칙 `block : '{' (stmt)* '}' ;`에 대응되는 파스 트리 노드 타입.
         __slots__ = 'parser'
 
         def __init__(self, parser, parent:ParserRuleContext=None, invokingState:int=-1):
@@ -851,14 +764,10 @@ class CalcPlusParser ( Parser ):
 
 
     def block(self):
-        """
-        `block` 규칙을 파싱합니다.
-        문법: '{' (stmt)* '}'
-        """
 
         localctx = CalcPlusParser.BlockContext(self, self._ctx, self.state)
         self.enterRule(localctx, 12, self.RULE_block)
-        self._la = 0 # 현재 lookahead 토큰 타입
+        self._la = 0 # Token type
         try:
             self.enterOuterAlt(localctx, 1)
             self.state = 71
@@ -866,7 +775,7 @@ class CalcPlusParser ( Parser ):
             self.state = 75
             self._errHandler.sync(self)
             _la = self._input.LA(1)
-            while _la==9 or _la==21:
+            while _la==CalcPlusParser.T__8 or _la==CalcPlusParser.VAR:
                 self.state = 72
                 self.stmt()
                 self.state = 77
@@ -886,7 +795,6 @@ class CalcPlusParser ( Parser ):
 
 
     def sempred(self, localctx:RuleContext, ruleIndex:int, predIndex:int):
-        # 좌재귀 규칙의 semantic predicate 검사 함수로 분기합니다.
         if self._predicates == None:
             self._predicates = dict()
         self._predicates[1] = self.expr_sempred
@@ -897,11 +805,14 @@ class CalcPlusParser ( Parser ):
             return pred(localctx, predIndex)
 
     def expr_sempred(self, localctx:ExprContext, predIndex:int):
-            # predIndex 0: 현재 우선순위가 5 이상일 때만 MulDiv 확장을 허용.
             if predIndex == 0:
                 return self.precpred(self._ctx, 5)
          
-            # predIndex 1: 현재 우선순위가 4 이상일 때만 AddSub 확장을 허용.
+
             if predIndex == 1:
                 return self.precpred(self._ctx, 4)
          
+
+
+
+

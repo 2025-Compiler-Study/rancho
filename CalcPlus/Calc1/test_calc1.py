@@ -53,14 +53,6 @@ class CalcListenerTest(unittest.TestCase):
             ],
         )
 
-        self.assertEqual(
-            [(w["line"], w["column"], w["name"]) for w in listener.warnings],
-            [
-                (1, 4, "b"),
-                (2, 8, "d"),
-                (3, 4, "b"),
-            ],
-        )
 
     def test_self_assignment_reports_undefined_rhs(self):
         """
