@@ -1,0 +1,4 @@
+.antlr/
+__pycache__/
+*.pyc
+.venv/
