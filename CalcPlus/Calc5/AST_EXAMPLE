@@ -1,0 +1,94 @@
+
+graph TD
+  classDef binop stroke:#333,stroke-width:2px;
+  classDef value stroke:#333,stroke-width:1px;
+
+  Root(('+')):::binop
+
+  L1(('*'))::::binop
+  L1_Val1[5]:::value 
+  L1_Val1[3]:::value 
+
+  R1_Sub(('-'))::binop
+  R1_Sub_Val[5]:::value
+
+  R1_Deep(('/')):::binop
+  R1_Deep_Val1[9]:::value
+  R1_Deep_Val2[3]:::value
+
+  Root --> L1
+  Root --> R1
+
+  L1 --> L1_Val1
+  L1 --> L1_Val2
+
+  R1 --> R1_Var
+  R1 --> R1_Sub
+
+  R1 --> R1_Var
+  R1 --> R1_Sub
+
+  R1_Sub --> R1_Sub_Val
+  R1_Sub --> R1_Deep
+
+  R1_Deep --> R1_Deep_Val1
+  R1_Deep --> R1_Deep_Val2
+
+----
+
+## case1
+``` 사칙연산
+5 * 3 + a * (5 - 9 / 3)
+```
+
+1. 괄 호 x 
+2. 사칙연산 구분하지 않고 표현
+3. 연산자 왼쪽, 오른쪽 값에 연산, interger, var(indentifier)
+
+
+
+## case2
+```C
+int a, b;
+a = 1;
+b = read();
+{
+  int c;
+  c = a + b;
+  write(c);
+}
+b = 0;
+```
+
+
+```
+graph TB
+  classDef root fill
+
+  classDef stmt
+
+  Prog[Program]:::root
+
+  subgraph P_List [Program Statements Array]
+    direction TB
+    P0[0: Declare a]:::stmt
+    P1[1: Declare b]:::stmt
+    P2[2: Assign a = 1]:::stmt
+    P3[3: Read b]:::stmt
+    P4[4: Block Stmt]:::stmt
+    P5[5: Assign b = 0]:::stmt
+
+    // P0 P1 P2 P3 P4 P5
+  end
+
+  Prog -> P_List
+
+  subgraph B_List [Block Statements Array]
+    direction TB
+    B0[0: Declare c]:::stmt
+    B1[1: Assign c = a + b]:::stmt
+    B2[2: Write c]:::stmt
+
+     B0 ~~~ B1 ~~~ B2
+  end
+```

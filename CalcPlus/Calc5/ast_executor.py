@@ -1,6 +1,6 @@
 """Calc5 AST executor skeleton."""
 
-from ast_nodes import Program, Stmt, Expr
+from typing import Any
 from symbol_table import SymbolTable
 
 
@@ -19,11 +19,11 @@ class AstExecutor:
     def _default_write(self, value: int):
         print(value)
 
-    def execute(self, program: Program):
+    def execute(self, program: Any):
         raise NotImplementedError("AST Program 실행을 구현하세요.")
 
-    def execute_stmt(self, stmt: Stmt):
+    def execute_stmt(self, stmt: Any):
         raise NotImplementedError("statement 노드 실행을 구현하세요.")
 
-    def eval_expr(self, expr: Expr) -> int:
+    def eval_expr(self, expr: Any) -> int:
         raise NotImplementedError("expression 노드 평가를 구현하세요.")

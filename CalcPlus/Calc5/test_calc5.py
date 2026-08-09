@@ -9,7 +9,7 @@ try:
     from antlr4 import CommonTokenStream, InputStream
     from CalcPlusLexer import CalcPlusLexer
     from CalcPlusParser import CalcPlusParser
-except Exception as exc:  # pragma: no cover
+except Exception as exc:  # pragma: n`o cover
     IMPORT_ERROR = exc
 
 
@@ -88,14 +88,14 @@ class Calc5ParserSmokeTest(unittest.TestCase):
 
 
 class Calc5AstNodeShapeTest(unittest.TestCase):
-    def test_program_can_hold_statement_nodes(self):
-        from ast_nodes import Assign, BinaryExpr, IntLiteral, Program, VarRef
+    def test_expression_nodes_can_form_a_binary_expression(self):
+        from ast_nodes import BinaryExpr, IntLiteral, VarRef
 
         expr = BinaryExpr("+", IntLiteral(1), VarRef("a"))
-        program = Program([Assign("a", expr)])
 
-        self.assertEqual(program.statements[0].name, "a")
-        self.assertEqual(program.statements[0].value.op, "+")
+        self.assertEqual(expr.op, "+")
+        self.assertEqual(expr.left.value, 1)
+        self.assertEqual(expr.right.name, "a")
 
 
 @unittest.skipIf(IMPORT_ERROR is not None, "ANTLR Python 파일/런타임이 준비되지 않음")
@@ -112,24 +112,24 @@ class Calc5AstBuilderContractTest(unittest.TestCase):
 
 class Calc5AstPrinterContractTest(unittest.TestCase):
     def test_printer_is_explicit_stub(self):
-        from ast_nodes import Program
+        from ast_nodes import IntLiteral
         from ast_printer import AstPrinter
 
         printer = AstPrinter()
 
         with self.assertRaises(NotImplementedError):
-            printer.format(Program([]))
+            printer.format(IntLiteral(1))
 
 
 class Calc5AstExecutorContractTest(unittest.TestCase):
     def test_executor_is_explicit_stub(self):
         from ast_executor import AstExecutor
-        from ast_nodes import Program
+        from ast_nodes import IntLiteral
 
         executor = AstExecutor()
 
         with self.assertRaises(NotImplementedError):
-            executor.execute(Program([]))
+            executor.execute(IntLiteral(1))
 
 
 class SymbolTableReuseTest(unittest.TestCase):
