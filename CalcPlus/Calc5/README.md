@@ -46,6 +46,20 @@ pip install -r requirements.txt
 python -m unittest -v test_calc5.py
 ```
 
+## AST 시각화 예제는 테스트에 둔다
+
+AST 노드의 예제 구성은 `test_ast_html_visualizer.py`에 둔다. 이 파일은 `ast_nodes.py`의 `BinaryExpr`와 `IntLiteral`을 직접 조합하고, 시각화 HTML에 해당 노드와 자식 연결이 포함되는지 검증한다.
+
+```bash
+python3 -m unittest -v test_ast_html_visualizer.py
+```
+
+실제 파서로 만든 식 AST는 다음처럼 HTML로 확인할 수 있다. 이 명령에는 ANTLR 런타임이 필요하다.
+
+```bash
+python3 ast_html_visualizer.py "1 + 2" --output ast.html
+```
+
 ## regenerate parser
 
 ```bash
