@@ -2,6 +2,8 @@
 
 Calc5는 ANTLR Parse Tree를 직접 실행하지 않고, 의미 중심 AST로 바꾼 뒤 시각화하거나 계산한다. 현재 범위는 다음 수식과 같은 expression이다.
 상세한 작업 내역, AST 해설, ANTLR 연결, 실행 방법은 [`docs/calc5-expression-ast-guide.md`](docs/calc5-expression-ast-guide.md)에 정리되어 있다.
+AST가 해당 모양이 되는 원리는 [`docs/ast-structure-explanation.md`](docs/ast-structure-explanation.md)에서 단계별로 설명한다.
+
 
 
 ```text
