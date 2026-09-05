@@ -3,7 +3,7 @@
 import unittest
 
 from ast_exporter import AstExporter
-from ast_nodes import BinaryExpr, IntLiteral, VarRef
+from calc5_ast import BinaryExpr, IntLiteral, VarRef
 
 
 class AstExporterTest(unittest.TestCase):

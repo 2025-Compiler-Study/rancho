@@ -412,12 +412,12 @@ Calc5의 목표 구조는 다음과 같다.
 CalcPlus.g4
     -> generated lexer and parser
     -> ANTLR Parse Tree
-    -> ast_builder.py
-    -> ast_nodes.py의 AST
-    -> ast_printer.py 또는 ast_executor.py
+    -> calc5_ast.py의 AstBuilder
+    -> expression AST
+    -> ast_visualizer.py 또는 evaluate()
 ```
 
-현재 AST 노드는 다음과 같이 언어의 핵심 구성 요소를 직접 표현한다.
+최종 AST는 다음과 같이 확장할 수 있으며, 현재는 Expr 하위 노드까지 구현한다.
 
 ```text
 Program
@@ -438,7 +438,7 @@ Program
 1. 괄호 Parse Tree 노드는 별도 AST 노드로 만들지 않고 내부 식을 반환할 수 있다.
 2. `int a, b;`처럼 문법상 하나인 선언을 `Declare("a")`, `Declare("b")`로 나눌 수 있다.
 3. 연산자의 우선순위와 결합 방향은 `BinaryExpr`의 중첩 구조로 보존해야 한다.
-4. `ast_executor.py`는 ANTLR context가 아니라 AST 노드에만 의존해야 한다.
+4. 계산기와 비주얼라이저는 ANTLR context가 아니라 AST 노드에만 의존해야 한다.
 5. 향후 진단 품질이 필요하면 AST 노드에 source span을 추가할 수 있다.
 
 이처럼 Parse Tree에서 AST로 변환할 때 노드 수가 반드시 줄어드는 것은 아니다.

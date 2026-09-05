@@ -1,153 +1,102 @@
-"""Calc5 start skeleton tests."""
+"""Core tests for the compact Calc5 expression AST."""
 
+import importlib.util
 import unittest
 
+from calc5_ast import (
+    AstNode,
+    BinaryExpr,
+    Expr,
+    IntLiteral,
+    VarRef,
+    build_expression,
+    evaluate,
+    format_ast,
+)
 
-IMPORT_ERROR = None
 
-try:
-    from antlr4 import CommonTokenStream, InputStream
-    from CalcPlusLexer import CalcPlusLexer
-    from CalcPlusParser import CalcPlusParser
-except Exception as exc:  # pragma: n`o cover
-    IMPORT_ERROR = exc
+HAS_ANTLR = importlib.util.find_spec("antlr4") is not None
 
 
-def parse_program(program: str):
-    if IMPORT_ERROR is not None:
-        raise RuntimeError(
-            "Calc5 파서 import에 실패했습니다. 먼저 생성 파일을 갱신하세요:\n"
-            "  antlr4 -Dlanguage=Python3 -visitor -listener CalcPlus.g4\n"
-            f"원본 오류: {IMPORT_ERROR}"
+def example_ast() -> BinaryExpr:
+    return BinaryExpr(
+        "+",
+        BinaryExpr("*", IntLiteral(5), IntLiteral(3)),
+        BinaryExpr(
+            "*",
+            VarRef("a"),
+            BinaryExpr(
+                "-",
+                IntLiteral(5),
+                BinaryExpr("/", IntLiteral(9), IntLiteral(3)),
+            ),
+        ),
+    )
+
+
+class AstNodeTest(unittest.TestCase):
+    def test_leaf_nodes_store_their_semantic_value(self):
+        literal = IntLiteral(5)
+        variable = VarRef("a")
+
+        self.assertIsInstance(literal, AstNode)
+        self.assertIsInstance(literal, Expr)
+        self.assertEqual(literal.value, 5)
+        self.assertEqual(variable.name, "a")
+        self.assertEqual(literal.children(), ())
+        self.assertEqual(variable.children(), ())
+
+    def test_binary_expression_keeps_ordered_children(self):
+        left = IntLiteral(5)
+        right = IntLiteral(3)
+        expression = BinaryExpr("*", left, right)
+
+        self.assertEqual(expression.op, "*")
+        self.assertEqual(expression.children(), (left, right))
+
+
+class AstBehaviorTest(unittest.TestCase):
+    def test_formats_an_ast_without_parenthesis_nodes(self):
+        self.assertEqual(
+            format_ast(example_ast()),
+            "(+ (* 5 3) (* a (- 5 (/ 9 3))))",
         )
 
-    input_stream = InputStream(program)
-    lexer = CalcPlusLexer(input_stream)
-    token_stream = CommonTokenStream(lexer)
-    parser = CalcPlusParser(token_stream)
-    tree = parser.program()
-    return parser, tree
+    def test_evaluates_the_complete_example(self):
+        self.assertEqual(evaluate(example_ast(), {"a": 4}), 23)
 
 
-def parse_expr(expression: str):
-    if IMPORT_ERROR is not None:
-        raise RuntimeError(
-            "Calc5 파서 import에 실패했습니다. 먼저 생성 파일을 갱신하세요:\n"
-            "  antlr4 -Dlanguage=Python3 -visitor -listener CalcPlus.g4\n"
-            f"원본 오류: {IMPORT_ERROR}"
+@unittest.skipUnless(HAS_ANTLR, "antlr4 Python runtime is not installed")
+class AntlrAstBuilderTest(unittest.TestCase):
+    def test_builds_integer_and_variable_leaves(self):
+        self.assertEqual(build_expression("5"), IntLiteral(5))
+        self.assertEqual(build_expression("a"), VarRef("a"))
+
+    def test_operator_precedence_is_preserved_by_the_tree(self):
+        self.assertEqual(
+            build_expression("1 + 2 * 3"),
+            BinaryExpr(
+                "+",
+                IntLiteral(1),
+                BinaryExpr("*", IntLiteral(2), IntLiteral(3)),
+            ),
         )
 
-    input_stream = InputStream(expression)
-    lexer = CalcPlusLexer(input_stream)
-    token_stream = CommonTokenStream(lexer)
-    parser = CalcPlusParser(token_stream)
-    tree = parser.expr()
-    return parser, tree
-
-
-@unittest.skipIf(IMPORT_ERROR is not None, "ANTLR Python 파일/런타임이 준비되지 않음")
-class Calc5ParserSmokeTest(unittest.TestCase):
-    def test_entry_rule_is_program(self):
-        parser, tree = parse_program("int a;")
-
-        self.assertTrue(hasattr(parser, "program"))
-        self.assertEqual(parser.getNumberOfSyntaxErrors(), 0)
-        self.assertIsNotNone(tree)
-
-    def test_parse_declare_assign_write(self):
-        parser, tree = parse_program(
-            "\n".join(
-                [
-                    "int a, b;",
-                    "a = 1 + 2;",
-                    "write(a);",
-                ]
-            )
+    def test_parentheses_change_grouping_without_becoming_a_node(self):
+        self.assertEqual(
+            build_expression("(1 + 2) * 3"),
+            BinaryExpr(
+                "*",
+                BinaryExpr("+", IntLiteral(1), IntLiteral(2)),
+                IntLiteral(3),
+            ),
         )
-        self.assertEqual(parser.getNumberOfSyntaxErrors(), 0)
-        self.assertIsNotNone(tree)
 
-    def test_parse_nested_blocks_and_if(self):
-        parser, tree = parse_program(
-            "\n".join(
-                [
-                    "int a;",
-                    "a = 1;",
-                    "{",
-                    "    int a;",
-                    "    a = 2;",
-                    "    if (a > 1) {",
-                    "        write(a);",
-                    "    }",
-                    "}",
-                ]
-            )
-        )
-        self.assertEqual(parser.getNumberOfSyntaxErrors(), 0)
-        self.assertIsNotNone(tree)
+    def test_builds_the_complete_example(self):
+        expression = build_expression("5 * 3 + a * (5 - 9 / 3)")
 
-
-class Calc5AstNodeShapeTest(unittest.TestCase):
-    def test_expression_nodes_can_form_a_binary_expression(self):
-        from ast_nodes import BinaryExpr, IntLiteral, VarRef
-
-        expr = BinaryExpr("+", IntLiteral(1), VarRef("a"))
-
-        self.assertEqual(expr.op, "+")
-        self.assertEqual(expr.left.value, 1)
-        self.assertEqual(expr.right.name, "a")
-
-
-@unittest.skipIf(IMPORT_ERROR is not None, "ANTLR Python 파일/런타임이 준비되지 않음")
-class Calc5AstBuilderContractTest(unittest.TestCase):
-    def test_builder_program_is_explicit_stub(self):
-        from ast_builder import AstBuilder
-
-        _, tree = parse_program("int a;")
-        builder = AstBuilder()
-
-        with self.assertRaises(NotImplementedError):
-            builder.visit(tree)
-
-
-class Calc5AstPrinterContractTest(unittest.TestCase):
-    def test_printer_is_explicit_stub(self):
-        from ast_nodes import IntLiteral
-        from ast_printer import AstPrinter
-
-        printer = AstPrinter()
-
-        with self.assertRaises(NotImplementedError):
-            printer.format(IntLiteral(1))
-
-
-class Calc5AstExecutorContractTest(unittest.TestCase):
-    def test_executor_is_explicit_stub(self):
-        from ast_executor import AstExecutor
-        from ast_nodes import IntLiteral
-
-        executor = AstExecutor()
-
-        with self.assertRaises(NotImplementedError):
-            executor.execute(IntLiteral(1))
-
-
-class SymbolTableReuseTest(unittest.TestCase):
-    def test_symbol_table_supports_shadowing_for_executor(self):
-        from symbol_table import SymbolTable
-
-        table = SymbolTable()
-        table.declare("a")
-        table.assign("a", 1)
-        table.push_scope()
-        table.declare("a")
-        table.assign("a", 2)
-
-        self.assertEqual(table.lookup("a"), 2)
-
-        table.pop_scope()
-
-        self.assertEqual(table.lookup("a"), 1)
+        self.assertEqual(expression, example_ast())
+        self.assertEqual(evaluate(expression, {"a": 4}), 23)
 
 
 if __name__ == "__main__":

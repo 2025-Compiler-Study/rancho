@@ -14,10 +14,8 @@ AST는 프로그램의 의미를 실행하기 좋은 형태로 정리한다.
 
 ## Calc5에서 나눌 책임
 
-- `ast_nodes.py`: AST가 어떤 노드로 구성되는지 정의한다.
-- `ast_builder.py`: Parse Tree를 AST로 바꾼다.
-- `ast_printer.py`: AST 구조를 사람이 볼 수 있게 출력한다.
-- `ast_executor.py`: AST를 실행한다.
+- `calc5_ast.py`: expression AST 노드, Parse Tree 변환, LISP 출력, 계산을 담당한다.
+- `ast_visualizer.py`: AST 구조를 사람이 볼 수 있게 출력한다.
 - `symbol_table.py`: 실행 중 변수 선언, 조회, 대입, 스코프를 관리한다.
 
 ## 중요한 변경점

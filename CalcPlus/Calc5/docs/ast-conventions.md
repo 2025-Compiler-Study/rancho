@@ -1,6 +1,6 @@
 # AST naming conventions
 
-`ast_nodes.py` follows the Python style guidance below.
+`calc5_ast.py` follows the Python style guidance below.
 
 - AST node classes use `CapWords`: `AstNode`, `Expr`, `IntLiteral`, `VarRef`,
   and `BinaryExpr`.

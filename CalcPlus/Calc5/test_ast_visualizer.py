@@ -3,8 +3,8 @@
 import importlib.util
 import unittest
 
-from ast_nodes import BinaryExpr, IntLiteral, VarRef
-from ast_visualizer import AstVisualizer, build_expression
+from calc5_ast import BinaryExpr, IntLiteral, VarRef, build_expression
+from ast_visualizer import AstVisualizer
 
 
 HAS_ANTLR = importlib.util.find_spec("antlr4") is not None

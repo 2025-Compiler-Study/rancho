@@ -6,13 +6,13 @@ import argparse
 import json
 from pathlib import Path
 
-from ast_nodes import (
+from calc5_ast import (
     AstNode,
     BinaryExpr,
     IntLiteral,
     VarRef,
 )
-from ast_visualizer import build_expression
+from calc5_ast import build_expression
 
 
 def render_html(source: str, root: AstNode) -> str:

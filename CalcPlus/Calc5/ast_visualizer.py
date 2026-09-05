@@ -11,37 +11,8 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
-from ast_nodes import AstNode, BinaryExpr, IntLiteral, VarRef
+from calc5_ast import AstNode, BinaryExpr, IntLiteral, VarRef, build_expression
 
-
-class ExpressionAstBuilder:
-    """Build the expression subset of Calc5's AST from an ANTLR parse tree."""
-
-    def visit(self, tree):
-        return tree.accept(self)
-
-    def visitInt(self, ctx):
-        return IntLiteral(int(ctx.getText()))
-
-    def visitVar(self, ctx):
-        return VarRef(ctx.getText())
-
-    def visitParens(self, ctx):
-        """Discard parentheses while retaining their grouping in the child tree."""
-        return self.visit(ctx.expr())
-
-    def visitMulDiv(self, ctx):
-        return self._binary_expr(ctx)
-
-    def visitAddSub(self, ctx):
-        return self._binary_expr(ctx)
-
-    def _binary_expr(self, ctx):
-        return BinaryExpr(
-            ctx.getChild(1).getText(),
-            self.visit(ctx.expr(0)),
-            self.visit(ctx.expr(1)),
-        )
 
 
 class AstVisualizer:
@@ -162,24 +133,6 @@ class AstVisualizer:
         if isinstance(node, VarRef):
             return f"VarRef\\nname: {node.name}", "ellipse", "#ede9fe"
         return type(node).__name__, "box", "#ffffff"
-
-
-def build_expression(source: str) -> AstNode:
-    """Parse one complete expression and build its AST."""
-    from antlr4 import CommonTokenStream, InputStream
-    from antlr4.Token import Token
-
-    from CalcPlusLexer import CalcPlusLexer
-    from CalcPlusParser import CalcPlusParser
-
-    lexer = CalcPlusLexer(InputStream(source))
-    parser = CalcPlusParser(CommonTokenStream(lexer))
-    tree = parser.expr()
-
-    if parser.getNumberOfSyntaxErrors() or parser.getCurrentToken().type != Token.EOF:
-        raise SyntaxError(f"유효한 식이 아닙니다: {source!r}")
-
-    return ExpressionAstBuilder().visit(tree)
 
 
 def main(argv: list[str] | None = None) -> int:

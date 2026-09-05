@@ -3,7 +3,7 @@
 import unittest
 
 from ast_html_visualizer import render_html
-from ast_nodes import BinaryExpr, IntLiteral, VarRef
+from calc5_ast import BinaryExpr, IntLiteral, VarRef
 
 
 def example_basic_ast() -> BinaryExpr:

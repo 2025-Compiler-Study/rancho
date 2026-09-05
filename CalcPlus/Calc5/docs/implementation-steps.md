@@ -2,7 +2,7 @@
 
 ## 1. AST 노드 확정
 
-`ast_nodes.py`의 노드가 Calc5 과제를 표현하기에 충분한지 확인한다.
+`calc5_ast.py`의 노드가 Calc5 과제를 표현하기에 충분한지 확인한다.
 최소 노드는 다음과 같다.
 
 - `Program`
@@ -33,12 +33,12 @@
 
 ## 4. AST 출력 구현
 
-`ast_printer.py`에서 JSON, LISP, 들여쓰기 방식 중 하나를 골라 출력한다.
+`ast_visualizer.py`에서 JSON, LISP, 들여쓰기 방식 중 하나를 골라 출력한다.
 출력 목표는 정답 포맷이 아니라 AST 구조 확인이다.
 
 ## 5. AST Executor 구현
 
-`ast_executor.py`에서 `Program`부터 순서대로 실행한다.
+`calc5_ast.py`에서 `Program`부터 순서대로 실행한다.
 식 노드는 값을 반환하고, 문장 노드는 상태를 바꾼다.
 변수 관리는 `symbol_table.py`를 사용한다.
 
