@@ -211,7 +211,7 @@ source .venv/bin/activate
 활성화되면 일반적으로 프롬프트 앞에 `(.venv)`가 표시된다. 필요한 ANTLR Python 런타임을 설치한다.
 
 ```bash
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 작업을 마치면 가상환경을 종료한다.

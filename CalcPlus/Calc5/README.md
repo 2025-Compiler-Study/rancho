@@ -42,7 +42,7 @@ source expression
 ```bash
 python3 -m venv .venv
 . .venv/bin/activate
-pip install -r requirements.txt
+python -m pip install -r requirements.txt
 ```
 
 생성된 파서는 ANTLR 4.9.2 기준이므로 Python 런타임도 같은 버전을 사용한다.
