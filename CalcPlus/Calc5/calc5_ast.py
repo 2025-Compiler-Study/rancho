@@ -1,18 +1,22 @@
-"""Compact Calc5 expression AST, ANTLR builder, formatter, and evaluator.
+"""Calc5 AST, ANTLR builders, formatter, and small program executor.
 
-The module intentionally supports expressions only. Statement and program
-nodes can be added after the expression pipeline is stable.
+Expressions are reusable inside statements.  This module intentionally covers
+assignment 1 example 2: declarations, assignments, read, write, and blocks.
+Conditions and if/else are a later extension.
 """
 
 from __future__ import annotations
 
-from collections.abc import Mapping
+from collections.abc import Callable, Mapping
+
+from symbol_table import SymbolTable
 
 
 class AstNode:
     """Base class for every Calc5 AST node."""
 
     def children(self) -> tuple[AstNode, ...]:
+        """Return only structural AST children, in source/execution order."""
         return ()
 
     def __eq__(self, other: object) -> bool:
@@ -29,6 +33,10 @@ class Expr(AstNode):
     """Base class for AST nodes that evaluate to an integer."""
 
 
+class Stmt(AstNode):
+    """Base class for AST nodes that perform an action."""
+
+
 class IntLiteral(Expr):
     def __init__(self, value: int):
         self.value = value
@@ -37,6 +45,10 @@ class IntLiteral(Expr):
 class VarRef(Expr):
     def __init__(self, name: str):
         self.name = name
+
+
+class ReadCall(Expr):
+    """Expression node for the value returned by ``read()``."""
 
 
 class BinaryExpr(Expr):
@@ -49,11 +61,71 @@ class BinaryExpr(Expr):
         return self.left, self.right
 
 
+class Program(AstNode):
+    def __init__(self, statements: list[Stmt]):
+        self.statements = statements
+
+    def children(self) -> tuple[Stmt, ...]:
+        return tuple(self.statements)
+
+
+class Declare(Stmt):
+    def __init__(self, name: str):
+        self.name = name
+
+
+class Assign(Stmt):
+    def __init__(self, target: str, value: Expr):
+        self.target = target
+        self.value = value
+
+    def children(self) -> tuple[Expr]:
+        return (self.value,)
+
+
+class Write(Stmt):
+    def __init__(self, value: Expr):
+        self.value = value
+
+    def children(self) -> tuple[Expr]:
+        return (self.value,)
+
+
+class Block(Stmt):
+    def __init__(self, statements: list[Stmt]):
+        self.statements = statements
+
+    def children(self) -> tuple[Stmt, ...]:
+        return tuple(self.statements)
+
+
 class AstBuilder:
-    """Build the expression subset of Calc5's AST from an ANTLR parse tree."""
+    """Build the currently supported Calc5 AST nodes from an ANTLR parse tree."""
 
     def visit(self, tree):
         return tree.accept(self)
+
+    def visitProgram(self, ctx):
+        return Program(self._visit_statements(ctx.stmt()))
+
+    def visitDeclare(self, ctx):
+        # Grammar permits ``int a, b;``; each declared name gets one AST node.
+        return [Declare(token.getText()) for token in ctx.VAR()]
+
+    def visitExprAssign(self, ctx):
+        return Assign(ctx.VAR().getText(), self.visit(ctx.expr()))
+
+    def visitReadAssign(self, ctx):
+        return Assign(ctx.VAR().getText(), ReadCall())
+
+    def visitWrite(self, ctx):
+        return Write(self.visit(ctx.expr()))
+
+    def visitStmtBlock(self, ctx):
+        return self.visit(ctx.block())
+
+    def visitBlock(self, ctx):
+        return Block(self._visit_statements(ctx.stmt()))
 
     def visitInt(self, ctx):
         return IntLiteral(int(ctx.getText()))
@@ -70,6 +142,16 @@ class AstBuilder:
     def visitAddSub(self, ctx):
         return self._binary_expr(ctx)
 
+    def _visit_statements(self, contexts) -> list[Stmt]:
+        statements: list[Stmt] = []
+        for context in contexts:
+            built = self.visit(context)
+            if isinstance(built, list):
+                statements.extend(built)
+            else:
+                statements.append(built)
+        return statements
+
     def _binary_expr(self, ctx):
         return BinaryExpr(
             ctx.getChild(1).getText(),
@@ -78,8 +160,7 @@ class AstBuilder:
         )
 
 
-def build_expression(source: str) -> Expr:
-    """Parse one complete Calc5 expression and return its AST."""
+def _parse(source: str, rule_name: str):
     from antlr4 import CommonTokenStream, InputStream
     from antlr4.Token import Token
 
@@ -88,43 +169,129 @@ def build_expression(source: str) -> Expr:
 
     lexer = CalcPlusLexer(InputStream(source))
     parser = CalcPlusParser(CommonTokenStream(lexer))
-    tree = parser.expr()
+    tree = getattr(parser, rule_name)()
 
     if parser.getNumberOfSyntaxErrors() or parser.getCurrentToken().type != Token.EOF:
-        raise SyntaxError(f"유효한 식이 아닙니다: {source!r}")
+        raise SyntaxError(f"유효한 {rule_name}이(가) 아닙니다: {source!r}")
+    return tree
 
-    return AstBuilder().visit(tree)
+
+def build_expression(source: str) -> Expr:
+    """Parse one complete Calc5 expression and return its AST."""
+    return AstBuilder().visit(_parse(source, "expr"))
 
 
-def format_ast(expr: Expr) -> str:
-    """Return a compact LISP-style representation of an expression AST."""
-    if isinstance(expr, IntLiteral):
-        return str(expr.value)
-    if isinstance(expr, VarRef):
-        return expr.name
-    if isinstance(expr, BinaryExpr):
-        return f"({expr.op} {format_ast(expr.left)} {format_ast(expr.right)})"
-    raise TypeError(f"지원하지 않는 AST 노드입니다: {type(expr).__name__}")
+def build_program(source: str) -> Program:
+    """Parse one complete Calc5 program and return its AST."""
+    return AstBuilder().visit(_parse(source, "program"))
+
+
+def format_ast(node: AstNode) -> str:
+    """Return a compact LISP-style representation of an AST."""
+    if isinstance(node, IntLiteral):
+        return str(node.value)
+    if isinstance(node, VarRef):
+        return node.name
+    if isinstance(node, ReadCall):
+        return "(read)"
+    if isinstance(node, BinaryExpr):
+        return f"({node.op} {format_ast(node.left)} {format_ast(node.right)})"
+    if isinstance(node, Declare):
+        return f"(declare {node.name})"
+    if isinstance(node, Assign):
+        return f"(assign {node.target} {format_ast(node.value)})"
+    if isinstance(node, Write):
+        return f"(write {format_ast(node.value)})"
+    if isinstance(node, Block):
+        return f"(block {' '.join(format_ast(stmt) for stmt in node.statements)})"
+    if isinstance(node, Program):
+        return f"(program {' '.join(format_ast(stmt) for stmt in node.statements)})"
+    raise TypeError(f"지원하지 않는 AST 노드입니다: {type(node).__name__}")
+
+
+def _apply_binary_operator(op: str, left: int, right: int) -> int:
+    if op == "+":
+        return left + right
+    if op == "-":
+        return left - right
+    if op == "*":
+        return left * right
+    if op == "/":
+        return left // right
+    raise ValueError(f"지원하지 않는 연산자입니다: {op}")
 
 
 def evaluate(expr: Expr, variables: Mapping[str, int]) -> int:
-    """Evaluate an expression recursively using the supplied variable values."""
+    """Evaluate a pure expression recursively using supplied variable values."""
     if isinstance(expr, IntLiteral):
         return expr.value
     if isinstance(expr, VarRef):
         return variables[expr.name]
-    if not isinstance(expr, BinaryExpr):
-        raise TypeError(f"지원하지 않는 AST 노드입니다: {type(expr).__name__}")
+    if isinstance(expr, BinaryExpr):
+        return _apply_binary_operator(
+            expr.op,
+            evaluate(expr.left, variables),
+            evaluate(expr.right, variables),
+        )
+    raise TypeError(f"지원하지 않는 식 노드입니다: {type(expr).__name__}")
 
-    left = evaluate(expr.left, variables)
-    right = evaluate(expr.right, variables)
 
-    if expr.op == "+":
-        return left + right
-    if expr.op == "-":
-        return left - right
-    if expr.op == "*":
-        return left * right
-    if expr.op == "/":
-        return left // right
-    raise ValueError(f"지원하지 않는 연산자입니다: {expr.op}")
+class AstExecutor:
+    """Execute the supported statement AST with lexical block scopes."""
+
+    def __init__(
+        self,
+        read_fn: Callable[[], int] | None = None,
+        write_fn: Callable[[int], None] | None = None,
+    ):
+        self.symbols = SymbolTable()
+        self.read_fn = read_fn if read_fn is not None else self._read_from_console
+        self.write_fn = write_fn if write_fn is not None else print
+        self.outputs: list[int] = []
+
+    def execute(self, program: Program) -> None:
+        if not isinstance(program, Program):
+            raise TypeError("Program 노드만 실행할 수 있습니다")
+        for statement in program.statements:
+            self.execute_stmt(statement)
+
+    def execute_stmt(self, statement: Stmt) -> None:
+        if isinstance(statement, Declare):
+            self.symbols.declare(statement.name)
+            return
+        if isinstance(statement, Assign):
+            self.symbols.assign(statement.target, self.eval_expr(statement.value))
+            return
+        if isinstance(statement, Write):
+            value = self.eval_expr(statement.value)
+            self.outputs.append(value)
+            self.write_fn(value)
+            return
+        if isinstance(statement, Block):
+            self.symbols.push_scope()
+            try:
+                for child in statement.statements:
+                    self.execute_stmt(child)
+            finally:
+                self.symbols.pop_scope()
+            return
+        raise TypeError(f"지원하지 않는 문장 노드입니다: {type(statement).__name__}")
+
+    def eval_expr(self, expr: Expr) -> int:
+        if isinstance(expr, IntLiteral):
+            return expr.value
+        if isinstance(expr, VarRef):
+            return self.symbols.lookup(expr.name)
+        if isinstance(expr, ReadCall):
+            return self.read_fn()
+        if isinstance(expr, BinaryExpr):
+            return _apply_binary_operator(
+                expr.op,
+                self.eval_expr(expr.left),
+                self.eval_expr(expr.right),
+            )
+        raise TypeError(f"지원하지 않는 식 노드입니다: {type(expr).__name__}")
+
+    @staticmethod
+    def _read_from_console() -> int:
+        return int(input())

@@ -1,15 +1,23 @@
-"""Core tests for the compact Calc5 expression AST."""
+"""Core tests for Calc5 expression and program AST nodes."""
 
 import importlib.util
 import unittest
 
 from calc5_ast import (
+    Assign,
+    AstExecutor,
     AstNode,
+    Block,
     BinaryExpr,
+    Declare,
     Expr,
     IntLiteral,
+    Program,
+    ReadCall,
     VarRef,
+    Write,
     build_expression,
+    build_program,
     evaluate,
     format_ast,
 )
@@ -34,6 +42,26 @@ def example_ast() -> BinaryExpr:
     )
 
 
+def example_program_ast() -> Program:
+    """Subject assignment 1, example 2 without parse-tree punctuation."""
+    return Program(
+        [
+            Declare("a"),
+            Declare("b"),
+            Assign("a", IntLiteral(1)),
+            Assign("b", ReadCall()),
+            Block(
+                [
+                    Declare("c"),
+                    Assign("c", BinaryExpr("+", VarRef("a"), VarRef("b"))),
+                    Write(VarRef("c")),
+                ]
+            ),
+            Assign("b", IntLiteral(0)),
+        ]
+    )
+
+
 class AstNodeTest(unittest.TestCase):
     def test_leaf_nodes_store_their_semantic_value(self):
         literal = IntLiteral(5)
@@ -54,6 +82,16 @@ class AstNodeTest(unittest.TestCase):
         self.assertEqual(expression.op, "*")
         self.assertEqual(expression.children(), (left, right))
 
+    def test_program_and_statement_nodes_keep_only_ast_children(self):
+        value = BinaryExpr("+", VarRef("a"), VarRef("b"))
+        assignment = Assign("c", value)
+        block = Block([Declare("c"), assignment, Write(VarRef("c"))])
+        program = Program([Declare("a"), block])
+
+        self.assertEqual(assignment.children(), (value,))
+        self.assertEqual(block.children(), tuple(block.statements))
+        self.assertEqual(program.children(), tuple(program.statements))
+
 
 class AstBehaviorTest(unittest.TestCase):
     def test_formats_an_ast_without_parenthesis_nodes(self):
@@ -64,6 +102,33 @@ class AstBehaviorTest(unittest.TestCase):
 
     def test_evaluates_the_complete_example(self):
         self.assertEqual(evaluate(example_ast(), {"a": 4}), 23)
+
+    def test_formats_the_program_example(self):
+        self.assertEqual(
+            format_ast(example_program_ast()),
+            "(program (declare a) (declare b) (assign a 1) (assign b (read)) "
+            "(block (declare c) (assign c (+ a b)) (write c)) (assign b 0))",
+        )
+
+
+class AstExecutorTest(unittest.TestCase):
+    def test_executes_example_two_with_injected_input_and_output(self):
+        output: list[int] = []
+        executor = AstExecutor(read_fn=lambda: 10, write_fn=output.append)
+
+        executor.execute(example_program_ast())
+
+        self.assertEqual(output, [11])
+        self.assertEqual(executor.outputs, [11])
+        self.assertEqual(executor.symbols.lookup("a"), 1)
+        self.assertEqual(executor.symbols.lookup("b"), 0)
+
+    def test_block_declaration_is_not_available_after_the_block(self):
+        executor = AstExecutor(read_fn=lambda: 0, write_fn=lambda _: None)
+        executor.execute(example_program_ast())
+
+        with self.assertRaisesRegex(RuntimeError, "선언되지 않은 변수"):
+            executor.symbols.lookup("c")
 
 
 @unittest.skipUnless(HAS_ANTLR, "antlr4 Python runtime is not installed")
@@ -97,6 +162,21 @@ class AntlrAstBuilderTest(unittest.TestCase):
 
         self.assertEqual(expression, example_ast())
         self.assertEqual(evaluate(expression, {"a": 4}), 23)
+
+    def test_builds_subject_example_two_as_a_program_ast(self):
+        source = """
+        int a, b;
+        a = 1;
+        b = read();
+        {
+            int c;
+            c = a + b;
+            write(c);
+        }
+        b = 0;
+        """
+
+        self.assertEqual(build_program(source), example_program_ast())
 
 
 if __name__ == "__main__":

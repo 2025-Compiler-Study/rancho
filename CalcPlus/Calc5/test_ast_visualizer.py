@@ -70,3 +70,31 @@ class AstVisualizerParserTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class AstVisualizerProgramTest(unittest.TestCase):
+    def test_format_draws_statement_children_in_source_order(self):
+        from calc5_ast import Assign, Block, Declare, Program, Write
+
+        program = Program(
+            [
+                Declare("a"),
+                Assign("a", IntLiteral(1)),
+                Block([Write(VarRef("a"))]),
+            ]
+        )
+
+        output = AstVisualizer().format(program)
+
+        self.assertIn("[n1] Program", output)
+        self.assertIn("stmt[0]: [n2] Declare(name='a')", output)
+        self.assertIn("stmt[1]: [n3] Assign(target='a')", output)
+        self.assertIn("stmt[2]: [n5] Block", output)
+        self.assertIn("value: [n4] IntLiteral(value=1)", output)
+
+    def test_dot_labels_program_statement_edges(self):
+        from calc5_ast import Declare, Program
+
+        dot = AstVisualizer().to_dot(Program([Declare("a")]))
+
+        self.assertIn('n1 -> n2 [label="stmt[0]"]', dot)

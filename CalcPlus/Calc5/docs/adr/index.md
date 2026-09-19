@@ -1,0 +1,5 @@
+# Architecture Decision Records
+
+| ADR | 상태 | 결정 |
+| --- | --- | --- |
+| [0001](0001-program-ast-for-assignment-example-2.md) | accepted | 과제 예제 2를 위해 Program/statement AST와 block scope 실행기를 도입한다. |

@@ -1,29 +1,35 @@
-"""Visualize a Calc5 expression AST and its recursive evaluation order.
-
-The visualizer does not execute an expression. It shows the recursive order in
-which ``eval_expr`` would enter an operation, visit its left and right
-operands, then apply that operation. Parentheses are absent from the AST: the
-parent-child relationship preserves their grouping.
-"""
+"""Visualize Calc5 expression or program ASTs and their structural visit order."""
 
 from __future__ import annotations
 
 import argparse
 from pathlib import Path
 
-from calc5_ast import AstNode, BinaryExpr, IntLiteral, VarRef, build_expression
-
+from calc5_ast import (
+    Assign,
+    AstNode,
+    BinaryExpr,
+    Block,
+    Declare,
+    IntLiteral,
+    Program,
+    ReadCall,
+    VarRef,
+    Write,
+    build_expression,
+    build_program,
+)
 
 
 class AstVisualizer:
-    """Formats an expression AST as a tree, trace, or Graphviz DOT graph."""
+    """Formats a Calc5 AST as a tree, trace, or Graphviz DOT graph."""
 
     def format(self, root: AstNode) -> str:
-        """Return a tree and left-to-right recursive evaluation trace."""
+        """Return a tree and source-order structural visit trace."""
         node_ids = self._node_ids(root)
         tree_lines = ["AST 구조", *self._tree_lines(root, node_ids)]
         trace_lines = [
-            "해석 호출 순서 (eval_expr, 왼쪽 → 오른쪽)",
+            "해석 호출 순서 (왼쪽 → 오른쪽 / 문장 위 → 아래)",
             *self._trace_lines(root, node_ids),
         ]
         return "\n".join([*tree_lines, "", *trace_lines])
@@ -33,7 +39,7 @@ class AstVisualizer:
         node_ids = self._node_ids(root)
         lines = [
             "digraph Calc5Ast {",
-            '  graph [label="Calc5 expression AST", labelloc="t"];',
+            '  graph [label="Calc5 AST", labelloc="t"];',
             "  rankdir=TB;",
             '  node [fontname="Arial"];',
         ]
@@ -44,9 +50,11 @@ class AstVisualizer:
                 f'  {node_id} [label="{label}", shape="{shape}", '
                 f'style="filled", fillcolor="{fillcolor}"];'
             )
-            if isinstance(node, BinaryExpr):
-                lines.append(f'  {node_id} -> {node_ids[id(node.left)]} [label="left"];')
-                lines.append(f'  {node_id} -> {node_ids[id(node.right)]} [label="right"];')
+            for index, child in enumerate(node.children()):
+                relation = self._child_relation(node, index)
+                lines.append(
+                    f'  {node_id} -> {node_ids[id(child)]} [label="{relation}"];'
+                )
 
         lines.append("}")
         return "\n".join(lines)
@@ -80,13 +88,11 @@ class AstVisualizer:
         lines = [f"[{node_ids[id(root)]}] {self._label(root)}"]
 
         def visit(node: AstNode, prefix: str) -> None:
-            if not isinstance(node, BinaryExpr):
-                return
-
-            children = (("left", node.left), ("right", node.right))
-            for index, (relation, child) in enumerate(children):
+            children = node.children()
+            for index, child in enumerate(children):
                 is_last = index == len(children) - 1
                 branch = "└──" if is_last else "├──"
+                relation = self._child_relation(node, index)
                 lines.append(
                     f"{prefix}{branch} {relation}: [{node_ids[id(child)]}] "
                     f"{self._label(child)}"
@@ -105,6 +111,11 @@ class AstVisualizer:
                 visit(node.left)
                 visit(node.right)
                 steps.append(("apply", node))
+            elif isinstance(node, (Program, Block, Assign, Write)):
+                steps.append(("enter", node))
+                for child in node.children():
+                    visit(child)
+                steps.append(("apply", node))
             else:
                 steps.append(("visit", node))
 
@@ -115,7 +126,29 @@ class AstVisualizer:
         ]
 
     @staticmethod
+    def _child_relation(node: AstNode, index: int) -> str:
+        if isinstance(node, BinaryExpr):
+            return ("left", "right")[index]
+        if isinstance(node, (Assign, Write)):
+            return "value"
+        if isinstance(node, (Program, Block)):
+            return f"stmt[{index}]"
+        return f"child[{index}]"
+
+    @staticmethod
     def _label(node: AstNode) -> str:
+        if isinstance(node, Program):
+            return "Program"
+        if isinstance(node, Block):
+            return "Block"
+        if isinstance(node, Declare):
+            return f"Declare(name='{node.name}')"
+        if isinstance(node, Assign):
+            return f"Assign(target='{node.target}')"
+        if isinstance(node, Write):
+            return "Write"
+        if isinstance(node, ReadCall):
+            return "ReadCall()"
         if isinstance(node, BinaryExpr):
             return f"BinaryExpr(op='{node.op}')"
         if isinstance(node, IntLiteral):
@@ -126,6 +159,18 @@ class AstVisualizer:
 
     @staticmethod
     def _dot_node_style(node: AstNode) -> tuple[str, str, str]:
+        if isinstance(node, Program):
+            return "Program", "folder", "#dcfce7"
+        if isinstance(node, Block):
+            return "Block", "folder", "#fef3c7"
+        if isinstance(node, Declare):
+            return f"Declare\\nname: {node.name}", "box", "#f3f4f6"
+        if isinstance(node, Assign):
+            return f"Assign\\ntarget: {node.target}", "box", "#fde68a"
+        if isinstance(node, Write):
+            return "Write", "box", "#fed7aa"
+        if isinstance(node, ReadCall):
+            return "ReadCall", "ellipse", "#fed7aa"
         if isinstance(node, BinaryExpr):
             return f"BinaryExpr\\noperator: {node.op}", "box", "#dbeafe"
         if isinstance(node, IntLiteral):
@@ -136,16 +181,17 @@ class AstVisualizer:
 
 
 def main(argv: list[str] | None = None) -> int:
-    """Render an expression supplied as an argument, or prompt interactively."""
-    parser = argparse.ArgumentParser(
-        description="Calc5 expression AST and evaluation-order visualizer"
+    """Render an expression by default, or a complete program with ``--program``."""
+    parser = argparse.ArgumentParser(description="Calc5 AST visualizer")
+    parser.add_argument("source", nargs="?", help="visualize할 Calc5 입력")
+    parser.add_argument(
+        "--program", action="store_true", help="입력을 expression 대신 program으로 파싱"
     )
-    parser.add_argument("expression", nargs="?", help="visualize할 Calc5 식")
     parser.add_argument("--dot", metavar="PATH", help="Graphviz DOT 파일을 저장할 경로")
     args = parser.parse_args(argv)
 
-    source = args.expression if args.expression is not None else input("expression> ")
-    ast = build_expression(source)
+    source = args.source if args.source is not None else input("source> ")
+    ast = build_program(source) if args.program else build_expression(source)
     visualizer = AstVisualizer()
     print(visualizer.format(ast))
 
