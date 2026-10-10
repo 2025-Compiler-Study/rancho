@@ -277,18 +277,6 @@ class AntlrAstBuilderTest(unittest.TestCase):
 
         self.assertEqual(build_program(source), example_program_ast())
 
-    def test_builds_and_executes_if_else_program(self):
-        source = """
-        int a;
-        a = 3;
-        if (a >= 3) { write(a); } else { write(0); }
-        """
-        output: list[int] = []
-
-        AstExecutor(write_fn=output.append).execute(build_program(source))
-
-        self.assertEqual(output, [3])
-
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,6 +1,6 @@
 # Calc5 Program AST: 과제 1 예제 2
 
-이번 단계는 기존 expression AST를 유지한 채 프로그램 구조까지 확장한다. 지원 범위는 선언, 대입, `read()`, `write()`, `{ ... }` block, 비교식, `if/else`다.
+이번 단계는 기존 expression AST를 유지한 채 프로그램 구조까지 확장한다. Executor 지원 범위는 선언, 대입, `read()`, `write()`, `{ ... }` block, 비교식, `if/else`다. 과제 #3에서는 이를 수동 AST로 검증하며 Builder를 사용하지 않는다.
 
 ## 예제와 AST
 
@@ -92,7 +92,7 @@ PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest -v
 
 ## 조건식과 `if/else`
 
-비교식은 `CompareExpr(op, left, right)`로 표현한다. `IfElse`는 condition, then block, 선택적인 else block을 자식 순서대로 가진다.
+비교식은 `CompareExpr(op, left, right)`로 표현한다. `IfElse`는 condition, then block, 선택적인 else block을 자식 순서대로 가진다. 과제 #3 테스트는 이 노드들을 Python 코드에서 직접 조립해 `AstExecutor.execute()`에 전달한다.
 
 ```text
 if (a >= 3) { write(a); } else { write(0); }

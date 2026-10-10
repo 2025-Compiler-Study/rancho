@@ -149,14 +149,6 @@ class AstBuilder:
     def visitWrite(self, ctx):
         return Write(self.visit(ctx.expr()))
 
-    def visitIfElse(self, ctx):
-        else_block = self.visit(ctx.elseBlock) if ctx.elseBlock is not None else None
-        return IfElse(
-            self.visit(ctx.cond()),
-            self.visit(ctx.thenBlock),
-            else_block,
-        )
-
     def visitStmtBlock(self, ctx):
         return self.visit(ctx.block())
 
@@ -177,13 +169,6 @@ class AstBuilder:
 
     def visitAddSub(self, ctx):
         return self._binary_expr(ctx)
-
-    def visitCond(self, ctx):
-        return CompareExpr(
-            ctx.getChild(1).getText(),
-            self.visit(ctx.expr(0)),
-            self.visit(ctx.expr(1)),
-        )
 
     def _visit_statements(self, contexts) -> list[Stmt]:
         statements: list[Stmt] = []

@@ -25,7 +25,7 @@ CompareExpr(op, left, right)
 IfElse(condition, then_block, else_block=None)
 ```
 
-Builder는 ANTLR의 `cond`와 `IfElse` Parse Tree를 위 노드로 변환한다. Executor는 `eval_condition()`에서 `==`, `!=`, `>`, `>=`, `<`, `<=`를 계산하고, 참이면 then block만 거짓이면 else block만 실행한다.
+과제 #3에서는 Builder를 사용하지 않는다. 테스트가 Python 코드에서 위 노드를 직접 조립하고, Executor는 `eval_condition()`에서 `==`, `!=`, `>`, `>=`, `<`, `<=`를 계산한다. 참이면 then block만 거짓이면 else block만 실행한다.
 
 `ast_visualizer.py`도 `condition`, `then`, `else`, `left`, `right` 관계 이름을 표시하도록 확장했다.
 
