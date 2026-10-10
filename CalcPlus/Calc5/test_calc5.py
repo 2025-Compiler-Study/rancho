@@ -21,6 +21,7 @@ from calc5_ast import (
     evaluate,
     format_ast,
 )
+from symbol_table import DuplicateDeclarationError, UndefinedVariableError
 
 
 HAS_ANTLR = importlib.util.find_spec("antlr4") is not None
@@ -129,6 +130,44 @@ class AstExecutorTest(unittest.TestCase):
 
         with self.assertRaisesRegex(RuntimeError, "선언되지 않은 변수"):
             executor.symbols.lookup("c")
+
+    def test_stops_immediately_when_a_name_is_declared_twice_in_one_scope(self):
+        program = Program([Declare("a"), Declare("a"), Write(IntLiteral(99))])
+        output: list[int] = []
+
+        with self.assertRaises(DuplicateDeclarationError):
+            AstExecutor(write_fn=output.append).execute(program)
+
+        self.assertEqual(output, [])
+
+    def test_stops_immediately_when_assigning_an_undeclared_name(self):
+        program = Program([Assign("a", IntLiteral(1)), Write(IntLiteral(99))])
+        output: list[int] = []
+
+        with self.assertRaises(UndefinedVariableError):
+            AstExecutor(write_fn=output.append).execute(program)
+
+        self.assertEqual(output, [])
+
+    def test_stops_immediately_when_reading_an_undeclared_name(self):
+        program = Program([Write(VarRef("a"))])
+
+        with self.assertRaises(UndefinedVariableError):
+            AstExecutor(write_fn=lambda _: None).execute(program)
+
+    def test_inner_block_can_update_an_outer_variable(self):
+        program = Program(
+            [
+                Declare("a"),
+                Block([Assign("a", IntLiteral(3))]),
+                Write(VarRef("a")),
+            ]
+        )
+        output: list[int] = []
+
+        AstExecutor(write_fn=output.append).execute(program)
+
+        self.assertEqual(output, [3])
 
 
 @unittest.skipUnless(HAS_ANTLR, "antlr4 Python runtime is not installed")

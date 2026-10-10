@@ -77,6 +77,19 @@ PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest -v
 
 위 명령은 `11`을 출력한다. `read_fn=lambda: 10`이 `read()`의 값이고, `c = 1 + 10` 뒤 `write(c)`가 실행되기 때문이다.
 
+## 과제 3: Executor의 오류 처리
+
+`AstExecutor`는 Parse Tree를 다시 보지 않고, 수동으로 만든 `Program` AST만 실행한다. 변수 관련 판단은 `SymbolTable`에 위임하며 문맥 오류는 즉시 예외로 끝난다.
+
+| 상황 | 발생 예외 | 이후 문장 |
+| --- | --- | --- |
+| 같은 scope에서 `int a; int a;` | `DuplicateDeclarationError` | 실행하지 않음 |
+| 선언 없이 `a = 1;` | `UndefinedVariableError` | 실행하지 않음 |
+| 선언 없이 `write(a);` | `UndefinedVariableError` | 실행하지 않음 |
+| block 종료 뒤 `c` 사용 | `UndefinedVariableError` | 실행하지 않음 |
+
+안쪽 block은 바깥 scope를 읽고 수정할 수 있다. 반대로 block 안에서 선언한 `c`는 block 종료 시 제거된다. 이 동작은 `test_calc5.py`의 `AstExecutorTest`가 검증한다.
+
 ## 구현 순서(TDD)
 
 1. Program/statement 노드의 `children()` 구조를 테스트한다.
@@ -84,3 +97,4 @@ PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest -v
 3. `AstExecutor`의 입출력·block scope 테스트를 통과시킨다.
 4. `build_program()`이 ANTLR Parse Tree에서 같은 AST를 만드는지 검증한다.
 5. 비주얼라이저가 같은 `children()` 구조를 표시하는지 검증한다.
+6. Executor가 재선언·미선언 오류에서 다음 statement를 실행하지 않는지 검증한다.
