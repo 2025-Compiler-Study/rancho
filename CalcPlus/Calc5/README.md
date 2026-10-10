@@ -1,6 +1,6 @@
 # Calc5 Compact AST
 
-Calc5는 ANTLR Parse Tree를 직접 실행하지 않고 의미 중심 AST로 변환한 뒤 시각화하거나 실행한다. 현재는 expression과 과제 1 예제 2의 program subset(선언·대입·`read`·`write`·block)을 지원한다.
+Calc5는 ANTLR Parse Tree를 직접 실행하지 않고 의미 중심 AST로 변환한 뒤 시각화하거나 실행한다. 현재는 expression과 program subset(선언·대입·`read`·`write`·block·비교·`if/else`)을 지원한다.
 
 - expression 구조와 원리: [`docs/calc5-expression-ast-guide.md`](docs/calc5-expression-ast-guide.md)
 - Program 확장과 검증: [`docs/calc5-program-ast-guide.md`](docs/calc5-program-ast-guide.md)

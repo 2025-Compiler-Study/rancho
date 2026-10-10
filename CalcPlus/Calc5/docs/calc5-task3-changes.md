@@ -2,16 +2,32 @@
 
 ## 결론
 
-이번 변경은 Executor 구현을 새로 작성한 작업이 아니다. 이미 구현되어 있던 `AstExecutor`와 `SymbolTable`이 과제 #3의 "문맥 오류 시 즉시 종료" 요구를 만족하는지 **테스트로 증명하고 문서화**한 작업이다.
+첫 변경은 이미 구현되어 있던 `AstExecutor`와 `SymbolTable`이 과제 #3의 "문맥 오류 시 즉시 종료" 요구를 만족하는지 **테스트로 증명하고 문서화**한 작업이었다. 이후 과제 #3의 실행 범위를 문법의 조건문까지 확장해 `CompareExpr`, `IfElse`, 조건 실행을 실제로 구현했다.
 
 수정된 파일은 다음 두 개다.
 
 ```text
+calc5_ast.py
+ast_visualizer.py
 test_calc5.py
+test_ast_visualizer.py
 docs/calc5-program-ast-guide.md
 ```
 
-`calc5_ast.py`, `symbol_table.py`, `ast_visualizer.py`는 이번 변경에서 수정하지 않았다.
+`symbol_table.py`는 수정하지 않았다. 기존 scope·재선언·미선언 오류 처리를 그대로 재사용한다.
+
+## 조건문 실행 구현
+
+`calc5_ast.py`에 다음 노드를 추가했다.
+
+```python
+CompareExpr(op, left, right)
+IfElse(condition, then_block, else_block=None)
+```
+
+Builder는 ANTLR의 `cond`와 `IfElse` Parse Tree를 위 노드로 변환한다. Executor는 `eval_condition()`에서 `==`, `!=`, `>`, `>=`, `<`, `<=`를 계산하고, 참이면 then block만 거짓이면 else block만 실행한다.
+
+`ast_visualizer.py`도 `condition`, `then`, `else`, `left`, `right` 관계 이름을 표시하도록 확장했다.
 
 ## 1. `test_calc5.py` 변경
 

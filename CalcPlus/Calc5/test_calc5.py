@@ -9,9 +9,11 @@ from calc5_ast import (
     AstNode,
     Block,
     BinaryExpr,
+    CompareExpr,
     Declare,
     Expr,
     IntLiteral,
+    IfElse,
     Program,
     ReadCall,
     VarRef,
@@ -93,6 +95,15 @@ class AstNodeTest(unittest.TestCase):
         self.assertEqual(block.children(), tuple(block.statements))
         self.assertEqual(program.children(), tuple(program.statements))
 
+    def test_if_else_keeps_condition_then_and_optional_else_in_order(self):
+        condition = CompareExpr("<", VarRef("a"), IntLiteral(10))
+        then_block = Block([Write(IntLiteral(1))])
+        else_block = Block([Write(IntLiteral(0))])
+        statement = IfElse(condition, then_block, else_block)
+
+        self.assertEqual(statement.children(), (condition, then_block, else_block))
+        self.assertEqual(condition.children(), (condition.left, condition.right))
+
 
 class AstBehaviorTest(unittest.TestCase):
     def test_formats_an_ast_without_parenthesis_nodes(self):
@@ -169,6 +180,55 @@ class AstExecutorTest(unittest.TestCase):
 
         self.assertEqual(output, [3])
 
+    def test_executes_only_the_then_block_when_condition_is_true(self):
+        program = Program(
+            [
+                Declare("a"),
+                Assign("a", IntLiteral(3)),
+                IfElse(
+                    CompareExpr(">=", VarRef("a"), IntLiteral(3)),
+                    Block([Write(IntLiteral(1))]),
+                    Block([Write(IntLiteral(0))]),
+                ),
+            ]
+        )
+        output: list[int] = []
+
+        AstExecutor(write_fn=output.append).execute(program)
+
+        self.assertEqual(output, [1])
+
+    def test_executes_else_block_only_when_condition_is_false(self):
+        program = Program(
+            [
+                IfElse(
+                    CompareExpr("==", IntLiteral(1), IntLiteral(2)),
+                    Block([Write(IntLiteral(1))]),
+                    Block([Write(IntLiteral(0))]),
+                )
+            ]
+        )
+        output: list[int] = []
+
+        AstExecutor(write_fn=output.append).execute(program)
+
+        self.assertEqual(output, [0])
+
+    def test_skips_if_body_when_false_without_else(self):
+        program = Program(
+            [
+                IfElse(
+                    CompareExpr("!=", IntLiteral(1), IntLiteral(1)),
+                    Block([Write(IntLiteral(99))]),
+                )
+            ]
+        )
+        output: list[int] = []
+
+        AstExecutor(write_fn=output.append).execute(program)
+
+        self.assertEqual(output, [])
+
 
 @unittest.skipUnless(HAS_ANTLR, "antlr4 Python runtime is not installed")
 class AntlrAstBuilderTest(unittest.TestCase):
@@ -216,6 +276,18 @@ class AntlrAstBuilderTest(unittest.TestCase):
         """
 
         self.assertEqual(build_program(source), example_program_ast())
+
+    def test_builds_and_executes_if_else_program(self):
+        source = """
+        int a;
+        a = 3;
+        if (a >= 3) { write(a); } else { write(0); }
+        """
+        output: list[int] = []
+
+        AstExecutor(write_fn=output.append).execute(build_program(source))
+
+        self.assertEqual(output, [3])
 
 
 if __name__ == "__main__":

@@ -98,3 +98,23 @@ class AstVisualizerProgramTest(unittest.TestCase):
         dot = AstVisualizer().to_dot(Program([Declare("a")]))
 
         self.assertIn('n1 -> n2 [label="stmt[0]"]', dot)
+
+    def test_format_labels_if_else_condition_and_branches(self):
+        from calc5_ast import Block, CompareExpr, IfElse, Program, Write
+
+        program = Program(
+            [
+                IfElse(
+                    CompareExpr("==", IntLiteral(1), IntLiteral(1)),
+                    Block([Write(IntLiteral(1))]),
+                    Block([Write(IntLiteral(0))]),
+                )
+            ]
+        )
+
+        output = AstVisualizer().format(program)
+
+        self.assertIn("IfElse", output)
+        self.assertIn("condition: [n3] CompareExpr(op='==')", output)
+        self.assertIn("then: [n6] Block", output)
+        self.assertIn("else: [n9] Block", output)

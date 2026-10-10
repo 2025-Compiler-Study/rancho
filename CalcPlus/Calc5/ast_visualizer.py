@@ -10,7 +10,9 @@ from calc5_ast import (
     AstNode,
     BinaryExpr,
     Block,
+    CompareExpr,
     Declare,
+    IfElse,
     IntLiteral,
     Program,
     ReadCall,
@@ -29,7 +31,7 @@ class AstVisualizer:
         node_ids = self._node_ids(root)
         tree_lines = ["AST 구조", *self._tree_lines(root, node_ids)]
         trace_lines = [
-            "해석 호출 순서 (왼쪽 → 오른쪽 / 문장 위 → 아래)",
+            "AST 구조 순회 순서 (왼쪽 → 오른쪽 / 문장 위 → 아래)",
             *self._trace_lines(root, node_ids),
         ]
         return "\n".join([*tree_lines, "", *trace_lines])
@@ -111,7 +113,7 @@ class AstVisualizer:
                 visit(node.left)
                 visit(node.right)
                 steps.append(("apply", node))
-            elif isinstance(node, (Program, Block, Assign, Write)):
+            elif isinstance(node, (Program, Block, Assign, Write, IfElse)):
                 steps.append(("enter", node))
                 for child in node.children():
                     visit(child)
@@ -133,6 +135,10 @@ class AstVisualizer:
             return "value"
         if isinstance(node, (Program, Block)):
             return f"stmt[{index}]"
+        if isinstance(node, IfElse):
+            return ("condition", "then", "else")[index]
+        if isinstance(node, CompareExpr):
+            return ("left", "right")[index]
         return f"child[{index}]"
 
     @staticmethod
@@ -147,8 +153,12 @@ class AstVisualizer:
             return f"Assign(target='{node.target}')"
         if isinstance(node, Write):
             return "Write"
+        if isinstance(node, IfElse):
+            return "IfElse"
         if isinstance(node, ReadCall):
             return "ReadCall()"
+        if isinstance(node, CompareExpr):
+            return f"CompareExpr(op='{node.op}')"
         if isinstance(node, BinaryExpr):
             return f"BinaryExpr(op='{node.op}')"
         if isinstance(node, IntLiteral):
@@ -169,8 +179,12 @@ class AstVisualizer:
             return f"Assign\\ntarget: {node.target}", "box", "#fde68a"
         if isinstance(node, Write):
             return "Write", "box", "#fed7aa"
+        if isinstance(node, IfElse):
+            return "IfElse", "diamond", "#fce7f3"
         if isinstance(node, ReadCall):
             return "ReadCall", "ellipse", "#fed7aa"
+        if isinstance(node, CompareExpr):
+            return f"CompareExpr\\noperator: {node.op}", "diamond", "#fce7f3"
         if isinstance(node, BinaryExpr):
             return f"BinaryExpr\\noperator: {node.op}", "box", "#dbeafe"
         if isinstance(node, IntLiteral):

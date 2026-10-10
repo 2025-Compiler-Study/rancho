@@ -1,6 +1,6 @@
 # Calc5 Program AST: 과제 1 예제 2
 
-이번 단계는 기존 expression AST를 유지한 채 프로그램 구조까지 확장한다. 지원 범위는 선언, 대입, `read()`, `write()`, `{ ... }` block이다. `if/else`와 조건식은 다음 단계다.
+이번 단계는 기존 expression AST를 유지한 채 프로그램 구조까지 확장한다. 지원 범위는 선언, 대입, `read()`, `write()`, `{ ... }` block, 비교식, `if/else`다.
 
 ## 예제와 AST
 
@@ -89,6 +89,25 @@ PYTHONDONTWRITEBYTECODE=1 .venv/bin/python -m unittest -v
 | block 종료 뒤 `c` 사용 | `UndefinedVariableError` | 실행하지 않음 |
 
 안쪽 block은 바깥 scope를 읽고 수정할 수 있다. 반대로 block 안에서 선언한 `c`는 block 종료 시 제거된다. 이 동작은 `test_calc5.py`의 `AstExecutorTest`가 검증한다.
+
+## 조건식과 `if/else`
+
+비교식은 `CompareExpr(op, left, right)`로 표현한다. `IfElse`는 condition, then block, 선택적인 else block을 자식 순서대로 가진다.
+
+```text
+if (a >= 3) { write(a); } else { write(0); }
+```
+
+```text
+IfElse
+├── CompareExpr(">=", VarRef("a"), IntLiteral(3))
+├── Block[Write(VarRef("a"))]
+└── Block[Write(IntLiteral(0))]
+```
+
+`AstExecutor.eval_condition()`은 `==`, `!=`, `>`, `>=`, `<`, `<=`를 계산한다. 참이면 then block만, 거짓이면 else block만 실행한다. else가 없고 조건이 거짓이면 아무 block도 실행하지 않는다.
+
+텍스트 비주얼라이저의 순서는 AST 구조를 확인하기 위한 순회 순서다. `if/else`의 두 block을 모두 표시하지만, 실제 `AstExecutor`는 조건 결과에 따라 둘 중 하나만 실행한다.
 
 ## 구현 순서(TDD)
 

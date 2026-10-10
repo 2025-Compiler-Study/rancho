@@ -1,8 +1,7 @@
 """Calc5 AST, ANTLR builders, formatter, and small program executor.
 
-Expressions are reusable inside statements.  This module intentionally covers
-assignment 1 example 2: declarations, assignments, read, write, and blocks.
-Conditions and if/else are a later extension.
+Expressions are reusable inside statements.  The supported statement subset is
+declarations, assignments, read, write, blocks, comparisons, and if/else.
 """
 
 from __future__ import annotations
@@ -61,6 +60,18 @@ class BinaryExpr(Expr):
         return self.left, self.right
 
 
+class CompareExpr(AstNode):
+    """Compare two integer expressions and produce a boolean control value."""
+
+    def __init__(self, op: str, left: Expr, right: Expr):
+        self.op = op
+        self.left = left
+        self.right = right
+
+    def children(self) -> tuple[Expr, Expr]:
+        return self.left, self.right
+
+
 class Program(AstNode):
     def __init__(self, statements: list[Stmt]):
         self.statements = statements
@@ -99,6 +110,23 @@ class Block(Stmt):
         return tuple(self.statements)
 
 
+class IfElse(Stmt):
+    def __init__(
+        self,
+        condition: CompareExpr,
+        then_block: Block,
+        else_block: Block | None = None,
+    ):
+        self.condition = condition
+        self.then_block = then_block
+        self.else_block = else_block
+
+    def children(self) -> tuple[AstNode, ...]:
+        if self.else_block is None:
+            return self.condition, self.then_block
+        return self.condition, self.then_block, self.else_block
+
+
 class AstBuilder:
     """Build the currently supported Calc5 AST nodes from an ANTLR parse tree."""
 
@@ -121,6 +149,14 @@ class AstBuilder:
     def visitWrite(self, ctx):
         return Write(self.visit(ctx.expr()))
 
+    def visitIfElse(self, ctx):
+        else_block = self.visit(ctx.elseBlock) if ctx.elseBlock is not None else None
+        return IfElse(
+            self.visit(ctx.cond()),
+            self.visit(ctx.thenBlock),
+            else_block,
+        )
+
     def visitStmtBlock(self, ctx):
         return self.visit(ctx.block())
 
@@ -141,6 +177,13 @@ class AstBuilder:
 
     def visitAddSub(self, ctx):
         return self._binary_expr(ctx)
+
+    def visitCond(self, ctx):
+        return CompareExpr(
+            ctx.getChild(1).getText(),
+            self.visit(ctx.expr(0)),
+            self.visit(ctx.expr(1)),
+        )
 
     def _visit_statements(self, contexts) -> list[Stmt]:
         statements: list[Stmt] = []
@@ -196,6 +239,8 @@ def format_ast(node: AstNode) -> str:
         return "(read)"
     if isinstance(node, BinaryExpr):
         return f"({node.op} {format_ast(node.left)} {format_ast(node.right)})"
+    if isinstance(node, CompareExpr):
+        return f"({node.op} {format_ast(node.left)} {format_ast(node.right)})"
     if isinstance(node, Declare):
         return f"(declare {node.name})"
     if isinstance(node, Assign):
@@ -204,6 +249,11 @@ def format_ast(node: AstNode) -> str:
         return f"(write {format_ast(node.value)})"
     if isinstance(node, Block):
         return f"(block {' '.join(format_ast(stmt) for stmt in node.statements)})"
+    if isinstance(node, IfElse):
+        parts = ["if", format_ast(node.condition), format_ast(node.then_block)]
+        if node.else_block is not None:
+            parts.append(format_ast(node.else_block))
+        return f"({' '.join(parts)})"
     if isinstance(node, Program):
         return f"(program {' '.join(format_ast(stmt) for stmt in node.statements)})"
     raise TypeError(f"지원하지 않는 AST 노드입니다: {type(node).__name__}")
@@ -275,6 +325,12 @@ class AstExecutor:
             finally:
                 self.symbols.pop_scope()
             return
+        if isinstance(statement, IfElse):
+            if self.eval_condition(statement.condition):
+                self.execute_stmt(statement.then_block)
+            elif statement.else_block is not None:
+                self.execute_stmt(statement.else_block)
+            return
         raise TypeError(f"지원하지 않는 문장 노드입니다: {type(statement).__name__}")
 
     def eval_expr(self, expr: Expr) -> int:
@@ -291,6 +347,24 @@ class AstExecutor:
                 self.eval_expr(expr.right),
             )
         raise TypeError(f"지원하지 않는 식 노드입니다: {type(expr).__name__}")
+
+    def eval_condition(self, condition: CompareExpr) -> bool:
+        left = self.eval_expr(condition.left)
+        right = self.eval_expr(condition.right)
+
+        if condition.op == "==":
+            return left == right
+        if condition.op == "!=":
+            return left != right
+        if condition.op == ">":
+            return left > right
+        if condition.op == ">=":
+            return left >= right
+        if condition.op == "<":
+            return left < right
+        if condition.op == "<=":
+            return left <= right
+        raise ValueError(f"지원하지 않는 비교 연산자입니다: {condition.op}")
 
     @staticmethod
     def _read_from_console() -> int:
