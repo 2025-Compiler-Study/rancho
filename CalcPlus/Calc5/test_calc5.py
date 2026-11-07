@@ -572,6 +572,22 @@ class AstBoundaryTest(unittest.TestCase):
 class SemanticBuilderTest(unittest.TestCase):
     """#4: collect every semantic error before deciding whether to execute."""
 
+    def test_keeps_each_conditional_branch_in_its_own_scope(self):
+        _, errors = build_program_with_diagnostics(
+            "if (1 == 1) { int a; } else { int a; } write(a);"
+        )
+
+        self.assertEqual(len(errors), 1)
+        self.assertIsInstance(errors[0], UndefinedVariableError)
+
+    def test_does_not_leak_a_then_declaration_into_the_else_branch(self):
+        _, errors = build_program_with_diagnostics(
+            "if (1 == 2) { int a; } else { write(a); }"
+        )
+
+        self.assertEqual(len(errors), 1)
+        self.assertIsInstance(errors[0], UndefinedVariableError)
+
     def test_collects_duplicate_and_undefined_name_errors_from_the_whole_program(self):
         _, errors = build_program_with_diagnostics(
             "int a; int a; b = 1; write(c);"
@@ -606,6 +622,19 @@ class SemanticBuilderTest(unittest.TestCase):
 
         self.assertEqual(len(errors), 1)
         self.assertEqual(output, [])
+
+    def test_reports_every_error_through_the_supplied_callback(self):
+        reported: list[str] = []
+
+        errors = execute_source(
+            "write(a); b = 1;",
+            write_fn=lambda _: self.fail("invalid program must not execute"),
+            error_fn=reported.append,
+        )
+
+        self.assertEqual(len(errors), 2)
+        self.assertEqual(len(reported), 2)
+        self.assertTrue(all("선언되지 않은 변수" in message for message in reported))
 
 
 if __name__ == "__main__":
